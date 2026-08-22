@@ -2,7 +2,7 @@
   "name": "Genesis Audited Account",
   "short_name": "GAA",
   "description": "Customer ledger & collections dashboard",
-  "start_url": "./Index.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
