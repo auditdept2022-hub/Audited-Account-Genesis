@@ -1,0 +1,2721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GAA — Genesis Audited Account Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20.5' fill='%2314283F' stroke='%23C9A54A' stroke-width='1.6'/%3E%3Ccircle cx='22' cy='22' r='17.3' fill='none' stroke='%23C9A54A' stroke-width='0.5' opacity='0.5'/%3E%3Cpath d='M22 8 L23.1 10 L22 11.3 L20.9 10 Z' fill='%23C9A54A' opacity='0.9'/%3E%3Ctext x='22' y='25.8' text-anchor='middle' font-family='Georgia, Times New Roman, serif' font-size='12.5' font-weight='600' fill='%23F1E1B0' letter-spacing='1.6'%3EGAA%3C/text%3E%3Cpath d='M13 30 H31' stroke='%23C9A54A' stroke-width='0.6' opacity='0.55'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#14283F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GAA">
+<style>
+:root{
+  --page-bg:#EEF1F5;
+  --surface:#FFFFFF;
+  --surface-alt:#F5F7FA;
+  --ink:#1B2635;
+  --ink-soft:#5B6B80;
+  --ink-faint:#8C99AB;
+  --border:#E1E6ED;
+  --border-strong:#CDD5E0;
+  --accent:#1E3A5F;
+  --accent-dark:#14283F;
+  --accent-bg:#E9EEF5;
+  --gold:#9C7A25;
+  --gold-bg:#FBF3E1;
+  --gold-bd:#E9D8AC;
+  --good:#1E7A4C;
+  --good-bg:#E6F2EA;
+  --good-bd:#BFDECB;
+  --bad:#A83A3A;
+  --bad-bg:#F7EAEA;
+  --bad-bd:#E5C2C2;
+  --warn:#9C7A25;
+  --warn-bg:#FBF3E1;
+  --warn-bd:#E9D8AC;
+  --purple:#5B4E8C;
+  --purple-bg:#EEECF5;
+  --purple-bd:#D4CEE7;
+  --teal:#2C6E68;
+  --teal-bg:#E7F1EF;
+  --teal-bd:#C4DEDA;
+  --pink:#8C4B5E;
+  --pink-bg:#F5EBEE;
+  --pink-bd:#DEC2CB;
+  --neutral:#5B6B80;
+  --neutral-bg:#F0F2F5;
+  --neutral-bd:#DBE1E9;
+  --orange:#B5651D;
+  --orange-bg:#FBEBDD;
+  --orange-bd:#EFCBA0;
+  --maroon:#7A2E2E;
+  --maroon-bg:#F3E3E3;
+  --maroon-bd:#DCB8B8;
+  --olive:#6E6B1E;
+  --olive-bg:#F2F1DC;
+  --olive-bd:#DFDBA0;
+  --cyan:#1B6FA8;
+  --cyan-bg:#E3EEF6;
+  --cyan-bd:#B9D2E6;
+  --shadow-sm:0 1px 2px rgba(20,28,40,0.06);
+  --shadow-md:0 4px 14px rgba(20,28,40,0.08);
+}
+*{box-sizing:border-box;}
+html{overflow-x:hidden;}
+body{max-width:100%;}
+body{
+  margin:0;
+  background:var(--page-bg);
+  color:var(--ink);
+  font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding:22px 24px 60px;
+}
+.wrap{max-width:1180px;margin:0 auto;}
+
+/* header bar */
+.appbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--accent);
+  border:1px solid var(--accent-dark);
+  border-bottom:3px solid var(--gold);
+  border-radius:10px;
+  padding:16px 22px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow-md);
+}
+.appbar-brand{display:flex;align-items:center;gap:13px;}
+.logo-badge{flex:0 0 auto;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.25));}
+.appbar h1{font-size:19px;font-weight:600;margin:0;color:#fff;letter-spacing:.01em;}
+.appbar .sub{font-size:12.5px;color:rgba(255,255,255,0.72);margin-top:3px;}
+.appbar .health{
+  font-size:12.5px;
+  padding:7px 14px;
+  border-radius:6px;
+  font-weight:600;
+  background:rgba(255,255,255,0.95);
+  color:var(--good);
+  border:1px solid rgba(255,255,255,0.4);
+}
+.appbar .health.warn{background:rgba(255,255,255,0.95);color:var(--bad);border-color:rgba(255,255,255,0.4);}
+.appbar .sync-status{
+  font-size:12.5px;
+  padding:7px 14px;
+  border-radius:6px;
+  font-weight:600;
+  background:rgba(255,255,255,0.95);
+  color:var(--good);
+  border:1px solid rgba(255,255,255,0.4);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.appbar .sync-status .dot{width:7px;height:7px;border-radius:50%;background:var(--good);flex:none;}
+.appbar .sync-status.offline{color:var(--bad);}
+.appbar .sync-status.offline .dot{background:var(--bad);}
+.appbar .sync-status.syncing{color:var(--gold);}
+.appbar .sync-status.syncing .dot{background:var(--gold);animation:pulse-dot 1s ease-in-out infinite;}
+/* Notification bell — shows how many customer edits are saved on this device
+   but not yet uploaded to the Google Sheet (handy in areas with no signal). */
+.notif-badge{
+  position:absolute;top:-3px;right:-3px;background:var(--bad);color:#fff;
+  font-size:10px;font-weight:800;min-width:16px;height:16px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;
+  box-shadow:0 0 0 2px var(--accent-dark);
+}
+.notif-panel{
+  position:fixed;width:280px;max-width:calc(100vw - 24px);max-height:340px;overflow-y:auto;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;
+  box-shadow:var(--shadow-md);z-index:45;display:none;padding:10px;
+}
+.notif-panel.open{display:block;}
+.notif-panel .np-title{font-size:10.5px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;padding:0 2px;}
+.notif-item{padding:7px 8px;border-radius:7px;font-size:12px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.notif-item:hover{background:var(--surface-alt);}
+.notif-item .ni-reason{font-size:10px;color:var(--ink-faint);white-space:nowrap;flex:0 0 auto;}
+.notif-empty{font-size:12.5px;color:var(--ink-faint);padding:12px 6px;text-align:center;}
+/* Bigger, harder-to-miss banner (vs. the small header chip) that only shows up
+   when something needs attention: offline, still syncing, or not connected. */
+.conn-banner{display:none;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
+.conn-banner.show{display:flex;}
+.conn-banner.offline{background:var(--bad-bg);color:var(--bad);border:1px solid var(--bad-bd);}
+.conn-banner.pending{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.refresh-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.95);
+  color:var(--accent-dark);
+  cursor:pointer;
+  flex:none;
+  transition:transform 0.15s ease;
+}
+.refresh-btn:hover{background:#fff;}
+.refresh-btn:active{transform:scale(0.92);}
+.refresh-btn svg{width:17px;height:17px;}
+.refresh-btn.spinning svg{animation:spin-refresh 0.7s linear infinite;}
+@keyframes spin-refresh{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* kpi row */
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:12px;
+}
+.kpi{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:4px solid var(--border-strong);
+  border-radius:12px;
+  padding:14px 16px;
+  box-shadow:var(--shadow-sm);
+}
+.kpi .k-label{font-size:12px;color:var(--ink-soft);margin-bottom:6px;font-weight:500;}
+.kpi .k-value{font-size:20px;font-weight:700;color:var(--ink);}
+.kpi.accent{background:var(--accent-bg);border-left-color:var(--accent);}
+.kpi.accent .k-value{color:var(--accent-dark);}
+.kpi.danger{background:var(--bad-bg);border-left-color:var(--bad);}
+.kpi.danger .k-value{color:var(--bad);}
+.kpi.good{background:var(--good-bg);border-left-color:var(--good);}
+.kpi.good .k-value{color:var(--good);}
+.kpi.teal{background:var(--teal-bg);border-left-color:var(--teal);}
+.kpi.teal .k-value{color:var(--teal);}
+
+/* unit status breakdown panel */
+.unit-breakdown{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:8px 12px;margin-bottom:16px;box-shadow:var(--shadow-sm);
+}
+.unit-breakdown .ub-title{font-size:10.5px;color:var(--accent);font-weight:700;margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
+.ub-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.ub-title-row .ub-title{margin-bottom:0;}
+.ub-toggle{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:5px;border:1px solid transparent;
+  background:transparent;color:var(--ink-faint);cursor:pointer;padding:0;margin-bottom:7px;
+  transition:transform .15s ease,background .12s ease,color .12s ease;
+}
+.ub-toggle svg{width:14px;height:14px;}
+.ub-toggle:hover{background:var(--accent-bg);color:var(--accent);}
+.ub-toggle.collapsed{transform:rotate(-90deg);}
+.ub-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.ub-chip{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:16px;
+  font-size:11px;font-weight:600;border:1px solid transparent;white-space:nowrap;
+}
+.ub-chip .ub-count{font-size:12px;font-weight:800;}
+.ub-chip.confirmed{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
+.ub-chip.good-condition{background:#E9EEF5;color:#1E3A5F;border-color:#CDD5E0;}
+.ub-chip.missing{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
+.ub-chip.impound{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+.ub-chip.total-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;}
+.ub-chip.for-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+.ub-chip.not-confirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+.ub-chip.blank{background:#fff;color:var(--ink-faint);border-color:var(--border-strong);border-style:dashed;}
+.ub-chip{cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;}
+.ub-chip:hover{box-shadow:0 0 0 2px rgba(20,40,63,0.12);}
+.ub-chip.ub-active{box-shadow:0 0 0 2px var(--accent);}
+.ub-hint{font-size:10px;color:var(--ink-faint);text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px;}
+
+/* customer status breakdown panel (BNEW-OD, REPO-DEL, etc.) */
+.status-breakdown{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:8px 12px;margin-bottom:12px;box-shadow:var(--shadow-sm);
+}
+.status-breakdown .sb-title{font-size:10.5px;color:var(--accent);font-weight:700;margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
+.sb-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.sb-title-row .sb-title{margin-bottom:0;}
+.sb-toggle{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:5px;border:1px solid transparent;
+  background:transparent;color:var(--ink-faint);cursor:pointer;padding:0;margin-bottom:7px;
+  transition:transform .15s ease,background .12s ease,color .12s ease;
+}
+.sb-toggle svg{width:14px;height:14px;}
+.sb-toggle:hover{background:var(--accent-bg);color:var(--accent);}
+.sb-toggle.collapsed{transform:rotate(-90deg);}
+.sb-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.sb-chip{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:16px;
+  font-size:11px;font-weight:600;border:1px solid transparent;white-space:nowrap;
+  cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;
+}
+.sb-chip .sb-count{font-size:12px;font-weight:800;}
+.sb-chip:hover{box-shadow:0 0 0 2px rgba(20,40,63,0.12);}
+.sb-chip.sb-active{box-shadow:0 0 0 2px var(--accent);}
+.sb-chip.status-bnew-adv{background:var(--cyan-bg);color:var(--cyan);border-color:var(--cyan-bd);}
+.sb-chip.status-bnew-cu{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
+.sb-chip.status-bnew-od{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd);}
+.sb-chip.status-bnew-del{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
+.sb-chip.status-repo-adv{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+.sb-chip.status-repo-cu{background:var(--pink-bg);color:var(--pink);border-color:var(--pink-bd);}
+.sb-chip.status-repo-od{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-bd);}
+.sb-chip.status-repo-del{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);}
+.sb-chip.status-rstr-od{background:var(--accent-bg);color:var(--accent);border-color:var(--border-strong);}
+.sb-chip.status-rstr-del{background:var(--olive-bg);color:var(--olive);border-color:var(--olive-bd);}
+.sb-chip.status-od-bn{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+.sb-chip.blank{background:#fff;color:var(--ink-faint);border-color:var(--border-strong);border-style:dashed;}
+.sb-chip.total{background:var(--accent-bg);color:var(--accent);border-color:var(--border-strong);font-weight:700;cursor:default;}
+
+/* persistent undo bar — stays until the action is actually undone or a newer one replaces it */
+.undo-bar{
+  position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);
+  background:var(--accent-dark);color:#fff;border:1px solid var(--gold);
+  border-radius:10px;padding:10px 10px 10px 16px;display:flex;align-items:center;gap:12px;
+  box-shadow:var(--shadow-md);font-size:12.5px;z-index:90;
+  transition:transform .18s ease;max-width:min(92vw,520px);
+}
+.undo-bar.show{transform:translateX(-50%) translateY(0);}
+.undo-bar .undo-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.undo-bar .undo-more{color:rgba(255,255,255,0.62);font-size:11px;white-space:nowrap;}
+.undo-bar .undo-btn{
+  font-family:inherit;font-size:12px;font-weight:700;
+  background:var(--gold);color:#2A2005;border:none;border-radius:6px;
+  padding:6px 13px;cursor:pointer;flex-shrink:0;
+}
+.undo-bar .undo-btn:hover{background:#B08B2E;}
+.undo-bar .undo-dismiss{
+  font-family:inherit;font-size:15px;line-height:1;background:none;border:none;color:rgba(255,255,255,0.6);
+  cursor:pointer;padding:4px 2px;flex-shrink:0;
+}
+.undo-bar .undo-dismiss:hover{color:#fff;}
+
+/* branch tabs — switch focus between one branch and all branches combined */
+.branch-tabs{
+  display:flex;gap:7px;flex-wrap:wrap;align-items:center;
+  margin-bottom:12px;
+}
+.branch-tab{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:12.5px;font-weight:600;
+  padding:8px 14px;border-radius:20px;
+  border:1px solid var(--border-strong);
+  background:var(--surface);color:var(--ink-soft);
+  cursor:pointer;transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.branch-tab:hover{background:var(--surface-alt);}
+.branch-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.branch-tab .bt-count{
+  font-size:11px;font-weight:700;opacity:.85;
+  background:rgba(0,0,0,0.08);padding:1px 7px;border-radius:10px;
+}
+.branch-tab.active .bt-count{background:rgba(255,255,255,0.25);}
+.branch-picker-wrap{position:relative;display:inline-block;}
+.branch-picker-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:12.5px;font-weight:600;
+  padding:8px 14px;border-radius:20px;
+  border:1px solid var(--border-strong);
+  background:var(--surface);color:var(--ink-soft);
+  cursor:pointer;transition:background .12s ease,color .12s ease,border-color .12s ease;
+  max-width:220px;
+}
+.branch-picker-btn:hover{background:var(--surface-alt);}
+.branch-picker-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.branch-picker-btn .caret{font-size:9px;opacity:.75;}
+.branch-picker-panel{
+  position:absolute;top:calc(100% + 6px);left:0;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;
+  box-shadow:var(--shadow-md);min-width:210px;max-height:260px;overflow-y:auto;
+  z-index:30;display:none;padding:6px;
+}
+.branch-picker-panel.open{display:block;}
+.branch-picker-item{
+  padding:8px 12px;font-size:12.5px;border-radius:7px;cursor:pointer;color:var(--ink);
+  display:flex;justify-content:space-between;gap:10px;white-space:nowrap;
+}
+.branch-picker-item:hover{background:var(--surface-alt);}
+.branch-picker-item.selected{background:var(--accent-bg);color:var(--accent-dark);font-weight:700;}
+.branch-picker-item .bp-count{color:var(--ink-faint);font-weight:600;}
+.branch-picker-item.selected .bp-count{color:var(--accent-dark);}
+.ms-item{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:7px;cursor:pointer;
+  font-size:12.5px;color:var(--ink);white-space:nowrap;
+}
+.ms-item:hover{background:var(--surface-alt);}
+.ms-item input[type=checkbox]{margin:0;accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;}
+.ms-item span{overflow:hidden;text-overflow:ellipsis;}
+.picker-panel-title{display:none;}
+.picker-backdrop{display:none;}
+
+/* branch overview — shown only when "All Branches" is selected */
+.branch-overview{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;margin-bottom:16px;box-shadow:var(--shadow-sm);
+}
+.branch-overview .bo-title{font-size:11.5px;color:var(--accent);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+.bo-table{display:flex;flex-direction:column;gap:6px;}
+.bo-row{
+  display:flex;align-items:center;gap:14px;
+  padding:9px 12px;border-radius:8px;background:var(--surface-alt);
+  border:1px solid var(--border);cursor:pointer;
+}
+.bo-row:hover{border-color:var(--border-strong);background:#EEF2FA;}
+.bo-name{flex:1 1 auto;font-size:13px;font-weight:700;color:var(--ink);}
+.bo-stat{flex:0 0 auto;text-align:right;min-width:96px;}
+.bo-stat .bo-s-label{font-size:10px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em;}
+.bo-stat .bo-s-value{font-size:13px;font-weight:700;color:var(--ink);}
+.bo-stat.bo-danger .bo-s-value{color:var(--bad);}
+.bo-stat.bo-accent .bo-s-value{color:var(--accent);}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow-sm);
+  /* Sticks to the top of the viewport once you scroll past it, so search +
+     filters stay reachable without scrolling back up. */
+  position:sticky;
+  top:8px;
+  z-index:40;
+}
+.toolbar input[type=text], .toolbar select{
+  font-family:inherit;
+  font-size:13px;
+  padding:8px 11px;
+  border:1px solid var(--border-strong);
+  border-radius:8px;
+  background:var(--surface-alt);
+  color:var(--ink);
+}
+.toolbar input[type=text]{width:230px;}
+.btn{
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:8px;
+  border:1px solid var(--border-strong);
+  background:var(--surface);
+  color:var(--ink);
+  cursor:pointer;
+  transition:background .12s ease;
+}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.secondary{background:var(--accent-bg);color:var(--accent-dark);border-color:#C3CEDD;}
+.btn:hover{background:var(--surface-alt);}
+.btn.primary:hover{background:var(--accent-dark);}
+.btn.secondary:hover{background:#DCE3ED;}
+.spacer{flex:1;}
+.count-note{font-size:12px;color:var(--ink-soft);white-space:nowrap;}
+
+/* card list (replaces the old spreadsheet grid) */
+.list{display:flex;flex-direction:column;gap:10px;}
+.empty-state{
+  background:var(--surface);border:1px dashed var(--border-strong);border-radius:12px;
+  padding:46px 20px;text-align:center;color:var(--ink-soft);font-size:13.5px;
+}
+
+.rowcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.rowcard.expanded{box-shadow:var(--shadow-md);border-color:var(--border-strong);}
+/* Auto-highlight, like the manual color-fill people used in Excel: as soon as a
+   customer has any remarks (Auditor Remarks or Last Audit Remarks), the whole
+   card gets a colored left edge + tint so it's visible at a glance, even
+   collapsed. */
+.rowcard.has-remarks{border-left:4px solid var(--gold);background:var(--gold-bg);}
+.rowcard.has-remarks .rc-summary,
+.rowcard.has-remarks .rc-quickfields{background:transparent;}
+
+.rc-summary{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:13px 16px;
+  cursor:pointer;
+}
+.rc-summary:hover{background:var(--surface-alt);}
+.rc-avatar{
+  flex:0 0 auto;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--accent-bg);color:var(--accent-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:13px;letter-spacing:.02em;
+}
+.rc-id{flex:1 1 220px;min-width:160px;}
+.rc-name{font-size:14px;font-weight:700;color:var(--ink);}
+.rc-sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.rc-chips{display:flex;gap:6px;flex-wrap:wrap;flex:0 0 auto;}
+.rc-balance{flex:0 0 auto;text-align:right;min-width:110px;}
+.rc-bal-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;}
+.rc-bal-value{font-size:14.5px;font-weight:700;color:var(--ink);}
+.rc-chevron{flex:0 0 auto;color:var(--ink-faint);font-size:13px;transition:transform .15s ease;width:18px;text-align:center;}
+.rowcard.expanded .rc-chevron{transform:rotate(180deg);color:var(--accent);}
+.rc-quick-delete{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:6px;border:1px solid transparent;
+  background:transparent;color:var(--ink-faint);cursor:pointer;
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.rc-quick-delete svg{width:15px;height:15px;}
+.rc-quick-delete:hover{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
+
+/* quick-info strip — always visible under the summary line, no expand needed */
+.rc-quickfields{
+  display:flex;flex-wrap:wrap;
+  gap:10px 26px;
+  padding:0 16px 13px 68px;
+  cursor:pointer;
+  border-top:1px dashed var(--border);
+  margin-top:-1px;
+  padding-top:11px;
+}
+.rc-qf{display:flex;flex-direction:column;gap:3px;min-width:76px;}
+.rc-qf .rc-qf-label{font-size:9.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em;font-weight:600;}
+.rc-qf .rc-qf-value{font-size:12px;color:var(--ink);font-weight:600;}
+.rc-qf input.date-audit-input{padding:4px 7px;font-size:11.5px;width:112px;}
+
+.rc-detail{display:none;border-top:1px solid var(--border);padding:16px;background:var(--surface-alt);}
+.rowcard.expanded .rc-detail{display:block;}
+.rc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:12px 16px;margin-bottom:14px;
+}
+.rc-field .rc-f-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
+.rc-field .rc-f-value{font-size:13px;color:var(--ink);font-weight:500;}
+.rc-remarks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.rc-remark-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:background .15s ease,border-color .15s ease;}
+.rc-remark-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;font-weight:600;}
+.rc-remark-text{font-size:12.5px;color:var(--ink);line-height:1.5;white-space:pre-wrap;}
+.rc-remark-text:empty::before{content:"—";color:var(--ink-faint);}
+.rc-remark-block.highlight{border-color:#CBDBFC;background:var(--accent-bg);}
+/* Auditor Remarks is directly editable — starts neutral, turns green automatically
+   once the auditor types something in, so a glance shows which accounts are done. */
+.rc-remark-input{
+  width:100%;min-height:60px;border:1px solid transparent;border-radius:6px;
+  background:transparent;font-family:inherit;font-size:12.5px;color:var(--ink);
+  line-height:1.5;padding:4px 3px;resize:vertical;display:block;
+}
+.rc-remark-input:focus{outline:none;border-color:var(--accent);background:#fff;padding:6px 8px;}
+.rc-remark-input::placeholder{color:var(--ink-faint);}
+.rc-remark-block.auditor{border-style:dashed;}
+.rc-remark-block.auditor.filled{border-style:solid;border-color:var(--good-bd);background:var(--good-bg);}
+.rc-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.rc-actions .field-inline{display:flex;align-items:center;gap:6px;}
+.rc-actions .field-inline label{font-size:11px;color:var(--ink-soft);font-weight:600;}
+.rc-actions .spacer{flex:1;}
+.rc-actions button.link{
+  border:none;background:none;cursor:pointer;font-size:12.5px;font-weight:600;
+  color:var(--ink-soft);padding:6px 10px;border-radius:6px;
+}
+.rc-actions button.link:hover{background:var(--neutral-bg);color:var(--ink);}
+.rc-actions button.link.danger:hover{background:var(--bad-bg);color:var(--bad);}
+
+.chip{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:600;
+  border:1px solid transparent;
+  white-space:nowrap;
+}
+.chip.good{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
+.chip.bad{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
+.chip.warn{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd);}
+.chip.neutral{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+.chip.status-bnew-adv{background:var(--cyan-bg);color:var(--cyan);border-color:var(--cyan-bd);}
+.chip.status-bnew-cu{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
+.chip.status-bnew-od{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd);}
+.chip.status-bnew-del{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
+.chip.status-repo-adv{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+.chip.status-repo-cu{background:var(--pink-bg);color:var(--pink);border-color:var(--pink-bd);}
+.chip.status-repo-od{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-bd);}
+.chip.status-repo-del{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);}
+.chip.status-rstr-od{background:var(--accent-bg);color:var(--accent);border-color:var(--border-strong);}
+.chip.status-rstr-del{background:var(--olive-bg);color:var(--olive);border-color:var(--olive-bd);}
+.chip.status-od-bn{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+
+select.ustat-select{
+  font-family:inherit;
+  font-size:12px;
+  font-weight:600;
+  padding:5px 9px;
+  border-radius:20px;
+  border:1px solid transparent;
+  cursor:pointer;
+}
+select.ustat-confirmed{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
+select.ustat-good{background:#E9EEF5;color:#1E3A5F;border-color:#CDD5E0;}
+select.ustat-missing{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);font-weight:700;}
+select.ustat-impound{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+select.ustat-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;font-weight:700;}
+select.ustat-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+select.ustat-notconfirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+select.ustat-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
+
+/* Mode of Payment select — same pill treatment as Unit status */
+select.pmode-select{
+  font-family:inherit;
+  font-size:12px;
+  font-weight:600;
+  padding:5px 9px;
+  border-radius:20px;
+  border:1px solid transparent;
+  cursor:pointer;
+}
+select.pmode-branch{background:#E9EEF5;color:#1E3A5F;border-color:#CDD5E0;}
+select.pmode-field{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+select.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
+
+/* Date of Audit — manually typed by the auditor directly on the card */
+input.date-audit-input{
+  font-family:inherit;font-size:12.5px;font-weight:500;color:var(--ink);
+  padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;
+  background:#fff;width:100%;
+}
+input.date-audit-input:focus{outline:none;border-color:var(--accent);}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;
+  background:rgba(20,26,38,0.5);
+  display:none;
+  align-items:flex-start;justify-content:center;
+  padding:40px 20px;
+  z-index:50;
+}
+.modal-bg.open{display:flex;}
+.modal{
+  background:#fff;
+  border-radius:12px;
+  padding:22px 24px 20px;
+  width:100%;max-width:660px;
+  box-shadow:0 12px 36px rgba(20,26,38,0.28);
+}
+.modal h2{font-size:16.5px;font-weight:700;margin:0 0 12px;color:var(--ink);}
+.modal textarea{
+  width:100%;min-height:120px;
+  font-family:"Courier New",monospace;font-size:11.5px;
+  padding:10px;border:1px solid var(--border-strong);border-radius:8px;
+  resize:vertical;background:var(--surface-alt);
+}
+.modal .hint{font-size:12px;color:var(--ink-soft);margin:8px 0 14px;line-height:1.55;}
+.modal .row-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;}
+.settings-section{padding:14px 0;border-top:1px solid var(--border);}
+.settings-section:first-of-type{border-top:none;padding-top:0;}
+.settings-section-title{font-size:11.5px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+.settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.settings-actions .btn{width:100%;}
+.cb-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 14px;border:1px solid var(--border);border-radius:8px;
+  background:var(--surface-alt);
+}
+.cb-item .cb-name{font-size:13px;font-weight:600;color:var(--ink);}
+.cb-item .cb-meta{font-size:11.5px;color:var(--ink-soft);margin-right:2px;}
+.cb-item .cb-left{display:flex;flex-direction:column;gap:2px;}
+.cb-item .cb-right{display:flex;align-items:center;gap:10px;}
+.cb-delete{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:7px;
+  border:1px solid var(--bad-bd);background:var(--bad-bg);color:var(--bad);
+  cursor:pointer;transition:background .12s ease,color .12s ease;
+  flex-shrink:0;
+}
+.cb-delete:hover{background:var(--bad);color:#fff;}
+.cb-delete svg{width:15px;height:15px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+.form-grid label{font-size:11px;color:var(--ink-soft);display:block;margin-bottom:4px;font-weight:600;}
+.form-grid input,.form-grid select{
+  width:100%;font-family:inherit;font-size:12.5px;
+  padding:8px 10px;border:1px solid var(--border-strong);border-radius:8px;
+}
+.form-grid .full{grid-column:1/-1;}
+.file-drop{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 13px;margin-bottom:12px;
+  border:1px dashed var(--border-strong);border-radius:8px;
+  background:var(--surface-alt);
+}
+.file-drop input[type=file]{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;}
+.file-drop label.btn{margin:0;}
+
+@media (max-width:720px){
+  body{padding:12px 10px 60px;}
+  .wrap{max-width:100%;}
+  .appbar{flex-wrap:wrap;gap:10px;padding:12px 14px;}
+  .appbar-brand{flex:1 1 auto;min-width:0;}
+  .appbar-brand h1{font-size:16px;}
+  .appbar .sub{font-size:11px;}
+  .appbar-right{width:100%;justify-content:flex-start !important;flex-wrap:wrap;gap:8px !important;}
+  .appbar .sync-status{font-size:11.5px;padding:6px 10px;}
+  .appbar .health{font-size:11.5px;padding:6px 10px;}
+  .refresh-btn{width:32px;height:32px;}
+
+  .branch-tabs{gap:6px;}
+  .branch-tab, .branch-picker-btn{font-size:12px;padding:7px 12px;}
+
+  .kpis{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .kpi{padding:10px 12px;}
+  .kpi .k-label{font-size:10.5px;margin-bottom:4px;}
+  .kpi .k-value{font-size:16px;}
+
+  .status-breakdown, .unit-breakdown{padding:8px 10px;}
+  .sb-chip, .ub-chip{font-size:10.5px;padding:4px 8px;}
+
+  .toolbar{padding:10px;gap:8px;}
+  .toolbar input[type=text]{width:100%;flex:1 1 100%;}
+  .toolbar select{flex:1 1 auto;}
+  .toolbar .branch-picker-wrap{flex:1 1 auto;}
+  .branch-picker-btn{width:100%;justify-content:space-between;max-width:none;}
+  .toolbar .spacer{flex-basis:100%;height:0;}
+  .toolbar #addBtn{width:100%;}
+
+  /* dropdown panels (branch picker, status filter, unit filter) become a
+     centered "sheet" on mobile instead of a tiny box anchored to the
+     trigger button — fixes the cramped/needs-horizontal-swipe issue. */
+  .picker-backdrop{
+    display:none;position:fixed;inset:0;background:rgba(15,23,32,.45);
+    z-index:150;
+  }
+  .picker-backdrop.show{display:block;}
+  .branch-picker-panel{
+    position:fixed;left:50%;top:50%;right:auto;
+    transform:translate(-50%,-50%);
+    width:calc(100vw - 40px);max-width:420px;
+    min-width:0;max-height:70vh;
+    border-radius:14px;padding:8px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    z-index:200;
+  }
+  .branch-picker-item, .ms-item{
+    white-space:normal;padding:12px 14px;font-size:13.5px;
+  }
+  .picker-panel-title{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:6px 8px 10px;margin-bottom:6px;border-bottom:1px solid var(--border);
+    font-size:11.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.03em;
+  }
+  .picker-panel-close{
+    flex:0 0 auto;width:24px;height:24px;border-radius:6px;border:none;
+    background:var(--surface-alt);color:var(--ink-soft);font-size:14px;line-height:1;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+
+  .rc-summary{flex-wrap:wrap;padding:12px;gap:8px 10px;}
+  .rc-avatar{width:34px;height:34px;font-size:12px;}
+  .rc-id{flex:1 1 auto;min-width:0;}
+  .rc-balance{text-align:left;flex:1 1 auto;order:3;}
+  .rc-chips{order:4;flex:1 1 100%;}
+  .rc-quick-delete{order:1;}
+  .rc-chevron{order:2;}
+  .rc-quickfields{padding:11px 12px 12px;}
+  .rc-detail{padding:12px;}
+  .rc-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px 12px;}
+  .rc-remarks{grid-template-columns:1fr;}
+  .rc-actions{gap:8px;}
+
+  .modal-bg{padding:14px 10px;align-items:center;}
+  .modal{padding:16px 14px 14px;max-height:calc(100vh - 28px);overflow-y:auto;}
+  .modal h2{font-size:15px;}
+  .form-grid{grid-template-columns:1fr;gap:8px 0;}
+  .settings-actions{grid-template-columns:1fr;}
+  .cb-item{flex-wrap:wrap;}
+
+  .undo-bar{left:10px;right:10px;bottom:10px;transform:translateY(140%);max-width:none;padding:10px 8px 10px 12px;}
+  .undo-bar.show{transform:translateY(0);}
+  .undo-bar .undo-label{white-space:normal;}
+
+  .branch-overview{padding:10px 12px;}
+  .bo-row{flex-wrap:wrap;gap:6px 12px;padding:10px;}
+  .bo-name{flex:1 1 100%;font-size:12.5px;}
+  .bo-stat{flex:1 1 auto;min-width:0;text-align:left;}
+}
+@media (max-width:420px){
+  .kpis{grid-template-columns:1fr;}
+  .rc-avatar{width:32px;height:32px;font-size:11px;}
+  .rc-name{font-size:13px;}
+  .appbar-brand h1{font-size:15px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="appbar">
+    <div class="appbar-brand">
+      <div class="logo-badge" aria-hidden="true">
+        <svg width="42" height="42" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20.5" fill="#14283F" stroke="#C9A54A" stroke-width="1.6"/>
+          <circle cx="22" cy="22" r="17.3" fill="none" stroke="#C9A54A" stroke-width="0.5" opacity="0.5"/>
+          <path d="M22 8 L23.1 10 L22 11.3 L20.9 10 Z" fill="#C9A54A" opacity="0.9"/>
+          <text x="22" y="25.8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="600" fill="#F1E1B0" letter-spacing="1.6">GAA</text>
+          <path d="M13 30 H31" stroke="#C9A54A" stroke-width="0.6" opacity="0.55"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Genesis Audited Account</h1>
+        <div class="sub">Customer ledger &amp; collections dashboard</div>
+      </div>
+    </div>
+    <div class="appbar-right" style="display:flex;align-items:center;gap:10px;">
+      <button type="button" class="refresh-btn" id="settingsBtn" title="Settings — import, export, connection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+      <div class="bell-wrap" id="bellWrap" style="position:relative;">
+        <button type="button" class="refresh-btn" id="notifBellBtn" title="Naka-pending na i-upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+        </button>
+        <div class="notif-panel" id="notifPanel"></div>
+      </div>
+      <button type="button" class="refresh-btn" id="refreshBtn" title="Refresh — reload the latest saved data">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+          <polyline points="21 3 21 9 15 9"/>
+        </svg>
+      </button>
+      <div class="sync-status" id="syncStatus"><span class="dot"></span><span id="syncStatusText">—</span></div>
+      <div class="health" id="healthChip">—</div>
+    </div>
+  </div>
+
+  <div class="conn-banner" id="connBanner"></div>
+
+  <div class="branch-tabs" id="branchTabs"></div>
+
+  <div class="status-breakdown" id="statusBreakdown"></div>
+
+  <div class="unit-breakdown" id="unitBreakdown"></div>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Search customer, model, engine no, branch, remarks...">
+    <div class="branch-picker-wrap" id="statusFilterWrap">
+      <button type="button" class="branch-picker-btn" id="statusFilterBtn">All status <span class="caret">▾</span></button>
+      <div class="branch-picker-panel" id="statusFilterPanel"></div>
+    </div>
+    <div class="branch-picker-wrap" id="unitFilterWrap">
+      <button type="button" class="branch-picker-btn" id="unitFilterBtn">All unit status <span class="caret">▾</span></button>
+      <div class="branch-picker-panel" id="unitFilterPanel"></div>
+    </div>
+    <button class="btn" id="clearFiltersBtn" title="Clear search + status + unit status filters">Clear filters</button>
+    <select id="sortSelect">
+      <option value="customerName:1">Sort: Name (A–Z)</option>
+      <option value="customerName:-1">Sort: Name (Z–A)</option>
+      <option value="remainingBalance:-1">Sort: Balance (High–Low)</option>
+      <option value="remainingBalance:1">Sort: Balance (Low–High)</option>
+      <option value="outstandingBalance:-1">Sort: Outstanding (High–Low)</option>
+      <option value="dateOfAudit:-1">Sort: Date of Audit (Newest)</option>
+    </select>
+    <span class="spacer"></span>
+    <span class="count-note" id="rowCount"></span>
+    <button class="btn primary" id="addBtn">+ Add customer</button>
+  </div>
+
+  <div class="branch-overview" id="branchOverview" style="display:none;"></div>
+
+  <div class="list" id="cardList"></div>
+
+</div>
+
+<div class="undo-bar" id="undoBar"></div>
+<div class="picker-backdrop" id="pickerBackdrop"></div>
+
+<!-- Settings modal -->
+<div class="modal-bg" id="settingsModalBg">
+  <div class="modal" style="max-width:520px;">
+    <h2>Settings</h2>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Connection</div>
+      <div class="hint" style="margin-top:0;">I-paste dito ang deployed Apps Script Web App URL para maconnect ang dashboard na ito sa Google Sheet mo.</div>
+      <input type="text" id="settingsUrlInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="width:100%;padding:9px 10px;border:1px solid var(--border-strong);border-radius:8px;font-size:12.5px;font-family:'Courier New',monospace;background:var(--surface-alt);">
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+        <button class="btn primary" id="settingsUrlSave">Save &amp; Connect</button>
+        <span class="sync-status" id="settingsSyncStatus" style="padding:0;background:none;border:none;"><span class="dot"></span><span id="settingsSyncStatusText">—</span></span>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Data</div>
+      <div class="settings-actions">
+        <button class="btn" id="importBtn">Import Ledger</button>
+        <button class="btn secondary" id="remarksImportBtn">Update Remarks</button>
+        <button class="btn" id="exportBtn">Export CSV</button>
+        <button class="btn secondary" id="printSummaryBtn">🖨 Print audit summary</button>
+        <button class="btn secondary" id="printListBtn">🖨 Print list (Customer–MA)</button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title" style="color:var(--bad);">Danger zone</div>
+      <div class="settings-actions">
+        <button class="btn" id="clearAllBtn" style="color:var(--bad);border-color:var(--bad-bd);">Delete by branch…</button>
+        <button class="btn" id="deleteAllBtn" style="color:#fff;background:var(--bad);border-color:var(--bad);">Delete ALL records</button>
+      </div>
+    </div>
+
+    <div class="row-actions">
+      <button class="btn" id="settingsCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import ledger data modal -->
+<div class="modal-bg" id="importModalBg">
+  <div class="modal">
+    <h2>Import ledger rows</h2>
+    <div class="hint">
+      Auto-detect na ngayon ang dalawang klase ng file:<br>
+      • <b>Clean template</b> (Customer Name, SI Date, Model, Engine No, Due Day, Terms, MA, Last payment, Outstanding Balance, Remaining Balance, Customer Status, Unit status, Mode of Payment, Date of Audit, Auditor Remarks, Last Audit Remarks, Amount Payment) — direktang import.<br>
+      • <b>Raw system export</b> (Acct Type/Status Customer, Release/Rstr Date, Model, Engine No, Due, Term, MA, Beg, ...) — ang mga divider row tulad ng "BNEW - ADV" ay ginagamit bilang Customer Status ng mga susunod na customer sa ilalim nito. Ang mga field na wala sa raw file ay iiwanang blangko.<br>
+      Ang <b>pangalan mismo ng file</b> na ini-upload mo ang gagamitin bilang Branch ng lahat ng customer sa file na iyon (hal. "Cabuyao.xlsx" → Branch: "Cabuyao"), kahit ilang tabs pa ang laman ng workbook. Maliban na lang kung may sarili nang "Branch" column ang file — dun na kukunin.<br>
+      Pwede ka nang <b>pumili ng maraming file nang sabay-sabay</b> (hal. Cabuyao.xlsx, Malolos.xlsx, atbp.) — iimport lahat isa-isa, at ang bawat isa ay gagamit ng sarili niyang filename bilang Branch.
+    </div>
+    <div class="file-drop" id="fileDrop">
+      <input type="file" id="importFile" accept=".csv,.tsv,.txt,.xlsx,.xls" multiple>
+      <label for="importFile" class="btn" id="importFileBtn">Choose file(s) — imports right away</label>
+      <span class="count-note" id="fileName">No file chosen</span>
+    </div>
+    <div class="hint">Pagpili ng isa o maraming Excel/CSV file ay direktang iim-import ang mga ito, gamit ang pangalan ng bawat file bilang Branch. Kung magpa-paste ka ng rows sa halip, lagyan ng Branch name sa field sa ibaba bago i-click ang "Import rows".</div>
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="full">
+        <label for="pasteBranchName">Branch name (para sa pasted rows lang)</label>
+        <input type="text" id="pasteBranchName" placeholder="hal. Cabuyao">
+      </div>
+    </div>
+    <textarea id="pasteArea" placeholder="Paste rows here (tab- or comma-separated)..."></textarea>
+    <div class="row-actions">
+      <button class="btn" id="importCancel">Cancel</button>
+      <button class="btn primary" id="importConfirm">Import rows</button>
+    </div>
+  </div>
+</div>
+
+<!-- Update Last Audit Remarks-only modal -->
+<div class="modal-bg" id="remarksModalBg">
+  <div class="modal">
+    <h2>Update Last Audit Remarks</h2>
+    <div class="hint">
+      I-upload ang file ng bagong audit (halimbawa: ang sheet na may Customer Name at Last Audit Remarks columns). <b>Ang "Last Audit Remarks" column lang ang kukunin</b> — lahat ng ibang columns sa file na ito ay balewalain. Ang bawat row ay itutugma sa existing na customer gamit ang <b>Customer Name</b> (at Engine No kung available, para sa mas tumpak na tugma), at papalitan lang ang "Last Audit Remarks" niya — ang ibang datos ng customer ay hindi magbabago.<br>
+      Kung may customer sa file na wala pang record sa dashboard, ilalagay ito sa listahan ng "hindi natugma" pagkatapos mag-import.
+    </div>
+    <div class="file-drop" id="remarksFileDrop">
+      <input type="file" id="remarksImportFile" accept=".csv,.tsv,.txt,.xlsx,.xls" multiple>
+      <label for="remarksImportFile" class="btn" id="remarksImportFileBtn">Choose file(s) — imports right away</label>
+      <span class="count-note" id="remarksFileName">No file chosen</span>
+    </div>
+    <div class="hint">Pwede ring i-paste ang rows sa ibaba (dapat may header row na may "Customer Name" at "Last Audit Remarks").</div>
+    <textarea id="remarksPasteArea" placeholder="Paste rows here (tab- or comma-separated)..."></textarea>
+    <div class="row-actions">
+      <button class="btn" id="remarksImportCancel">Cancel</button>
+      <button class="btn primary" id="remarksImportConfirm">Update remarks</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clear specific branch modal (shown from "Clear all" while viewing All Branches) -->
+<div class="modal-bg" id="clearBranchModalBg">
+  <div class="modal" style="max-width:420px;">
+    <h2>Alin ang gusto mong burahin?</h2>
+    <div class="hint">Pumili ng branch na gusto mong tanggalin ang lahat ng record. Ang ibang branches ay hindi maaapektuhan.</div>
+    <div id="clearBranchList" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;"></div>
+    <div class="row-actions">
+      <button class="btn" id="clearBranchCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / edit customer modal -->
+<div class="modal-bg" id="rowModalBg">
+  <div class="modal">
+    <h2 id="rowModalTitle">Add customer</h2>
+    <div class="form-grid" id="rowForm"></div>
+    <div class="row-actions">
+      <button class="btn" id="rowCancel">Cancel</button>
+      <button class="btn primary" id="rowSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+/* label      = what shows on the dashboard (left-hand naming)
+   sourceLabel = the actual column header used in the file you upload (right-hand naming)
+   Import matching (header-row detection) checks sourceLabel, not label,
+   so uploads with the original file headers still get recognized. */
+const COLUMNS = [
+  {key:'customerName', label:'Customer Name', sourceLabel:'Customer Name', type:'text'},
+  {key:'branch', label:'Branch', sourceLabel:'Branch', type:'text'},
+  {key:'siDate', label:'SI Date', sourceLabel:'SI Date', type:'text'},
+  {key:'model', label:'Model', sourceLabel:'Model', type:'text'},
+  {key:'engineNo', label:'Engine No.', sourceLabel:'Engine No', type:'text'},
+  {key:'dueDay', label:'Due Date', sourceLabel:'Due Day', type:'text'},
+  {key:'terms', label:'Terms', sourceLabel:'Terms', type:'text'},
+  {key:'ma', label:'MA', sourceLabel:'MA', type:'text'},
+  {key:'lastPayment', label:'Last payment', sourceLabel:'Last payment', type:'text'},
+  {key:'outstandingBalance', label:'Outstanding Balance', sourceLabel:'Outstanding Balance', type:'number'},
+  {key:'remainingBalance', label:'Remaining Balance', sourceLabel:'Remaining Balance', type:'number'},
+  {key:'customerStatus', label:'Customer Status', sourceLabel:'Customer Status', type:'select', options:['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL','REPO - ADV','REPO - CU','REPO - OD','REPO - DEL','RSTR - OD','RSTR - DEL','OD - BN']},
+  {key:'unitStatus', label:'Unit status', sourceLabel:'Unit status', type:'select', options:['CONFIRMED','MISSING','GOOD CONDITION','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED']},
+  {key:'paymentMode', label:'Mode of Payment', sourceLabel:'Mode of Payment', type:'select', options:['BRANCH','FIELD','ONLINE']},
+  {key:'dateOfAudit', label:'Date of Audit', sourceLabel:'Date of Audit', type:'text'},
+  {key:'auditorRemarks', label:'Auditor Remarks', sourceLabel:'Auditor Remarks', type:'text'},
+  {key:'lastAuditRemarks', label:'Last Audit Remarks', sourceLabel:'Last Audit Remarks', type:'text'},
+  {key:'amountPaid', label:'Amount Payment', sourceLabel:'Amount Payment', type:'number'}
+];
+const NUMERIC_KEYS = COLUMNS.filter(c=>c.type==='number').map(c=>c.key);
+/* fields shown in the always-visible quick-info row (name/status/remarks/payment-mode/date-of-audit handled separately as editable controls) */
+
+let records = [];
+let editingId = null;
+let sortKey = 'customerName', sortDir = 1;
+let expandedIds = new Set();
+let statusFilterValues = new Set();
+let unitFilterValues = new Set();
+const UNASSIGNED_BRANCH = 'Unassigned';
+let currentBranch = null; // null = "All Branches"; otherwise a branch name (or UNASSIGNED_BRANCH)
+
+function branchOf(r){ return (r.branch||'').toString().trim() || UNASSIGNED_BRANCH; }
+/* Records within the currently focused branch, or all records when "All Branches" is picked. */
+function recordsInScope(){
+  if(currentBranch===null) return records;
+  return records.filter(r=>branchOf(r)===currentBranch);
+}
+function branchList(){
+  return [...new Set(records.map(branchOf))].sort((a,b)=>{
+    if(a===UNASSIGNED_BRANCH) return 1;
+    if(b===UNASSIGNED_BRANCH) return -1;
+    return a.localeCompare(b);
+  });
+}
+
+function uid(){return 'r'+Math.random().toString(36).slice(2,10);}
+function normName(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' '); }
+/* Turns an uploaded file name into a clean Branch name: strips the extension and
+   swaps underscores/dashes for spaces, e.g. "Cabuyao_Branch-2026.xlsx" -> "Cabuyao Branch 2026". */
+function branchNameFromFilename(filename){
+  if(!filename) return '';
+  let base = filename.toString().replace(/\.[^./\\]+$/, '');
+  base = base.replace(/[_\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return base;
+}
+
+/* Parses tab- or comma-separated text into rows of cells, honoring
+   quoted fields (so commas/tabs inside quotes don't split a cell). */
+function splitDelimited(line, delim){
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"'){
+        if(line[i+1] === '"'){ cur += '"'; i++; }
+        else { inQuotes = false; }
+      } else { cur += ch; }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === delim){ cells.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  cells.push(cur);
+  return cells.map(c=>c.trim());
+}
+function looksLikeHeaderRow(cells){
+  let matches = 0;
+  COLUMNS.forEach((c,i)=>{
+    const cell = (cells[i]||'').trim().toLowerCase();
+    const wanted = (c.sourceLabel || c.label).toLowerCase();
+    if(cell && cell === wanted) matches++;
+  });
+  return matches >= Math.ceil(COLUMNS.length/2);
+}
+function parseDelimitedRows(text){
+  const lines = text.split(/\r?\n/).filter(l=>l.trim().length>0);
+  if(lines.length===0) return [];
+  const delim = lines[0].includes('\t') ? '\t' : ',';
+  return lines.map(l=>splitDelimited(l, delim));
+}
+
+/* Maps one already-clean row (matches dashboard's own COLUMNS order) straight across.
+   Used as a fallback when no usable header row was found. */
+function cleanRowMapper(cells){
+  const rec = {};
+  COLUMNS.forEach((c,i)=>{ rec[c.key] = (cells[i]||'').toString().trim(); });
+  return rec;
+}
+
+/* Builds a {columnKey: cellIndex} map by matching each COLUMNS entry's sourceLabel
+   against the actual header row text. This lets a Branch column (or any column) sit
+   anywhere in the file — position no longer has to match COLUMNS order exactly. */
+function buildHeaderIndex(headerRow){
+  const idx = {};
+  COLUMNS.forEach(c=>{
+    const wanted = (c.sourceLabel || c.label).toLowerCase();
+    const i = headerRow.findIndex(h=>(h||'').toString().trim().toLowerCase() === wanted);
+    if(i !== -1) idx[c.key] = i;
+  });
+  return idx;
+}
+function cleanRowMapperIndexed(cells, idxMap){
+  const rec = {};
+  COLUMNS.forEach(c=>{
+    const i = idxMap[c.key];
+    rec[c.key] = (i!==undefined && cells[i]!==undefined) ? cells[i].toString().trim() : '';
+  });
+  return rec;
+}
+
+/* Maps one row from the raw system export: Acct Type/Status Customer, Release/Rstr Date,
+   Model, Engine No, Due, Term, MA, Beg, [CU, OD, DEL, TTL, Adv, CU, OD, DEL, TTL...].
+   Only the first 8 fields exist in the raw export — the rest come from the actual audit
+   visit and aren't in the system file, so they're left blank for the auditor to fill in. */
+function rawRowMapper(cells, currentStatus){
+  return {
+    customerName: (cells[0]||'').toString().trim(),
+    branch: '',
+    siDate: (cells[1]||'').toString().trim(),
+    model: (cells[2]||'').toString().trim(),
+    engineNo: (cells[3]||'').toString().trim(),
+    dueDay: (cells[4]||'').toString().trim(),
+    terms: (cells[5]||'').toString().trim(),
+    ma: (cells[6]||'').toString().trim(),
+    lastPayment: '',
+    outstandingBalance: '',
+    remainingBalance: (cells[7]||'').toString().trim(),
+    customerStatus: currentStatus||'',
+    unitStatus: '',
+    paymentMode: '',
+    dateOfAudit: '',
+    auditorRemarks: '',
+    lastAuditRemarks: '',
+    amountPaid: ''
+  };
+}
+
+/* Core import engine for the full ledger import — takes a 2D array of rows and adds
+   matching records. Auto-detects clean dashboard format vs. raw system-export format.
+   branchHint (optional) is the Excel tab name the rows came from — it's used to fill in
+   each record's Branch whenever the row itself doesn't already carry a Branch value
+   (e.g. a raw system export, or a clean file with no Branch column). */
+function runImportFromRows(rows, branchHint){
+  rows = rows.filter(r => r.some(c => (c===undefined||c===null?'':String(c)).trim() !== ''));
+  if(rows.length===0) return {added:0, attempted:0};
+  const header = rows[0].map(c=>(c===undefined||c===null?'':String(c)).trim());
+  const first = header[0].toLowerCase();
+  let dataRows = rows;
+  let mapper = cleanRowMapper;
+  if(first === 'customer name'){
+    dataRows = rows.slice(1);
+    mapper = cells=>cleanRowMapperIndexed(cells, buildHeaderIndex(header));
+  } else if(first.startsWith('acct type')){
+    dataRows = rows.slice(1);
+    mapper = rawRowMapper;
+  } else if(looksLikeHeaderRow(header)){
+    dataRows = rows.slice(1);
+    mapper = cells=>cleanRowMapperIndexed(cells, buildHeaderIndex(header));
+  }
+  let added = 0, attempted = 0, currentStatus = '';
+  dataRows.forEach(cellsRaw=>{
+    const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
+    const nonEmpty = cells.filter(c=>c!=='');
+    if(mapper===rawRowMapper && nonEmpty.length===1 && cells[0] && cells[0].includes('-')){
+      currentStatus = cells[0];
+      return;
+    }
+    if(nonEmpty.length===0) return;
+    attempted++;
+    const rec = mapper(cells, currentStatus);
+    if(rec && rec.customerName){
+      if(!rec.branch && branchHint) rec.branch = branchHint;
+      rec.id = uid();
+      records.push(rec);
+      added++;
+    }
+  });
+  return {added, attempted};
+}
+
+/* Remarks-only import: finds "Customer Name" and "Last Audit Remarks" columns in the
+   uploaded file (any other columns are ignored), matches each row to an existing record
+   by normalized customer name (and Engine No too, if that column is present, for a more
+   precise match), and overwrites just that record's Last Audit Remarks. */
+function runRemarksImportFromRows(rows){
+  rows = rows.filter(r => r.some(c => (c===undefined||c===null?'':String(c)).trim() !== ''));
+  if(rows.length===0) return {updated:0, unmatched:[]};
+  const headerRaw = rows[0].map(c=>(c===undefined||c===null?'':String(c)).trim());
+  const header = headerRaw.map(h=>h.toLowerCase());
+  const nameIdx = header.findIndex(h=>h.includes('customer name') || h==='name');
+  const remarksIdx = header.findIndex(h=>h.includes('last audit remarks'));
+  const fallbackRemarksIdx = remarksIdx!==-1 ? remarksIdx : header.findIndex(h=>h.includes('remarks') && !h.includes('auditor'));
+  const engineIdx = header.findIndex(h=>h.includes('engine'));
+  const hasHeader = nameIdx!==-1 || fallbackRemarksIdx!==-1;
+  const dataRows = hasHeader ? rows.slice(1) : rows;
+  const nIdx = nameIdx===-1?0:nameIdx;
+  const rIdx = fallbackRemarksIdx===-1?(headerRaw.length-1):fallbackRemarksIdx;
+
+  const byName = {};
+  records.forEach(r=>{
+    const key = normName(r.customerName);
+    if(!key) return;
+    if(!byName[key]) byName[key]=[];
+    byName[key].push(r);
+  });
+
+  let updated = 0;
+  const unmatched = [];
+  dataRows.forEach(cellsRaw=>{
+    const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
+    if(cells.every(c=>c==='')) return;
+    const name = cells[nIdx]||'';
+    const remark = cells[rIdx]||'';
+    if(!name) return;
+    let matches = byName[normName(name)];
+    if(matches && engineIdx!==-1 && cells[engineIdx]){
+      const narrowed = matches.filter(m=>normName(m.engineNo)===normName(cells[engineIdx]));
+      if(narrowed.length) matches = narrowed;
+    }
+    if(matches && matches.length){
+      matches.forEach(m=>{ m.lastAuditRemarks = remark; });
+      updated += matches.length;
+    } else {
+      unmatched.push(name);
+    }
+  });
+  return {updated, unmatched};
+}
+
+function parseNum(v){
+  if(v===undefined||v===null||v==='') return 0;
+  const n = parseFloat(String(v).replace(/[^0-9.\-]/g,''));
+  return isNaN(n)?0:n;
+}
+function fmtCurrency(n){
+  return '\u20B1' + n.toLocaleString('en-PH',{maximumFractionDigits:0});
+}
+const STATUS_SUFFIX_CLASS = {ADV:'good', CU:'good', OD:'warn', DEL:'bad'};
+const STATUS_EXACT_CLASS = {
+  'BNEW - ADV':'status-bnew-adv',
+  'BNEW - CU':'status-bnew-cu',
+  'BNEW - OD':'status-bnew-od',
+  'BNEW - DEL':'status-bnew-del',
+  'REPO - ADV':'status-repo-adv',
+  'REPO - CU':'status-repo-cu',
+  'REPO - OD':'status-repo-od',
+  'REPO - DEL':'status-repo-del',
+  'RSTR - OD':'status-rstr-od',
+  'RSTR - DEL':'status-rstr-del',
+  'OD - BN':'status-od-bn'
+};
+function statusClass(val){
+  const v = (val||'').toLowerCase();
+  if(!v) return 'neutral';
+  const exact = STATUS_EXACT_CLASS[(val||'').trim().toUpperCase()];
+  if(exact) return exact;
+  if(v.includes('paid') || v.includes('current') || v.includes('release')) return 'good';
+  if(v.includes('cancel')) return 'neutral';
+  if(v.includes('overdue') || v.includes('past due') || v.includes('repo')) return 'bad';
+  if(v.includes('pending') || v.includes('due')) return 'warn';
+  if(v.includes('-')){
+    const parts = v.split('-').map(s=>s.trim().toUpperCase());
+    const suffix = parts[parts.length-1];
+    if(STATUS_SUFFIX_CLASS[suffix]) return STATUS_SUFFIX_CLASS[suffix];
+  }
+  return 'neutral';
+}
+/* Severity for KPI counts (overdue/delinquent) — independent from the chip's display
+   color, since specific statuses now each get their own distinct chip color above. */
+function statusSeverity(val){
+  const v = (val||'').toLowerCase();
+  if(!v) return 'neutral';
+  /* ADV (advance) accounts are paid ahead / current regardless of prefix —
+     count them as "good" even for REPO - ADV, before the generic "repo"
+     check below would otherwise mark any repo status as bad. */
+  if(v.includes('-')){
+    const advParts = v.split('-').map(s=>s.trim().toUpperCase());
+    if(advParts[advParts.length-1]==='ADV') return 'good';
+  }
+  if(v.includes('paid') || v.includes('current') || v.includes('release')) return 'good';
+  if(v.includes('cancel')) return 'neutral';
+  if(v.includes('overdue') || v.includes('past due') || v.includes('repo')) return 'bad';
+  if(v.includes('pending') || v.includes('due')) return 'warn';
+  if(v.includes('-')){
+    const parts = v.split('-').map(s=>s.trim().toUpperCase());
+    const suffix = parts[parts.length-1];
+    if(STATUS_SUFFIX_CLASS[suffix]) return STATUS_SUFFIX_CLASS[suffix];
+  }
+  return 'neutral';
+}
+const UNIT_STATUS_CLASS = {
+  'CONFIRMED':'ustat-confirmed',
+  'MISSING':'ustat-missing',
+  'GOOD CONDITION':'ustat-good',
+  'IMPOUND':'ustat-impound',
+  'TOTAL WRECK':'ustat-wreck',
+  'FOR TRACING':'ustat-tracing',
+  'NOT CONFIRMED':'ustat-notconfirmed'
+};
+function unitStatusClass(val){
+  return UNIT_STATUS_CLASS[(val||'').toUpperCase()] || 'ustat-blank';
+}
+const PAYMENT_MODE_CLASS = {
+  'BRANCH':'pmode-branch',
+  'FIELD':'pmode-field',
+  'ONLINE':'pmode-online'
+};
+function paymentModeClass(val){
+  return PAYMENT_MODE_CLASS[(val||'').toUpperCase()] || 'pmode-blank';
+}
+const UNIT_STATUS_SLUG = {
+  'CONFIRMED':'confirmed',
+  'GOOD CONDITION':'good-condition',
+  'MISSING':'missing',
+  'IMPOUND':'impound',
+  'TOTAL WRECK':'total-wreck',
+  'FOR TRACING':'for-tracing',
+  'NOT CONFIRMED':'not-confirmed'
+};
+/* "NOT CONFIRMED" is a deliberate label the auditor picks from the dropdown, so it
+   gets its own count. A record with nothing picked yet falls under "No Label" instead —
+   the two are tracked separately so ticking "Not Confirmed" moves it out of "No Label". */
+const UNIT_STATUS_ORDER = ['CONFIRMED','GOOD CONDITION','MISSING','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED'];
+let unitBreakdownCollapsed = false;
+function renderUnitBreakdown(){
+  const wrap = document.getElementById('unitBreakdown');
+  const counts = {};
+  UNIT_STATUS_ORDER.forEach(o=>counts[o]=0);
+  let noLabel = 0;
+  recordsInScope().forEach(r=>{
+    const v = (r.unitStatus||'').toUpperCase().trim();
+    if(v && counts.hasOwnProperty(v)) counts[v]++;
+    else noLabel++;
+  });
+  let html = `<div class="ub-title-row">
+      <div class="ub-title">Unit Status Breakdown <span class="ub-hint">(click a status to filter the list below)</span></div>
+      <button type="button" class="ub-toggle${unitBreakdownCollapsed?' collapsed':''}" id="ubToggleBtn" title="${unitBreakdownCollapsed?'Show':'Hide'} breakdown">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+    </div><div class="ub-chips"${unitBreakdownCollapsed?' style="display:none;"':''}>`;
+  UNIT_STATUS_ORDER.forEach(o=>{
+    const isActive = unitFilterValues.size===1 && unitFilterValues.has(o);
+    html += `<span class="ub-chip ${UNIT_STATUS_SLUG[o]}${isActive?' ub-active':''}" data-status="${o}" role="button" tabindex="0">${o} <span class="ub-count">${counts[o]}</span></span>`;
+  });
+  html += '</div>';
+  wrap.innerHTML = html;
+  document.getElementById('ubToggleBtn').addEventListener('click', ()=>{
+    unitBreakdownCollapsed = !unitBreakdownCollapsed;
+    renderUnitBreakdown();
+  });
+  wrap.querySelectorAll('.ub-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const status = chip.dataset.status;
+      if(unitFilterValues.size===1 && unitFilterValues.has(status)){
+        unitFilterValues.clear();
+      } else {
+        unitFilterValues.clear();
+        unitFilterValues.add(status);
+      }
+      populateFilterOptions();
+      renderCards();
+      renderUnitBreakdown();
+      document.getElementById('cardList').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+const CUSTOMER_STATUS_ORDER = ['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL','REPO - ADV','REPO - CU','REPO - OD','REPO - DEL','RSTR - OD','RSTR - DEL','OD - BN'];
+let statusBreakdownCollapsed = false;
+function renderStatusBreakdown(){
+  const wrap = document.getElementById('statusBreakdown');
+  wrap.style.display = '';
+  const scope = recordsInScope();
+  const totalAccounts = scope.length;
+  const counts = {};
+  CUSTOMER_STATUS_ORDER.forEach(o=>counts[o]=0);
+  let noLabel = 0;
+  scope.forEach(r=>{
+    const v = (r.customerStatus||'').trim().toUpperCase();
+    if(v && counts.hasOwnProperty(v)) counts[v]++;
+    else if(v) counts[v] = (counts[v]||0)+1;
+    else noLabel++;
+  });
+  let html = `<div class="sb-title-row">
+      <div class="sb-title">Customer Status Breakdown <span class="ub-hint">(click a status to filter the list below)</span></div>
+      <button type="button" class="sb-toggle${statusBreakdownCollapsed?' collapsed':''}" id="sbToggleBtn" title="${statusBreakdownCollapsed?'Show':'Hide'} breakdown">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+    </div><div class="sb-chips"${statusBreakdownCollapsed?' style="display:none;"':''}>
+    <span class="sb-chip total">Total Accounts <span class="sb-count">${totalAccounts}</span></span>`;
+  CUSTOMER_STATUS_ORDER.forEach(o=>{
+    const isActive = statusFilterValues.size===1 && statusFilterValues.has(o);
+    html += `<span class="sb-chip ${STATUS_EXACT_CLASS[o]||'blank'}${isActive?' sb-active':''}" data-status="${o}" role="button" tabindex="0">${o} <span class="sb-count">${counts[o]}</span></span>`;
+  });
+  if(noLabel>0){
+    const isActive = false;
+    html += `<span class="sb-chip blank" role="button" tabindex="0" style="cursor:default;">No Label <span class="sb-count">${noLabel}</span></span>`;
+  }
+  html += '</div>';
+  wrap.innerHTML = html;
+  document.getElementById('sbToggleBtn').addEventListener('click', ()=>{
+    statusBreakdownCollapsed = !statusBreakdownCollapsed;
+    renderStatusBreakdown();
+  });
+  wrap.querySelectorAll('.sb-chip[data-status]').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const status = chip.dataset.status;
+      if(statusFilterValues.size===1 && statusFilterValues.has(status)){
+        statusFilterValues.clear();
+      } else {
+        statusFilterValues.clear();
+        statusFilterValues.add(status);
+      }
+      populateFilterOptions();
+      renderCards();
+      renderStatusBreakdown();
+      document.getElementById('cardList').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+function initials(name){
+  const parts = (name||'').trim().split(/\s+/).filter(Boolean);
+  if(parts.length===0) return '?';
+  if(parts.length===1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0]+parts[parts.length-1][0]).toUpperCase();
+}
+const COL_BY_KEY = Object.fromEntries(COLUMNS.map(c=>[c.key,c]));
+function fieldDisplay(key, rec){
+  const c = COL_BY_KEY[key];
+  const v = rec[key];
+  if(c.type==='number') return fmtCurrency(parseNum(v));
+  return v || '—';
+}
+
+/* PASTE YOUR DEPLOYED APPS SCRIPT WEB APP URL HERE, e.g.:
+   'https://script.google.com/macros/s/AKfycb.../exec'
+   Get this from Apps Script > Deploy > New deployment > Web app, after
+   deploying the updated Code.gs. This dashboard is hosted on GitHub Pages
+   (a different domain), so it talks to the Sheet over the network via
+   fetch() instead of google.script.run. */
+const APPS_SCRIPT_URL_KEY = 'genesisAuditAppsScriptUrl_v1';
+const DEFAULT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAOWTiR1EVA5kRHSNYr7zbjCBMSic_wLY8I47R6bkRnuV03ENxyD4277RxNl8WGKcS/exec';
+let APPS_SCRIPT_URL = (function(){
+  try{
+    // When this page is opened directly through its Apps Script Web App
+    // link (the normal way anyone you send the link to will open it),
+    // the page's own URL IS the backend URL — use it automatically so
+    // this keeps working even if you redeploy and get a new /exec link.
+    const loc = window.location.href;
+    if(loc.indexOf('script.google.com') !== -1 || loc.indexOf('googleusercontent.com') !== -1){
+      return loc.split('?')[0];
+    }
+    const saved = localStorage.getItem(APPS_SCRIPT_URL_KEY);
+    if(saved && saved.trim()) return saved.trim();
+  }catch(e){}
+  return DEFAULT_APPS_SCRIPT_URL;
+})();
+
+function gsRun(fnName, ...args){
+  return new Promise(async (resolve, reject)=>{
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') !== -1){
+      // Happens when the Apps Script URL hasn't been filled in above yet —
+      // there's no backend to talk to at all, so saves will never sync no
+      // matter how good the signal is.
+      const err = new Error('NO_BACKEND_LINK');
+      err.noBackend = true;
+      reject(err);
+      return;
+    }
+    try{
+      if(fnName === 'getRecords'){
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getRecords`);
+        if(!res.ok) throw new Error('Network error: ' + res.status);
+        const data = await res.json();
+        if(!data.success) throw new Error(data.error || 'Failed to load records');
+        resolve(data.records);
+        return;
+      }
+      if(fnName === 'saveAllRecords'){
+        // text/plain on purpose: keeps this a "simple request" so the
+        // browser skips the CORS preflight (OPTIONS), which Apps Script
+        // web apps can't respond to.
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'},
+          body: JSON.stringify({action: 'saveAllRecords', records: args[0]})
+        });
+        if(!res.ok) throw new Error('Network error: ' + res.status);
+        const data = await res.json();
+        if(!data.success) throw new Error(data.error || 'Save failed');
+        resolve(data);
+        return;
+      }
+      throw new Error('Unknown function: ' + fnName);
+    }catch(err){
+      if(err instanceof TypeError){
+        // fetch() throws a generic TypeError for network-level failures
+        // (offline, CORS block, bad URL) — treat those as "no backend".
+        err.noBackend = true;
+      }
+      reject(err);
+    }
+  });
+}
+
+/* Undo stack for destructive actions (delete customer / clear a branch).
+   No time limit and no auto-expiry — each entry stays undoable for the rest of
+   the session, however long that takes, until the user actually clicks Undo
+   (or dismisses the banner, which only hides it — the stack itself is untouched
+   so it can still be brought back by triggering another destructive action). */
+let undoStack = [];
+function pushUndo(label){
+  undoStack.push({label, snapshot: JSON.parse(JSON.stringify(records))});
+  renderUndoBanner();
+}
+function performUndo(){
+  if(undoStack.length===0) return;
+  const last = undoStack.pop();
+  records = last.snapshot;
+  expandedIds.clear();
+  saveRecords();
+  renderAll();
+  renderUndoBanner();
+}
+function renderUndoBanner(){
+  const bar = document.getElementById('undoBar');
+  if(!bar) return;
+  if(undoStack.length===0){ bar.classList.remove('show'); bar.innerHTML=''; return; }
+  const top = undoStack[undoStack.length-1];
+  bar.classList.add('show');
+  bar.innerHTML = `
+    <span class="undo-label">${top.label}</span>
+    ${undoStack.length>1?`<span class="undo-more">+${undoStack.length-1} more undoable</span>`:''}
+    <button type="button" class="undo-btn" id="undoBtn">Undo</button>
+    <button type="button" class="undo-dismiss" id="undoDismiss" title="Hide (still undoable)">✕</button>
+  `;
+  document.getElementById('undoBtn').addEventListener('click', performUndo);
+  document.getElementById('undoDismiss').addEventListener('click', ()=>{ bar.classList.remove('show'); });
+}
+
+/* ----- Offline-first storage -----
+   Field auditors often lose signal mid-edit. Every save writes to
+   localStorage immediately (instant, works with zero signal) and only
+   THEN tries to push to the server. If the push fails or there's no
+   connection, nothing is lost — the edit already lives in localStorage,
+   a "pending sync" flag is set, and we keep retrying (on an interval and
+   whenever the browser tells us we're back online) until it succeeds. */
+const LOCAL_STORAGE_KEY = 'genesisAuditRecords_v1';
+const PENDING_FLAG_KEY = 'genesisAuditRecords_pending_v1';
+const LAST_SYNCED_KEY = 'genesisAuditRecords_lastSynced_v1';
+let pendingSync = false;
+let syncInFlight = false;
+let syncRetryTimer = null;
+let noBackendLink = false;
+
+function readLastSynced(){
+  try{
+    const raw = localStorage.getItem(LAST_SYNCED_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function writeLastSynced(data){
+  try{ localStorage.setItem(LAST_SYNCED_KEY, JSON.stringify(data)); }catch(e){}
+}
+let lastSyncedRecords = readLastSynced();
+function markSynced(){
+  lastSyncedRecords = JSON.parse(JSON.stringify(records));
+  writeLastSynced(lastSyncedRecords);
+}
+/* Lists which customer records differ from what's actually saved on the
+   server (edited, added, or deleted locally but not pushed yet) — powers
+   both the "ilan pa naka-pending" counts and the notification bell's list. */
+function computePendingRecords(){
+  const lastMap = {};
+  lastSyncedRecords.forEach(r=>{ lastMap[r.id] = r; });
+  const seen = new Set();
+  const list = [];
+  records.forEach(r=>{
+    seen.add(r.id);
+    const prev = lastMap[r.id];
+    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Bago'}); }
+    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Na-edit'}); }
+  });
+  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id)) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Tinanggal'}); });
+  return list;
+}
+function computePendingCount(){
+  return computePendingRecords().length;
+}
+
+function readLocalCache(){
+  try{
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function writeLocalCache(data){
+  try{ localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data)); }catch(e){ console.error('Local cache write failed', e); }
+}
+function markPending(isPending){
+  pendingSync = isPending;
+  try{ localStorage.setItem(PENDING_FLAG_KEY, isPending ? '1' : '0'); }catch(e){}
+  updateSyncStatus();
+}
+
+function updateSyncStatus(){
+  const pendingList = computePendingRecords();
+  const pendingCount = pendingList.length;
+  const targets = [
+    {el: document.getElementById('syncStatus'), txt: document.getElementById('syncStatusText')},
+    {el: document.getElementById('settingsSyncStatus'), txt: document.getElementById('settingsSyncStatusText')}
+  ];
+  targets.forEach(({el, txt})=>{
+    if(!el || !txt) return;
+    el.classList.remove('offline','syncing');
+    if(syncInFlight){
+      el.classList.add('syncing');
+      txt.textContent = `Syncing ${pendingCount} change(s)…`;
+    } else if(noBackendLink){
+      el.classList.add('offline');
+      txt.textContent = 'Not connected';
+      el.title = 'This copy isn\'t connected to the Google Sheets backend. Paste the deployed web app link in Settings so saves can sync.';
+    } else if(!navigator.onLine){
+      el.classList.add('offline');
+      txt.textContent = pendingCount>0 ? `Offline — ${pendingCount} pending` : 'Offline';
+    } else if(pendingCount>0){
+      el.classList.add('offline');
+      txt.textContent = `${pendingCount} pending`;
+    } else {
+      txt.textContent = 'Saved & synced';
+    }
+  });
+  updateConnBanner(pendingCount);
+  updateNotifBell(pendingList);
+}
+
+/* Notification bell — badge shows how many customer edits are only saved on
+   this device so far (not yet uploaded), and the dropdown lists which ones,
+   so field auditors working with no signal can see what's still waiting. */
+function updateNotifBell(pendingList){
+  const badge = document.getElementById('notifBadge');
+  const panel = document.getElementById('notifPanel');
+  if(!badge || !panel) return;
+  const count = pendingList.length;
+  if(count>0){
+    badge.style.display = 'flex';
+    badge.textContent = count>99 ? '99+' : String(count);
+  } else {
+    badge.style.display = 'none';
+  }
+  let statusLine = '';
+  if(syncInFlight) statusLine = 'Sine-sync ngayon…';
+  else if(noBackendLink) statusLine = 'Hindi konektado sa Google Sheets.';
+  else if(!navigator.onLine) statusLine = 'Offline — awtomatikong mag-a-upload kapag bumalik ang internet.';
+  else if(count===0) statusLine = 'Naka-sync na lahat. ✅';
+  let html = `<div class="np-title">Naka-pending na i-upload (${count})</div>`;
+  if(statusLine) html += `<div class="notif-empty" style="padding:2px 4px 10px;text-align:left;">${escHtml(statusLine)}</div>`;
+  if(count===0){
+    if(!statusLine) html += '<div class="notif-empty">Wala pang naka-pending.</div>';
+  } else {
+    html += pendingList.slice(0,50).map(p=>
+      `<div class="notif-item"><span>${escHtml(p.name)}</span><span class="ni-reason">${escHtml(p.reason)}</span></div>`
+    ).join('');
+    if(pendingList.length>50) html += `<div class="notif-empty">+ ${pendingList.length-50} pa...</div>`;
+  }
+  panel.innerHTML = html;
+}
+/* Since the panel is position:fixed, we place it ourselves in JS (instead of
+   plain CSS "right:0") so it's always clamped inside the viewport — this is
+   what fixes it getting cut off / pushed off-screen on narrow phone widths. */
+function positionNotifPanel(){
+  const btn = document.getElementById('notifBellBtn');
+  const panel = document.getElementById('notifPanel');
+  if(!btn || !panel) return;
+  const margin = 12;
+  const btnRect = btn.getBoundingClientRect();
+  const panelWidth = Math.min(280, window.innerWidth - margin*2);
+  let left = btnRect.right - panelWidth; // default: right-align to the bell
+  left = Math.max(margin, Math.min(left, window.innerWidth - panelWidth - margin));
+  let top = btnRect.bottom + 8;
+  const maxTop = window.innerHeight - margin - 60; // leave a little room even if list is tall
+  top = Math.min(top, Math.max(margin, maxTop));
+  panel.style.left = left + 'px';
+  panel.style.top = top + 'px';
+}
+document.getElementById('notifBellBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const panel = document.getElementById('notifPanel');
+  const willOpen = !panel.classList.contains('open');
+  if(willOpen) positionNotifPanel();
+  panel.classList.toggle('open');
+});
+document.addEventListener('click', (e)=>{
+  const wrap = document.getElementById('bellWrap');
+  if(wrap && !wrap.contains(e.target)) document.getElementById('notifPanel').classList.remove('open');
+});
+window.addEventListener('resize', ()=>{
+  const panel = document.getElementById('notifPanel');
+  if(panel && panel.classList.contains('open')) positionNotifPanel();
+});
+
+/* Bigger banner under the header — only shown when it's actually worth
+   interrupting for (offline, still syncing, not connected, or unsynced
+   changes waiting). Fully synced + online = no banner, so it doesn't nag. */
+function updateConnBanner(pendingCount){
+  const banner = document.getElementById('connBanner');
+  if(!banner) return;
+  banner.classList.remove('offline','pending','show');
+  if(syncInFlight){
+    banner.classList.add('show','pending');
+    banner.textContent = `🔄 Sine-sync ngayon ang ${pendingCount} pagbabago...`;
+  } else if(noBackendLink){
+    banner.classList.add('show','offline');
+    banner.textContent = `⚠️ Hindi konektado sa Google Sheets backend.${pendingCount>0 ? ` ${pendingCount} pagbabago ang naka-save lang sa device na ito.` : ''}`;
+  } else if(!navigator.onLine){
+    banner.classList.add('show','offline');
+    banner.textContent = pendingCount>0
+      ? `🔴 OFFLINE — ${pendingCount} pagbabago ang naka-pending, awtomatikong mag-si-sync kapag bumalik ang internet.`
+      : '🔴 OFFLINE — walang koneksyon sa internet ngayon.';
+  } else if(pendingCount>0){
+    banner.classList.add('show','pending');
+    banner.textContent = `🟡 ONLINE — ${pendingCount} pagbabago pa ang naka-pending, sine-sync pa...`;
+  }
+  // else: online at fully synced — walang banner, para hindi nakaka-abala.
+}
+
+async function loadRecords(){
+  // Show whatever is already saved on this device instantly — works with zero signal.
+  const cached = readLocalCache();
+  const hadPending = localStorage.getItem(PENDING_FLAG_KEY) === '1';
+  if(cached){
+    records = cached;
+    pendingSync = hadPending;
+    renderAll();
+    updateSyncStatus();
+  }
+  // Then try to reach the server. If there are unsynced local edits, don't
+  // let a stale server copy clobber them — push ours instead.
+  if(hadPending){
+    trySync();
+    return;
+  }
+  try{
+    const serverRecords = await gsRun('getRecords');
+    records = serverRecords;
+    writeLocalCache(records);
+    noBackendLink = false;
+    markPending(false);
+    markSynced();
+    renderAll();
+  }catch(e){
+    // No signal / failed to reach server — fall back to whatever's cached,
+    // or an empty list if this device has never loaded data before.
+    if(e && e.noBackend) noBackendLink = true;
+    if(!cached){ records = []; renderAll(); }
+    updateSyncStatus();
+  }
+}
+
+async function saveRecords(){
+  // Always persist locally first, synchronously — this is what makes edits
+  // signal-proof. The network push below is best-effort on top of that.
+  writeLocalCache(records);
+  markPending(true);
+  await trySync();
+}
+
+async function trySync(){
+  if(syncInFlight) return;
+  if(!navigator.onLine){ updateSyncStatus(); scheduleRetry(); return; }
+  syncInFlight = true;
+  updateSyncStatus();
+  try{
+    await gsRun('saveAllRecords', records);
+    noBackendLink = false;
+    markPending(false);
+    markSynced();
+  }catch(e){
+    if(e && e.noBackend){
+      noBackendLink = true;
+      console.error('Not connected to the Apps Script backend — open this dashboard via its deployed web app link, not as a standalone/local file.');
+    } else {
+      console.error('Save failed, will retry when signal returns', e);
+    }
+    scheduleRetry();
+  } finally {
+    syncInFlight = false;
+    updateSyncStatus();
+  }
+}
+
+function scheduleRetry(){
+  if(syncRetryTimer) return;
+  syncRetryTimer = setTimeout(()=>{
+    syncRetryTimer = null;
+    if(pendingSync) trySync();
+  }, 20000); // retry every 20s while there's unsynced data
+}
+
+window.addEventListener('online', ()=>{ updateSyncStatus(); if(pendingSync) trySync(); });
+window.addEventListener('offline', updateSyncStatus);
+
+async function refreshFromServer(){
+  const btn = document.getElementById('refreshBtn');
+  if(btn) btn.classList.add('spinning');
+  try{
+    if(pendingSync){
+      // Don't overwrite unsynced local edits with a stale server copy —
+      // push what's on this device instead, then re-render.
+      await trySync();
+    } else if(navigator.onLine){
+      const serverRecords = await gsRun('getRecords');
+      records = serverRecords;
+      writeLocalCache(records);
+      noBackendLink = false;
+      markSynced();
+      expandedIds.clear();
+      renderAll();
+    }
+    updateSyncStatus();
+  }catch(e){
+    if(e && e.noBackend) noBackendLink = true;
+    console.error('Refresh failed', e);
+    updateSyncStatus();
+  } finally {
+    if(btn){
+      setTimeout(()=>btn.classList.remove('spinning'), 400);
+    }
+  }
+}
+document.getElementById('refreshBtn').addEventListener('click', refreshFromServer);
+
+/* settings modal */
+const settingsModalBg = document.getElementById('settingsModalBg');
+const settingsUrlInput = document.getElementById('settingsUrlInput');
+document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  settingsUrlInput.value = APPS_SCRIPT_URL;
+  updateSyncStatus();
+  settingsModalBg.classList.add('open');
+});
+document.getElementById('settingsCloseBtn').addEventListener('click', ()=>{ settingsModalBg.classList.remove('open'); });
+settingsModalBg.addEventListener('click', (e)=>{ if(e.target===settingsModalBg) settingsModalBg.classList.remove('open'); });
+document.getElementById('settingsUrlSave').addEventListener('click', async ()=>{
+  const val = settingsUrlInput.value.trim();
+  if(!val){ alert('Ilagay ang deployed Web App URL.'); return; }
+  try{ localStorage.setItem(APPS_SCRIPT_URL_KEY, val); }catch(e){}
+  APPS_SCRIPT_URL = val;
+  noBackendLink = false;
+  updateSyncStatus();
+  await loadRecords();
+});
+/* data-action buttons live inside the settings modal — close it once the
+   action has kicked off so it doesn't sit on top of a nested modal or
+   file picker. */
+document.querySelector('.settings-actions').addEventListener('click', (e)=>{
+  if(e.target.closest('button')) settingsModalBg.classList.remove('open');
+});
+
+function filterBtnLabel(baseLabel, selectedSet){
+  if(selectedSet.size===0) return baseLabel;
+  if(selectedSet.size===1) return [...selectedSet][0];
+  return `${selectedSet.size} selected`;
+}
+
+function renderFilterPanel(panelId, btnId, options, selectedSet, baseLabel){
+  const panel = document.getElementById(panelId);
+  const btn = document.getElementById(btnId);
+  let html = `<div class="picker-panel-title">${baseLabel.replace(/^All /,'Filter by ')}<button type="button" class="picker-panel-close" data-close-panel="${panelId}">✕</button></div>`;
+  options.forEach(opt=>{
+    const checked = selectedSet.has(opt) ? ' checked' : '';
+    html += `<label class="ms-item"><input type="checkbox" value="${opt.replace(/"/g,'&quot;')}"${checked}><span>${opt}</span></label>`;
+  });
+  panel.innerHTML = html || `<div class="ms-item" style="color:var(--ink-faint);cursor:default;">Wala pang datos</div>`;
+  const closeBtn = panel.querySelector('.picker-panel-close');
+  if(closeBtn) closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeAllPickerPanels(); });
+  panel.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if(cb.checked) selectedSet.add(cb.value); else selectedSet.delete(cb.value);
+      btn.innerHTML = `${filterBtnLabel(baseLabel, selectedSet)} <span class="caret">▾</span>`;
+      btn.classList.toggle('active', selectedSet.size>0);
+      renderCards();
+    });
+  });
+  btn.innerHTML = `${filterBtnLabel(baseLabel, selectedSet)} <span class="caret">▾</span>`;
+  btn.classList.toggle('active', selectedSet.size>0);
+}
+
+function populateFilterOptions(){
+  const scope = recordsInScope();
+  const statuses = [...new Set(scope.map(r=>r.customerStatus).filter(Boolean))];
+  const units = [...new Set(scope.map(r=>r.unitStatus).filter(Boolean))];
+  [...statusFilterValues].forEach(v=>{ if(!statuses.includes(v)) statusFilterValues.delete(v); });
+  [...unitFilterValues].forEach(v=>{ if(!units.includes(v)) unitFilterValues.delete(v); });
+  renderFilterPanel('statusFilterPanel','statusFilterBtn', statuses, statusFilterValues, 'All status');
+  renderFilterPanel('unitFilterPanel','unitFilterBtn', units, unitFilterValues, 'All unit status');
+}
+
+if(!window.__filterDropdownsBound){
+  window.__filterDropdownsBound = true;
+  document.getElementById('statusFilterBtn').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    document.getElementById('unitFilterPanel').classList.remove('open');
+    const p = document.getElementById('statusFilterPanel');
+    p.classList.toggle('open');
+    showPickerBackdrop(p.classList.contains('open'));
+  });
+  document.getElementById('unitFilterBtn').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    document.getElementById('statusFilterPanel').classList.remove('open');
+    const p = document.getElementById('unitFilterPanel');
+    p.classList.toggle('open');
+    showPickerBackdrop(p.classList.contains('open'));
+  });
+  document.addEventListener('click', (e)=>{
+    const sw = document.getElementById('statusFilterWrap');
+    const uw = document.getElementById('unitFilterWrap');
+    let anyOpen = false;
+    if(sw && !sw.contains(e.target)) document.getElementById('statusFilterPanel').classList.remove('open');
+    if(uw && !uw.contains(e.target)) document.getElementById('unitFilterPanel').classList.remove('open');
+    if(document.getElementById('statusFilterPanel').classList.contains('open')) anyOpen = true;
+    if(document.getElementById('unitFilterPanel').classList.contains('open')) anyOpen = true;
+    if(document.getElementById('branchPickerPanel') && document.getElementById('branchPickerPanel').classList.contains('open')) anyOpen = true;
+    if(!anyOpen) showPickerBackdrop(false);
+  });
+}
+
+function getFiltered(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  let out = recordsInScope().filter(r=>{
+    if(statusFilterValues.size>0 && !statusFilterValues.has(r.customerStatus)) return false;
+    if(unitFilterValues.size>0 && !unitFilterValues.has(r.unitStatus)) return false;
+    if(q){
+      const hay = (
+        r.customerName+' '+r.model+' '+r.engineNo+' '+branchOf(r)+' '+
+        (r.auditorRemarks||'')+' '+(r.lastAuditRemarks||'')
+      ).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if(sortKey){
+    out = out.slice().sort((a,b)=>{
+      let av, bv;
+      if(NUMERIC_KEYS.includes(sortKey)){ av=parseNum(a[sortKey]); bv=parseNum(b[sortKey]); }
+      else { av=(a[sortKey]||'').toString().toLowerCase(); bv=(b[sortKey]||'').toString().toLowerCase(); }
+      if(av<bv) return -1*sortDir;
+      if(av>bv) return 1*sortDir;
+      return 0;
+    });
+  }
+  return out;
+}
+
+/* "Clear filters" — resets search + status + unit filters in one click, without
+   touching the currently selected branch (that's navigation, not a filter) or sort. */
+document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
+  document.getElementById('search').value = '';
+  statusFilterValues.clear();
+  unitFilterValues.clear();
+  populateFilterOptions();
+  renderCards();
+});
+
+function toggleExpand(id){
+  if(expandedIds.has(id)){
+    expandedIds.delete(id);
+  } else {
+    expandedIds.clear();
+    expandedIds.add(id);
+  }
+  renderCards();
+}
+
+function renderCards(){
+  const list = document.getElementById('cardList');
+  if(currentBranch===null){
+    list.style.display = 'none';
+    list.innerHTML = '';
+    document.getElementById('rowCount').textContent = '';
+    return;
+  }
+  list.style.display = '';
+  const rows = getFiltered();
+  const scope = recordsInScope();
+  const scopeLabel = currentBranch===null ? '' : ' in ' + currentBranch;
+  document.getElementById('rowCount').textContent = rows.length + ' of ' + scope.length + ' accounts' + scopeLabel;
+  list.innerHTML = '';
+  if(rows.length===0){
+    const div = document.createElement('div');
+    div.className='empty-state';
+    div.textContent = scope.length===0
+      ? (currentBranch===null ? 'No accounts yet. Use "Import Ledger" or "+ Add customer" to populate the dashboard.' : `No accounts in ${currentBranch} yet.`)
+      : 'No accounts match your search or filters.';
+    list.appendChild(div);
+    return;
+  }
+  rows.forEach(r=>{
+    const expanded = expandedIds.has(r.id);
+    const card = document.createElement('div');
+    const hasRemarks = (r.auditorRemarks && r.auditorRemarks.trim()) || (r.lastAuditRemarks && r.lastAuditRemarks.trim());
+    card.className = 'rowcard' + (expanded?' expanded':'') + (hasRemarks?' has-remarks':'');
+
+    const summary = document.createElement('div');
+    summary.className = 'rc-summary';
+    summary.innerHTML = `
+      <div class="rc-avatar">${initials(r.customerName)}</div>
+      <div class="rc-id">
+        <div class="rc-name">${r.customerName || '(no name)'}</div>
+        <div class="rc-sub">${r.model || '—'}${r.engineNo ? ' · '+r.engineNo : ''}</div>
+      </div>
+      <div class="rc-chips">
+        ${currentBranch===null ? `<span class="chip neutral">${branchOf(r)}</span>` : ''}
+        ${r.customerStatus ? `<span class="chip ${statusClass(r.customerStatus)}">${r.customerStatus}</span>` : ''}
+        ${r.unitStatus ? `<span class="chip neutral">${r.unitStatus}</span>` : ''}
+      </div>
+      <div class="rc-balance">
+        <div class="rc-bal-label">Remaining Balance</div>
+        <div class="rc-bal-value">${fmtCurrency(parseNum(r.remainingBalance))}</div>
+      </div>
+      <button type="button" class="rc-quick-delete" data-id="${r.id}" title="Delete this customer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+      </button>
+      <div class="rc-chevron">▾</div>
+    `;
+    summary.addEventListener('click', ()=>toggleExpand(r.id));
+    summary.querySelector('.rc-quick-delete').addEventListener('click', e=>{ e.stopPropagation(); deleteRow(r.id); });
+    card.appendChild(summary);
+
+    /* Quick info strip — SI Date, Model, Engine No, Due Date, Terms, MA, Last
+       Payment, Outstanding Balance, Amount Payment and Date of Audit are all
+       shown here, matching the full detail view. */
+    const quick = document.createElement('div');
+    quick.className = 'rc-quickfields';
+    const QUICK_KEYS = ['siDate','model','engineNo','dueDay','terms','ma','lastPayment','outstandingBalance','amountPaid'];
+    QUICK_KEYS.forEach(key=>{
+      const c = COL_BY_KEY[key];
+      const f = document.createElement('div');
+      f.className = 'rc-qf';
+      f.innerHTML = `<div class="rc-qf-label">${c.label}</div><div class="rc-qf-value">${fieldDisplay(key, r)}</div>`;
+      quick.appendChild(f);
+    });
+    /* Date of Audit — typed manually by the auditor on-site or back at the office,
+       so it's a live editable field right here, always visible, not just when expanded. */
+    const qDateWrap = document.createElement('div');
+    qDateWrap.className = 'rc-qf';
+    const qDateLabel = document.createElement('div');
+    qDateLabel.className = 'rc-qf-label';
+    qDateLabel.textContent = 'Date of Audit';
+    qDateWrap.appendChild(qDateLabel);
+    const qDateInput = document.createElement('input');
+    qDateInput.type = 'text';
+    qDateInput.className = 'date-audit-input';
+    qDateInput.placeholder = 'mm/dd/yyyy';
+    qDateInput.value = r.dateOfAudit || '';
+    qDateInput.addEventListener('click', e=>e.stopPropagation());
+    qDateInput.addEventListener('change', ()=>{
+      r.dateOfAudit = qDateInput.value.trim();
+      saveRecords();
+    });
+    qDateWrap.appendChild(qDateInput);
+    quick.appendChild(qDateWrap);
+    quick.addEventListener('click', ()=>toggleExpand(r.id));
+    card.appendChild(quick);
+
+    const detail = document.createElement('div');
+    detail.className = 'rc-detail';
+
+    const remarks = document.createElement('div');
+    remarks.className = 'rc-remarks';
+
+    /* Auditor Remarks: encoded directly here, no need to open the Edit modal.
+       The block auto-colors green as soon as it has text in it. */
+    const auditorBlock = document.createElement('div');
+    auditorBlock.className = 'rc-remark-block auditor' + (r.auditorRemarks ? ' filled' : '');
+    const auditorLabel = document.createElement('div');
+    auditorLabel.className = 'rc-remark-label';
+    auditorLabel.textContent = 'Auditor Remarks';
+    auditorBlock.appendChild(auditorLabel);
+    const auditorInput = document.createElement('textarea');
+    auditorInput.className = 'rc-remark-input';
+    auditorInput.placeholder = 'I-type ang remarks dito...';
+    auditorInput.value = r.auditorRemarks || '';
+    auditorInput.addEventListener('click', e=>e.stopPropagation());
+    auditorInput.addEventListener('input', ()=>{
+      auditorBlock.classList.toggle('filled', auditorInput.value.trim().length>0);
+      const stillHasRemarks = auditorInput.value.trim().length>0 || !!(r.lastAuditRemarks && r.lastAuditRemarks.trim());
+      card.classList.toggle('has-remarks', stillHasRemarks);
+    });
+    auditorInput.addEventListener('change', ()=>{
+      r.auditorRemarks = auditorInput.value;
+      saveRecords();
+    });
+    auditorBlock.appendChild(auditorInput);
+    remarks.appendChild(auditorBlock);
+
+    const lastBlock = document.createElement('div');
+    lastBlock.className = 'rc-remark-block highlight';
+    lastBlock.innerHTML = `
+      <div class="rc-remark-label">Last Audit Remarks</div>
+      <div class="rc-remark-text">${(r.lastAuditRemarks||'').replace(/</g,'&lt;')}</div>
+    `;
+    remarks.appendChild(lastBlock);
+
+    detail.appendChild(remarks);
+
+    const actions = document.createElement('div');
+    actions.className = 'rc-actions';
+    const unitField = document.createElement('div');
+    unitField.className = 'field-inline';
+    unitField.innerHTML = `<label>Unit status</label>`;
+    const sel = document.createElement('select');
+    sel.className = 'ustat-select ' + unitStatusClass(r.unitStatus);
+    sel.innerHTML = '<option value=""></option>' + COL_BY_KEY.unitStatus.options.map(o=>`<option value="${o}"${o===r.unitStatus?' selected':''}>${o}</option>`).join('');
+    sel.addEventListener('click', e=>e.stopPropagation());
+    sel.addEventListener('change', ()=>{
+      r.unitStatus = sel.value;
+      sel.className = 'ustat-select ' + unitStatusClass(sel.value);
+      saveRecords();
+      renderKpis();
+    });
+    unitField.appendChild(sel);
+    actions.appendChild(unitField);
+
+    const paymentField = document.createElement('div');
+    paymentField.className = 'field-inline';
+    paymentField.innerHTML = `<label>Mode of Payment</label>`;
+    const pmodeSel = document.createElement('select');
+    pmodeSel.className = 'pmode-select ' + paymentModeClass(r.paymentMode);
+    pmodeSel.innerHTML = '<option value=""></option>' + COL_BY_KEY.paymentMode.options.map(o=>`<option value="${o}"${o===r.paymentMode?' selected':''}>${o}</option>`).join('');
+    pmodeSel.addEventListener('click', e=>e.stopPropagation());
+    pmodeSel.addEventListener('change', ()=>{
+      r.paymentMode = pmodeSel.value;
+      pmodeSel.className = 'pmode-select ' + paymentModeClass(pmodeSel.value);
+      saveRecords();
+    });
+    paymentField.appendChild(pmodeSel);
+    actions.appendChild(paymentField);
+
+    const spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    actions.appendChild(spacer);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'link';
+    editBtn.textContent = 'Edit';
+    editBtn.addEventListener('click', e=>{ e.stopPropagation(); openRowModal(r.id); });
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'link danger';
+    delBtn.textContent = 'Delete';
+    delBtn.addEventListener('click', e=>{ e.stopPropagation(); deleteRow(r.id); });
+    actions.appendChild(delBtn);
+
+    detail.appendChild(actions);
+    card.appendChild(detail);
+    list.appendChild(card);
+  });
+}
+
+function renderKpis(){
+  const scope = recordsInScope();
+  const total = scope.length;
+  const overdue = scope.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
+
+  renderStatusBreakdown();
+  renderUnitBreakdown();
+
+  const pct = total>0 ? Math.round(((total-overdue)/total)*100) : null;
+  const chip = document.getElementById('healthChip');
+  if(pct===null){ chip.textContent='No data yet'; chip.classList.remove('warn'); }
+  else{
+    chip.textContent = pct+'% current';
+    if(pct<75) chip.classList.add('warn'); else chip.classList.remove('warn');
+  }
+}
+
+function setBranch(b){
+  currentBranch = b;
+  renderAll();
+}
+
+function isMobileViewport(){ return window.matchMedia('(max-width:720px)').matches; }
+function showPickerBackdrop(show){
+  const bd = document.getElementById('pickerBackdrop');
+  if(!bd) return;
+  if(show && isMobileViewport()) bd.classList.add('show'); else bd.classList.remove('show');
+}
+function closeAllPickerPanels(){
+  ['statusFilterPanel','unitFilterPanel','branchPickerPanel'].forEach(id=>{
+    const p = document.getElementById(id);
+    if(p) p.classList.remove('open');
+  });
+  showPickerBackdrop(false);
+}
+if(!window.__pickerBackdropBound){
+  window.__pickerBackdropBound = true;
+  document.getElementById('pickerBackdrop').addEventListener('click', closeAllPickerPanels);
+}
+
+function renderBranchTabs(){
+  const wrap = document.getElementById('branchTabs');
+  const branches = branchList();
+  if(branches.length===0){ wrap.innerHTML=''; return; }
+
+  const isSingleBranch = currentBranch!==null;
+  const btnLabel = isSingleBranch ? currentBranch : 'Choose a branch…';
+  let html = `<button type="button" class="branch-tab${currentBranch===null?' active':''}" data-branch="__all__">All Branches</button>`;
+  html += `<div class="branch-picker-wrap" id="branchPickerWrap">`;
+  html += `<button type="button" class="branch-picker-btn${isSingleBranch?' active':''}" id="branchPickerBtn">${btnLabel} <span class="caret">▾</span></button>`;
+  html += `<div class="branch-picker-panel" id="branchPickerPanel">`;
+  html += `<div class="picker-panel-title">Piliin ang branch<button type="button" class="picker-panel-close" id="branchPickerCloseBtn">✕</button></div>`;
+  branches.forEach(b=>{
+    const count = records.filter(r=>branchOf(r)===b).length;
+    const sel = currentBranch===b ? ' selected' : '';
+    html += `<div class="branch-picker-item${sel}" data-branch="${b.replace(/"/g,'&quot;')}">${b} <span class="bp-count">${count}</span></div>`;
+  });
+  html += `</div></div>`;
+  wrap.innerHTML = html;
+
+  wrap.querySelector('[data-branch="__all__"]').addEventListener('click', ()=>setBranch(null));
+
+  const panel = document.getElementById('branchPickerPanel');
+  document.getElementById('branchPickerBtn').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    panel.classList.toggle('open');
+    showPickerBackdrop(panel.classList.contains('open'));
+  });
+  const closeBtn = document.getElementById('branchPickerCloseBtn');
+  if(closeBtn) closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeAllPickerPanels(); });
+  panel.querySelectorAll('.branch-picker-item').forEach(item=>{
+    item.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      panel.classList.remove('open');
+      showPickerBackdrop(false);
+      setBranch(item.dataset.branch);
+    });
+  });
+}
+if(!window.__branchPickerOutsideClickBound){
+  window.__branchPickerOutsideClickBound = true;
+  document.addEventListener('click', (e)=>{
+    const wrap = document.getElementById('branchPickerWrap');
+    if(wrap && !wrap.contains(e.target)){
+      const panel = document.getElementById('branchPickerPanel');
+      if(panel) panel.classList.remove('open');
+      showPickerBackdrop(false);
+    }
+  });
+}
+
+function renderBranchOverview(){
+  const wrap = document.getElementById('branchOverview');
+  const branches = branchList();
+  if(currentBranch!==null || branches.length<2){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+  wrap.style.display='block';
+  let html = '<div class="bo-title">Per-Branch Overview</div><div class="bo-table">';
+  branches.forEach(b=>{
+    const recs = records.filter(r=>branchOf(r)===b);
+    const total = recs.length;
+    const overdue = recs.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
+    const balance = recs.reduce((s,r)=>s+parseNum(r.remainingBalance),0);
+    html += `
+      <div class="bo-row" data-branch="${b.replace(/"/g,'&quot;')}">
+        <div class="bo-name">${b}</div>
+        <div class="bo-stat bo-accent"><div class="bo-s-label">Accounts</div><div class="bo-s-value">${total}</div></div>
+        <div class="bo-stat bo-danger"><div class="bo-s-label">Overdue</div><div class="bo-s-value">${overdue}</div></div>
+        <div class="bo-stat"><div class="bo-s-label">Balance</div><div class="bo-s-value">${fmtCurrency(balance)}</div></div>
+      </div>`;
+  });
+  html += '</div>';
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.bo-row').forEach(row=>{
+    row.addEventListener('click', ()=>setBranch(row.dataset.branch));
+  });
+}
+
+function renderAll(){
+  renderBranchTabs();
+  renderBranchOverview();
+  populateFilterOptions();
+  renderCards();
+  renderKpis();
+}
+
+/* import ledger modal */
+const importModalBg = document.getElementById('importModalBg');
+document.getElementById('importBtn').addEventListener('click', ()=>{ document.getElementById('importFile').click(); });
+document.getElementById('importCancel').addEventListener('click', ()=>{
+  importModalBg.classList.remove('open');
+  document.getElementById('importFile').value='';
+  document.getElementById('fileName').textContent='No file chosen';
+});
+
+function processImportFile(file){
+  return new Promise((resolve, reject)=>{
+    const isExcel = /\.(xlsx|xls)$/i.test(file.name);
+    const branchHint = branchNameFromFilename(file.name);
+    if(isExcel){
+      if(typeof XLSX === 'undefined'){ reject(new Error('excel-reader-unavailable')); return; }
+      const reader = new FileReader();
+      reader.onload = (evt)=>{
+        try{
+          const wb = XLSX.read(evt.target.result, {type:'array', cellDates:true});
+          let totalAdded=0, totalAttempted=0;
+          wb.SheetNames.forEach(name=>{
+            const sheet = wb.Sheets[name];
+            const rows2D = XLSX.utils.sheet_to_json(sheet, {header:1, blankrows:false, defval:'', raw:false, dateNF:'mm/dd/yyyy'});
+            const {added, attempted} = runImportFromRows(rows2D, branchHint);
+            totalAdded += added; totalAttempted += attempted;
+          });
+          resolve({added: totalAdded, attempted: totalAttempted});
+        }catch(err){ reject(err); }
+      };
+      reader.onerror = ()=>reject(new Error('read-error'));
+      reader.readAsArrayBuffer(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (evt)=>{
+        const rows2D = parseDelimitedRows(evt.target.result);
+        const {added, attempted} = runImportFromRows(rows2D, branchHint);
+        resolve({added, attempted});
+      };
+      reader.onerror = ()=>reject(new Error('read-error'));
+      reader.readAsText(file);
+    }
+  });
+}
+
+document.getElementById('importFile').addEventListener('change', async (e)=>{
+  const files = Array.from(e.target.files);
+  const nameEl = document.getElementById('fileName');
+  if(files.length===0){ nameEl.textContent='No file chosen'; return; }
+  nameEl.textContent = files.length===1 ? files[0].name : `${files.length} files selected`;
+  autoBackupBeforeImport('pre-ledger-import');
+
+  let totalAdded = 0, totalAttempted = 0;
+  const failedFiles = [];
+  for(const file of files){
+    try{
+      const {added, attempted} = await processImportFile(file);
+      totalAdded += added; totalAttempted += attempted;
+    }catch(err){
+      failedFiles.push(file.name);
+    }
+  }
+
+  document.getElementById('pasteArea').value='';
+  document.getElementById('pasteBranchName').value='';
+  document.getElementById('importFile').value='';
+  nameEl.textContent='No file chosen';
+  importModalBg.classList.remove('open');
+  if(totalAdded>0){ saveRecords(); renderAll(); }
+});
+
+document.getElementById('importConfirm').addEventListener('click', ()=>{
+  const raw = document.getElementById('pasteArea').value;
+  const branchHint = document.getElementById('pasteBranchName').value.trim();
+  if(raw.trim()) autoBackupBeforeImport('pre-ledger-import');
+  const rows2D = parseDelimitedRows(raw);
+  const {added, attempted} = runImportFromRows(rows2D, branchHint);
+  document.getElementById('pasteArea').value='';
+  document.getElementById('pasteBranchName').value='';
+  document.getElementById('importFile').value='';
+  document.getElementById('fileName').textContent='No file chosen';
+  importModalBg.classList.remove('open');
+  if(added>0){ saveRecords(); renderAll(); }
+  else if(attempted>0){ alert('No valid rows found — make sure "Customer Name" is filled in for each row.'); }
+});
+
+/* update Last Audit Remarks-only modal */
+const remarksModalBg = document.getElementById('remarksModalBg');
+document.getElementById('remarksImportBtn').addEventListener('click', ()=>{ document.getElementById('remarksImportFile').click(); });
+document.getElementById('remarksImportCancel').addEventListener('click', ()=>{
+  remarksModalBg.classList.remove('open');
+  document.getElementById('remarksImportFile').value='';
+  document.getElementById('remarksFileName').textContent='No file chosen';
+});
+
+function finishRemarksImport(updated, unmatched, fileCount, failedFiles){
+  document.getElementById('remarksPasteArea').value='';
+  document.getElementById('remarksImportFile').value='';
+  document.getElementById('remarksFileName').textContent='No file chosen';
+  remarksModalBg.classList.remove('open');
+  if(updated>0){ saveRecords(); renderAll(); }
+  let msg = updated>0
+    ? (fileCount>1 ? `Updated Last Audit Remarks for ${updated} record(s) mula sa ${fileCount} file.` : `Updated Last Audit Remarks for ${updated} record(s).`)
+    : 'No matching customers were found.';
+  if(unmatched && unmatched.length>0){
+    const shown = unmatched.slice(0,15).join('\n');
+    msg += `\n\n${unmatched.length} name(s) in the file(s) did not match any existing customer and were skipped:\n${shown}${unmatched.length>15?`\n...and ${unmatched.length-15} more`:''}`;
+  }
+  if(failedFiles && failedFiles.length>0){
+    msg += `\n\nHindi mabuksan (baka sirang file o hindi supported): ${failedFiles.join(', ')}`;
+  }
+  alert(msg);
+}
+
+function processRemarksFile(file){
+  return new Promise((resolve, reject)=>{
+    const isExcel = /\.(xlsx|xls)$/i.test(file.name);
+    if(isExcel){
+      if(typeof XLSX === 'undefined'){ reject(new Error('excel-reader-unavailable')); return; }
+      const reader = new FileReader();
+      reader.onload = (evt)=>{
+        try{
+          const wb = XLSX.read(evt.target.result, {type:'array', cellDates:true});
+          let totalUpdated = 0; let totalUnmatched = [];
+          wb.SheetNames.forEach(name=>{
+            const sheet = wb.Sheets[name];
+            const rows2D = XLSX.utils.sheet_to_json(sheet, {header:1, blankrows:false, defval:'', raw:false, dateNF:'mm/dd/yyyy'});
+            const {updated, unmatched} = runRemarksImportFromRows(rows2D);
+            totalUpdated += updated; totalUnmatched = totalUnmatched.concat(unmatched);
+          });
+          resolve({updated: totalUpdated, unmatched: totalUnmatched});
+        }catch(err){ reject(err); }
+      };
+      reader.onerror = ()=>reject(new Error('read-error'));
+      reader.readAsArrayBuffer(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (evt)=>{
+        const rows2D = parseDelimitedRows(evt.target.result);
+        const {updated, unmatched} = runRemarksImportFromRows(rows2D);
+        resolve({updated, unmatched});
+      };
+      reader.onerror = ()=>reject(new Error('read-error'));
+      reader.readAsText(file);
+    }
+  });
+}
+
+document.getElementById('remarksImportFile').addEventListener('change', async (e)=>{
+  const files = Array.from(e.target.files);
+  const nameEl = document.getElementById('remarksFileName');
+  if(files.length===0){ nameEl.textContent='No file chosen'; return; }
+  nameEl.textContent = files.length===1 ? files[0].name : `${files.length} files selected`;
+  autoBackupBeforeImport('pre-remarks-update');
+
+  let totalUpdated = 0, totalUnmatched = [];
+  const failedFiles = [];
+  for(const file of files){
+    try{
+      const {updated, unmatched} = await processRemarksFile(file);
+      totalUpdated += updated; totalUnmatched = totalUnmatched.concat(unmatched);
+    }catch(err){
+      failedFiles.push(file.name);
+    }
+  }
+
+  finishRemarksImport(totalUpdated, totalUnmatched, files.length, failedFiles);
+});
+
+document.getElementById('remarksImportConfirm').addEventListener('click', ()=>{
+  const raw = document.getElementById('remarksPasteArea').value;
+  if(raw.trim()) autoBackupBeforeImport('pre-remarks-update');
+  const rows2D = parseDelimitedRows(raw);
+  const {updated, unmatched} = runRemarksImportFromRows(rows2D);
+  finishRemarksImport(updated, unmatched);
+});
+
+/* add/edit row modal */
+const rowModalBg = document.getElementById('rowModalBg');
+function buildRowForm(rec){
+  const grid = document.getElementById('rowForm');
+  grid.innerHTML = '';
+  COLUMNS.forEach(c=>{
+    const wrap = document.createElement('div');
+    if(c.key==='auditorRemarks' || c.key==='lastAuditRemarks') wrap.className='full';
+    const label = document.createElement('label');
+    label.textContent = c.label;
+    wrap.appendChild(label);
+    let input;
+    if(c.type==='select'){
+      input = document.createElement('select');
+      input.innerHTML = '<option value=""></option>' + c.options.map(o=>`<option value="${o}">${o}</option>`).join('');
+      input.value = rec[c.key] || '';
+    } else {
+      input = document.createElement('input');
+      input.type = 'text';
+      input.value = rec[c.key] || '';
+    }
+    input.dataset.key = c.key;
+    wrap.appendChild(input);
+    grid.appendChild(wrap);
+  });
+}
+function openRowModal(id){
+  editingId = id || null;
+  const rec = id ? records.find(r=>r.id===id) : (currentBranch!==null ? {branch: currentBranch} : {});
+  document.getElementById('rowModalTitle').textContent = id ? 'Edit customer' : 'Add customer';
+  buildRowForm(rec||{});
+  rowModalBg.classList.add('open');
+}
+document.getElementById('addBtn').addEventListener('click', ()=>openRowModal(null));
+document.getElementById('rowCancel').addEventListener('click', ()=>{ rowModalBg.classList.remove('open'); });
+document.getElementById('rowSave').addEventListener('click', ()=>{
+  const inputs = document.querySelectorAll('#rowForm [data-key]');
+  const data = {};
+  inputs.forEach(inp=>{ data[inp.dataset.key] = inp.value.trim(); });
+  if(!data.customerName){
+    alert('Customer name is required.');
+    return;
+  }
+  if(editingId){
+    const idx = records.findIndex(r=>r.id===editingId);
+    records[idx] = {...records[idx], ...data};
+  } else {
+    records.push({id: uid(), ...data});
+  }
+  rowModalBg.classList.remove('open');
+  saveRecords();
+  renderAll();
+});
+function deleteRow(id){
+  if(!confirm('Delete this customer record?')) return;
+  const rec = records.find(r=>r.id===id);
+  pushUndo(`Deleted "${rec ? (rec.customerName || '(no name)') : 'customer record'}"`);
+  expandedIds.delete(id);
+  records = records.filter(r=>r.id!==id);
+  saveRecords();
+  renderAll();
+}
+
+document.getElementById('search').addEventListener('input', renderCards);
+document.getElementById('sortSelect').addEventListener('change', (e)=>{
+  const [key,dir] = e.target.value.split(':');
+  sortKey = key; sortDir = parseInt(dir,10);
+  renderCards();
+});
+
+const clearBranchModalBg = document.getElementById('clearBranchModalBg');
+const clearBranchList = document.getElementById('clearBranchList');
+
+function clearBranchRecords(branchName){
+  const idsToRemove = new Set(records.filter(r=>branchOf(r)===branchName).map(r=>r.id));
+  pushUndo(`Cleared branch "${branchName}" (${idsToRemove.size} account${idsToRemove.size===1?'':'s'})`);
+  records = records.filter(r=>!idsToRemove.has(r.id));
+  currentBranch = branchList().includes(currentBranch) ? currentBranch : null;
+  expandedIds.clear();
+  saveRecords();
+  renderAll();
+}
+
+document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+  if(records.length===0){ alert('Wala nang laman dito.'); return; }
+  renderClearBranchList();
+  clearBranchModalBg.classList.add('open');
+});
+document.getElementById('deleteAllBtn').addEventListener('click', ()=>{
+  if(records.length===0){ alert('Wala nang laman dito.'); return; }
+  if(!confirm(`Buburahin LAHAT ng ${records.length} record sa LAHAT ng branch. Hindi na ito puwedeng ibalik maliban sa Undo agad. Sigurado ka ba?`)) return;
+  pushUndo(`Deleted all records (${records.length} account${records.length===1?'':'s'})`);
+  records = [];
+  currentBranch = null;
+  expandedIds.clear();
+  saveRecords();
+  renderAll();
+  settingsModalBg.classList.remove('open');
+});
+function renderClearBranchList(){
+  const branches = branchList();
+  let html = '';
+  branches.forEach(b=>{
+    const count = records.filter(r=>branchOf(r)===b).length;
+    html += `<div class="cb-item"><div class="cb-left"><span class="cb-name">${b}</span></div><div class="cb-right"><span class="cb-meta">${count} account${count===1?'':'s'}</span><button type="button" class="cb-delete" data-branch="${b.replace(/"/g,'&quot;')}" title="Delete ${b}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg></button></div></div>`;
+  });
+  clearBranchList.innerHTML = html;
+  clearBranchList.querySelectorAll('.cb-delete').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const b = btn.dataset.branch;
+      clearBranchRecords(b);
+      if(branchList().length===0){ clearBranchModalBg.classList.remove('open'); }
+      else{ renderClearBranchList(); }
+    });
+  });
+}
+document.getElementById('clearBranchCancel').addEventListener('click', ()=>{ clearBranchModalBg.classList.remove('open'); });
+clearBranchModalBg.addEventListener('click', (e)=>{ if(e.target===clearBranchModalBg) clearBranchModalBg.classList.remove('open'); });
+
+function csvFromRecords(recs){
+  const header = COLUMNS.map(c=>c.label).join(',');
+  const rows = recs.map(r=>COLUMNS.map(c=>{
+    const v = (r[c.key]||'').toString().replace(/"/g,'""');
+    return v.includes(',') ? `"${v}"` : v;
+  }).join(','));
+  return [header, ...rows].join('\n');
+}
+function downloadCSV(csv, filename){
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function timestampSlug(){
+  return new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+}
+/* Safety net: auto-export a CSV snapshot of the *entire* current dataset right
+   before an import is applied, so there's always a fallback file if the
+   upload turns out to be wrong. No-op when the dashboard is still empty. */
+function autoBackupBeforeImport(label){
+  if(records.length===0) return;
+  downloadCSV(csvFromRecords(records), `genesis-audited-account-${label}-backup-${timestampSlug()}.csv`);
+}
+
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const fname = currentBranch===null ? 'genesis-audited-account.csv' : `genesis-audited-account-${currentBranch.replace(/[^a-z0-9]+/gi,'-')}.csv`;
+  downloadCSV(csvFromRecords(recordsInScope()), fname);
+});
+
+/* Print only Customer Name -> MA columns (matches the plain spreadsheet layout),
+   for whichever records are currently in view (branch scope + search + filters). */
+function escHtml(s){
+  return (s===undefined||s===null?'':s).toString()
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+/* Some imported sheets carry leftover "Grand Total" / "Sub Total" summary rows
+   from the original spreadsheet — these aren't real customers, so exclude them
+   from the printed list. */
+function isSummaryRow(r){
+  const n = (r.customerName||'').toString().trim().toLowerCase();
+  return n==='grand total' || n==='sub total' || n==='subtotal' || n==='total';
+}
+document.getElementById('printListBtn').addEventListener('click', ()=>{
+  const recs = getFiltered().filter(r=>!isSummaryRow(r));
+  const printCols = [
+    {key:'customerName', label:'Customer Name'},
+    {key:'siDate', label:'SI Date'},
+    {key:'model', label:'Model'},
+    {key:'engineNo', label:'Engine No'},
+    {key:'dueDay', label:'Due Day'},
+    {key:'terms', label:'Terms'},
+    {key:'ma', label:'MA'}
+  ];
+  const headHtml = printCols.map(c=>`<th>${escHtml(c.label)}</th>`).join('');
+  const rowsHtml = recs.map(r=>{
+    const cells = printCols.map(c=>{
+      const v = c.key==='ma' ? fmtCurrency(parseNum(r[c.key])) : escHtml(r[c.key]);
+      return `<td>${v}</td>`;
+    }).join('');
+    return `<tr>${cells}</tr>`;
+  }).join('') || `<tr><td colspan="${printCols.length}" style="text-align:center;color:#8C99AB;">No data</td></tr>`;
+  const scopeLabel = currentBranch===null ? 'All Branches' : currentBranch;
+  const win = window.open('', '_blank');
+  if(!win){ alert('Naka-block ang pop-up. Payagan ang pop-ups para ma-print ang listahan.'); return; }
+  win.document.write(`<!DOCTYPE html><html><head><title>GAA Customer List</title><meta charset="UTF-8">
+    <style>
+      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
+      .brand h1{font-size:17px;margin:0 0 4px;color:#14283F;}
+      .meta{font-size:11.5px;color:#8C99AB;margin-bottom:18px;}
+      table{width:100%;border-collapse:collapse;}
+      th,td{border:1px solid #CDD5E0;padding:6px 9px;font-size:11.5px;text-align:left;}
+      th{background:#E9EEF5;color:#14283F;}
+      tr:nth-child(even) td{background:#F7F9FB;}
+      @media print{ body{padding:14px;} thead{display:table-header-group;} }
+    </style></head><body>
+    <div class="brand">
+      <h1>Branch: ${escHtml(scopeLabel)}</h1>
+    </div>
+    <div class="meta">${recs.length} record(s) &nbsp;•&nbsp; Generated ${new Date().toLocaleString('en-PH')}</div>
+    <table><thead><tr>${headHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>
+  </body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{ win.print(); }, 350);
+});
+
+document.getElementById('printSummaryBtn').addEventListener('click', ()=>{
+  const branches = branchList();
+  const total = records.length;
+  const overdue = records.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
+  const balance = records.reduce((s,r)=>s+parseNum(r.remainingBalance),0);
+  const branchRowsHtml = branches.map(b=>{
+    const recs = records.filter(r=>branchOf(r)===b);
+    const bTotal = recs.length;
+    const bOverdue = recs.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
+    const bBalance = recs.reduce((s,r)=>s+parseNum(r.remainingBalance),0);
+    return `<tr><td>${b}</td><td>${bTotal}</td><td>${bOverdue}</td><td>${fmtCurrency(bBalance)}</td></tr>`;
+  }).join('') || '<tr><td colspan="4" style="text-align:center;color:#8C99AB;">No data</td></tr>';
+  const unitCounts = {};
+  UNIT_STATUS_ORDER.forEach(o=>unitCounts[o]=0);
+  records.forEach(r=>{
+    const v = (r.unitStatus||'').toUpperCase().trim();
+    if(v && unitCounts.hasOwnProperty(v)) unitCounts[v]++;
+  });
+  const unitRowsHtml = UNIT_STATUS_ORDER.map(o=>`<tr><td>${o}</td><td>${unitCounts[o]}</td></tr>`).join('');
+  const win = window.open('', '_blank');
+  if(!win){ alert('Naka-block ang pop-up. Payagan ang pop-ups para ma-print ang summary.'); return; }
+  win.document.write(`<!DOCTYPE html><html><head><title>GAA Audit Summary</title><meta charset="UTF-8">
+    <style>
+      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
+      .brand{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+      .brand h1{font-size:19px;margin:0;color:#14283F;}
+      .brand .sub{font-size:12px;color:#5B6B80;}
+      .meta{font-size:11.5px;color:#8C99AB;margin-bottom:22px;}
+      h3{font-size:13px;color:#14283F;text-transform:uppercase;letter-spacing:.04em;margin:22px 0 8px;}
+      table{width:100%;border-collapse:collapse;}
+      th,td{border:1px solid #CDD5E0;padding:7px 10px;font-size:12px;text-align:left;}
+      th{background:#E9EEF5;color:#14283F;}
+      .kpis{display:flex;gap:14px;margin-top:6px;}
+      .kpi{border:1px solid #CDD5E0;border-radius:8px;padding:10px 14px;flex:1;}
+      .kpi .l{font-size:10.5px;color:#5B6B80;text-transform:uppercase;letter-spacing:.03em;}
+      .kpi .v{font-size:17px;font-weight:700;color:#14283F;}
+      @media print{ body{padding:14px;} }
+    </style></head><body>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20.5" fill="#14283F" stroke="#C9A54A" stroke-width="1.6"/><circle cx="22" cy="22" r="17.3" fill="none" stroke="#C9A54A" stroke-width="0.5" opacity="0.5"/><path d="M22 8 L23.1 10 L22 11.3 L20.9 10 Z" fill="#C9A54A" opacity="0.9"/><text x="22" y="25.8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="600" fill="#F1E1B0" letter-spacing="1.6">GAA</text><path d="M13 30 H31" stroke="#C9A54A" stroke-width="0.6" opacity="0.55"/></svg>
+      <div><h1>Genesis Audited Account — Audit Summary</h1><div class="sub">Customer ledger &amp; collections dashboard</div></div>
+    </div>
+    <div class="meta">Generated ${new Date().toLocaleString('en-PH')}</div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Total Accounts</div><div class="v">${total}</div></div>
+      <div class="kpi"><div class="l">Overdue / Delinquent</div><div class="v">${overdue}</div></div>
+      <div class="kpi"><div class="l">Total Remaining Balance</div><div class="v">${fmtCurrency(balance)}</div></div>
+    </div>
+    <h3>Per-Branch Breakdown</h3>
+    <table><thead><tr><th>Branch</th><th>Accounts</th><th>Overdue</th><th>Total Balance</th></tr></thead><tbody>${branchRowsHtml}</tbody></table>
+    <h3>Unit Status Breakdown</h3>
+    <table><thead><tr><th>Status</th><th>Count</th></tr></thead><tbody>${unitRowsHtml}</tbody></table>
+  </body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{ win.print(); }, 350);
+});
+
+loadRecords();
+
+/* Registers the service worker so Chrome/Android offers "Add to Home
+   screen" / "Install app" for this dashboard. Safe no-op on browsers
+   without SW support, and safe if sw.js 404s (e.g. hosted differently). */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
