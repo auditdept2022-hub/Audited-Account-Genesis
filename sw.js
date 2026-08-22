@@ -6,7 +6,7 @@
 const CACHE_NAME = 'gaa-shell-v1';
 const SHELL_FILES = [
   './',
-  './Index.html',
+  './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
