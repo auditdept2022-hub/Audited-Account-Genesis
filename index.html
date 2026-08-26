@@ -1560,7 +1560,14 @@ function gsRun(fnName, ...args){
     }
     try{
       if(fnName === 'getRecords'){
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getRecords`);
+        // cache: 'no-store' + a unique cache-busting param (_t) so a PWA's
+        // service worker / the phone's HTTP cache can never hand back a
+        // stale response for this exact URL after a save. Without this,
+        // saves can succeed on the actual Sheet (confirmed correct there)
+        // while the dashboard itself keeps showing pre-edit data after a
+        // refresh, because it's reading a cached response instead of
+        // hitting the network.
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getRecords&_t=${Date.now()}`, {cache: 'no-store'});
         if(!res.ok) throw new Error('Network error: ' + res.status);
         const data = await res.json();
         if(!data.success) throw new Error(data.error || 'Failed to load records');
@@ -1595,7 +1602,8 @@ function gsRun(fnName, ...args){
         return;
       }
       if(fnName === 'getActivityLog'){
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getActivityLog`);
+        // same no-store + cache-busting fix as getRecords above.
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getActivityLog&_t=${Date.now()}`, {cache: 'no-store'});
         if(!res.ok) throw new Error('Network error: ' + res.status);
         const data = await res.json();
         if(!data.success) throw new Error(data.error || 'Failed to load history');
@@ -1986,7 +1994,11 @@ async function saveRecords(){
 }
 
 async function trySync(){
-  if(syncInFlight) return;
+  // If a save is already in flight, don't just drop this call silently —
+  // schedule a retry so this (possibly newer) edit still gets pushed once
+  // the current one finishes, instead of only relying on the in-flight
+  // request to have already picked up the latest data.
+  if(syncInFlight){ scheduleRetry(); return; }
   if(!navigator.onLine){ updateSyncStatus(); scheduleRetry(); return; }
   syncInFlight = true;
   updateSyncStatus();
