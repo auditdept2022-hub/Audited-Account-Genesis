@@ -1,17 +1,32 @@
-const CACHE_NAME = 'gaa-dashboard-v2'; // bumped so old cached API responses from v1 get purged
+const CACHE_NAME = 'gaa-dashboard-v3'; // bumped to pick up the favicon precache fix below
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './favicon-32.png',
+  './favicon-16.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then((cache) =>
+        // Individual cache.add() calls with their own catch, instead of one
+        // cache.addAll(). addAll() is all-or-nothing — if even one URL in
+        // the list 404s (e.g. a favicon that isn't actually deployed at
+        // this path), the WHOLE install fails and the service worker never
+        // activates at all. Doing them one at a time means a single
+        // missing/renamed asset just gets skipped, and everything else
+        // still gets precached normally.
+        Promise.all(
+          PRECACHE_URLS.map((url) =>
+            cache.add(url).catch((err) => console.warn('Precache skipped for', url, err))
+          )
+        )
+      )
       .then(() => self.skipWaiting())
   );
 });
