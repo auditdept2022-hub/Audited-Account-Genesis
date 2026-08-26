@@ -2063,6 +2063,59 @@ async function refreshFromServer(){
 }
 document.getElementById('refreshBtn').addEventListener('click', refreshFromServer);
 
+/* ---------- Quiet auto-refresh ----------
+   Edits made on one device don't appear on other open devices until
+   something asks the server for the latest copy — up to now that only
+   happened on page load or a manual Refresh tap. This timer does that
+   automatically every AUTO_REFRESH_MS while the app is open in the
+   foreground, so a second device (e.g. a computer left open) picks up
+   phone edits without anyone remembering to click Refresh.
+
+   Runs only when it's actually safe to swap in server data:
+   - tab/app is the visible one right now (no point spending data/battery
+     refreshing something nobody's looking at, and avoids surprising a
+     background tab by changing its data underneath it)
+   - online, not already mid-sync
+   - no unsynced local edits on THIS device (never overwrite those)
+   - no modal/edit form currently open, so an in-progress edit here is
+     never yanked out from under the person mid-typing
+   Unlike the manual Refresh button, this does NOT clear expandedIds —
+   whatever row(s) are open on screen stay open across a quiet refresh. */
+const AUTO_REFRESH_MS = 45000; // 45s
+
+function isAnyModalOpen(){
+  if(editingId) return true;
+  return Array.from(document.querySelectorAll('.modal-bg')).some(m => m.classList.contains('open'));
+}
+
+async function autoRefreshTick(){
+  if(document.visibilityState !== 'visible') return;
+  if(!navigator.onLine) return;
+  if(syncInFlight || pendingSync) return;
+  if(isAnyModalOpen()) return;
+  try{
+    const serverRecords = await gsRun('getRecords');
+    records = serverRecords;
+    writeLocalCache(records);
+    noBackendLink = false;
+    markSynced();
+    renderAll();
+    updateSyncStatus();
+  }catch(e){
+    // Silent on purpose — this runs in the background, so a hiccup here
+    // shouldn't pop an error at the user. The next tick (or the visible
+    // sync-status indicator) will reflect anything that's actually wrong.
+    if(e && e.noBackend) noBackendLink = true;
+  }
+}
+setInterval(autoRefreshTick, AUTO_REFRESH_MS);
+// Also fire once right away whenever the app comes back into view (e.g.
+// switching back to this tab, or reopening the PWA) so it doesn't wait a
+// full interval to catch up on changes made elsewhere while it was hidden.
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'visible') autoRefreshTick();
+});
+
 /* Brief auto-hiding confirmation toast — used for things like a successful
    backend connection, where a one-time confirmation is useful but a
    permanent banner/chip would be too noisy. */
