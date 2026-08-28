@@ -104,6 +104,9 @@ body{
   border:1px solid rgba(255,255,255,0.4);
 }
 .appbar .health.warn{background:rgba(255,255,255,0.95);color:var(--bad);border-color:rgba(255,255,255,0.4);}
+/* Two separate status chips — sync state and data-completeness are
+   different pieces of information, so each gets its own pill instead of
+   being merged into one shared box. */
 .appbar .sync-status{
   font-size:12.5px;
   padding:7px 14px;
@@ -122,6 +125,21 @@ body{
 .appbar .sync-status.offline .dot{background:var(--bad);}
 .appbar .sync-status.syncing{color:var(--gold);}
 .appbar .sync-status.syncing .dot{background:var(--gold);animation:pulse-dot 1s ease-in-out infinite;}
+.appbar .health{
+  font-size:12.5px;
+  padding:7px 14px;
+  border-radius:6px;
+  font-weight:600;
+  background:rgba(255,255,255,0.95);
+  color:var(--good);
+  border:1px solid rgba(255,255,255,0.4);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.appbar .health svg{width:13px;height:13px;flex:none;}
+.appbar .health.warn{color:var(--bad);}
 /* Notification bell — shows how many customer edits are saved on this device
    but not yet uploaded to the Google Sheet (handy in areas with no signal). */
 .notif-badge{
@@ -141,6 +159,22 @@ body{
 .notif-item:hover{background:var(--surface-alt);}
 .notif-item .ni-reason{font-size:10px;color:var(--ink-faint);white-space:nowrap;flex:0 0 auto;}
 .notif-empty{font-size:12.5px;color:var(--ink-faint);padding:12px 6px;text-align:center;}
+/* "More" menu — combines Settings + History (the two least-frequently-tapped
+   header actions) behind one icon instead of two, using the same fixed-position
+   + JS-placement pattern as the notif/search panels so it stays on-screen. */
+.more-panel{
+  position:fixed;width:180px;max-width:calc(100vw - 24px);
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;
+  box-shadow:var(--shadow-md);z-index:45;display:none;padding:6px;
+}
+.more-panel.open{display:block;}
+.more-item{
+  display:flex;align-items:center;gap:10px;width:100%;
+  padding:9px 10px;border:none;background:none;border-radius:7px;
+  font-family:inherit;font-size:13px;color:var(--ink);cursor:pointer;text-align:left;
+}
+.more-item:hover{background:var(--surface-alt);}
+.more-item svg{width:16px;height:16px;flex:none;color:var(--ink-soft);}
 /* Bigger, harder-to-miss banner (vs. the small header chip) that only shows up
    when something needs attention: offline, still syncing, or not connected. */
 .conn-banner{display:none;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
@@ -171,35 +205,27 @@ body{
 .refresh-btn.spinning svg{animation:spin-refresh 0.7s linear infinite;}
 @keyframes spin-refresh{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-/* Compact undo/redo strip — kept separate from the main appbar button
-   group, small + tightly packed like the classic spreadsheet toolbar. */
-.mini-toolbar{
-  display:inline-flex;
-  align-items:center;
-  gap:1px;
-  background:var(--surface);
-  border:1px solid var(--border-strong);
-  border-radius:6px;
-  padding:2px;
-  margin-bottom:12px;
-  box-shadow:var(--shadow-sm);
+/* Undo/Redo live in the header (see .refresh-btn) alongside the other
+   quick actions. Only the search bar below stays pinned on scroll (see
+   .search-bar-sticky) — the header itself scrolls away normally so it
+   doesn't eat into space meant for viewing the customer list. */
+.refresh-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;}
+/* Search — a plain always-visible bar (not hidden behind an icon toggle),
+   pinned to the top of the viewport while scrolling so it's always
+   reachable without permanently pinning the rest of the header too. */
+.search-bar-sticky{
+  position:sticky;top:8px;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:10px;box-shadow:var(--shadow-md);
+  padding:11px 16px;margin-bottom:16px;
 }
-.mini-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:26px;
-  height:26px;
-  border-radius:4px;
-  border:none;
-  background:transparent;
-  color:var(--ink-soft);
-  cursor:pointer;
+.search-bar-icon{width:18px;height:18px;flex:none;color:var(--ink-faint);}
+.search-bar-input{
+  flex:1 1 auto;border:none;outline:none;background:transparent;
+  font-family:inherit;font-size:13.5px;color:var(--ink);padding:0;
 }
-.mini-btn svg{width:16px;height:16px;}
-.mini-btn:hover:not(:disabled){background:var(--surface-alt);color:var(--ink);}
-.mini-btn:active:not(:disabled){background:var(--border);}
-.mini-btn:disabled{opacity:0.32;cursor:not-allowed;}
+.search-bar-input::placeholder{color:var(--ink-faint);}
 
 /* kpi row */
 .kpis{
@@ -257,6 +283,8 @@ body{
 .ub-chip.total-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;}
 .ub-chip.for-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 .ub-chip.not-confirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+.ub-chip.damage{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bd);}
+.ub-chip.carnap{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);}
 .ub-chip.blank{background:#fff;color:var(--ink-faint);border-color:var(--border-strong);border-style:dashed;}
 .ub-chip{cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;}
 .ub-chip:hover{box-shadow:0 0 0 2px rgba(20,40,63,0.12);}
@@ -369,6 +397,12 @@ body{
 .ms-item:hover{background:var(--surface-alt);}
 .ms-item input[type=checkbox]{margin:0;accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;}
 .ms-item span{overflow:hidden;text-overflow:ellipsis;}
+.ms-clear-item{
+  display:block;width:100%;text-align:left;padding:8px 12px;border-radius:7px;cursor:pointer;
+  font-size:12.5px;color:var(--accent);font-weight:600;background:none;border:none;
+  border-bottom:1px solid var(--border);margin-bottom:4px;
+}
+.ms-clear-item:hover{background:var(--surface-alt);}
 .picker-panel-title{display:none;}
 .picker-backdrop{display:none;}
 
@@ -395,28 +429,8 @@ body{
 /* Only the search field freezes on scroll — kept small on purpose so it
    doesn't eat up space; the filters/sort/add-customer row below scrolls
    away normally. */
-.search-bar{
-  display:flex;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px 12px;
-  margin-bottom:10px;
-  box-shadow:var(--shadow-sm);
-  position:sticky;
-  top:8px;
-  z-index:40;
-}
-.search-bar input[type=text]{
-  font-family:inherit;
-  font-size:13px;
-  padding:8px 11px;
-  border:1px solid var(--border-strong);
-  border-radius:8px;
-  background:var(--surface-alt);
-  color:var(--ink);
-  width:100%;
-}
+
+
 /* toolbar */
 .toolbar{
   display:flex;
@@ -507,6 +521,13 @@ body{
 .rc-bal-value{font-size:14.5px;font-weight:700;color:var(--ink);}
 .rc-chevron{flex:0 0 auto;color:var(--ink-faint);font-size:13px;transition:transform .15s ease;width:18px;text-align:center;}
 .rowcard.expanded .rc-chevron{transform:rotate(180deg);color:var(--accent);}
+.rc-back{
+  display:none;flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface-alt);color:var(--ink-soft);
+  align-items:center;justify-content:center;cursor:pointer;
+}
+.rc-back svg{width:16px;height:16px;}
+.rc-back:hover{background:var(--accent-bg);color:var(--accent);border-color:var(--accent);}
 .rc-quick-delete{
   flex:0 0 auto;display:flex;align-items:center;justify-content:center;
   width:30px;height:30px;border-radius:6px;border:1px solid transparent;
@@ -516,20 +537,32 @@ body{
 .rc-quick-delete svg{width:15px;height:15px;}
 .rc-quick-delete:hover{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
 
-/* quick-info strip — always visible under the summary line, no expand needed */
+/* quick-info strip — hidden until the card is tapped/expanded, so the list
+   stays a clean one-line-per-customer view on mobile. Tapping a card is the
+   only thing that reveals it, and only for that one card (see toggleExpand).
+   A real grid (not flex-wrap) so SI Date/Engine No/MA/Date of Audit always
+   line up in column 1, and Model/Due Date/Last Payment/Amount Payment
+   always line up in column 2, no matter how long any one value is. */
 .rc-quickfields{
-  display:flex;flex-wrap:wrap;
-  gap:10px 26px;
+  display:none;
+  grid-template-columns:repeat(3,1fr);
+  column-gap:16px;row-gap:10px;
   padding:0 16px 13px 68px;
   cursor:pointer;
   border-top:1px dashed var(--border);
   margin-top:-1px;
   padding-top:11px;
 }
-.rc-qf{display:flex;flex-direction:column;gap:3px;min-width:76px;}
+.rowcard.expanded .rc-quickfields{display:grid;}
+/* Desktop/tablet: same fields, same order, but spread across a wider grid
+   instead of staying squeezed into the narrow phone-width columns. */
+@media (min-width:721px){
+  .rc-quickfields{grid-template-columns:repeat(6,1fr);padding-left:84px;}
+}
+.rc-qf-wide{grid-column:span 2;}
+.rc-qf{display:flex;flex-direction:column;gap:3px;min-width:0;}
 .rc-qf .rc-qf-label{font-size:9.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em;font-weight:600;}
 .rc-qf .rc-qf-value{font-size:12px;color:var(--ink);font-weight:600;}
-.rc-qf input.date-audit-input{padding:4px 7px;font-size:11.5px;width:112px;}
 
 .rc-detail{display:none;border-top:1px solid var(--border);padding:16px;background:var(--surface-alt);}
 .rowcard.expanded .rc-detail{display:block;}
@@ -566,6 +599,10 @@ body{
 }
 .rc-actions button.link:hover{background:var(--neutral-bg);color:var(--ink);}
 .rc-actions button.link.danger:hover{background:var(--bad-bg);color:var(--bad);}
+.rc-actions button.link:disabled{opacity:0.4;cursor:not-allowed;}
+.rc-actions button.link:disabled:hover{background:none;color:var(--ink-soft);}
+select:disabled.ustat-select, select:disabled.pmode-select{opacity:0.65;cursor:not-allowed;}
+textarea.rc-remark-input:disabled{opacity:0.65;cursor:not-allowed;}
 
 .chip{
   display:inline-block;
@@ -608,6 +645,8 @@ select.ustat-impound{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
 select.ustat-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;font-weight:700;}
 select.ustat-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.ustat-notconfirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
+select.ustat-damage{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bd);font-weight:700;}
+select.ustat-carnap{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);font-weight:700;}
 select.ustat-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
 
 /* Mode of Payment select — same pill treatment as Unit status */
@@ -625,13 +664,51 @@ select.pmode-field{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
 select.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
 
-/* Date of Audit — manually typed by the auditor directly on the card */
-input.date-audit-input{
-  font-family:inherit;font-size:12.5px;font-weight:500;color:var(--ink);
-  padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;
-  background:#fff;width:100%;
+/* ---------- Calendar date picker (SI Date / Date of Audit) ---------- */
+.date-field{position:relative;width:100%;}
+.date-field-input{
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:8px 10px;border:1px solid var(--border-strong);border-radius:8px;
+  background:#fff;cursor:pointer;font-family:inherit;font-size:12.5px;
+  color:var(--ink);text-align:left;transition:border-color .12s ease;
 }
-input.date-audit-input:focus{outline:none;border-color:var(--accent);}
+.date-field-input:hover{border-color:var(--accent);}
+.date-field-input svg{width:15px;height:15px;flex:none;color:var(--ink-faint);}
+.date-field-input .dfi-text{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.date-field-input .dfi-text.placeholder{color:var(--ink-faint);}
+.rc-qf .date-field-input{padding:5px 8px;font-size:11.5px;}
+
+.date-picker-panel{
+  position:fixed;background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:14px;box-shadow:var(--shadow-md);z-index:220;display:none;padding:14px;
+}
+.date-picker-panel.open{display:block;}
+.dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.dp-nav{
+  width:26px;height:26px;border-radius:50%;border:1px solid var(--border);
+  background:var(--surface-alt);color:var(--ink-soft);cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex:none;
+}
+.dp-nav:hover{background:var(--accent-bg);color:var(--accent);border-color:var(--accent);}
+.dp-month-label{font-size:13.5px;font-weight:700;color:var(--ink);}
+.dp-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
+.dp-weekdays span{font-size:10px;font-weight:700;color:var(--ink-faint);text-align:center;text-transform:uppercase;letter-spacing:.02em;}
+.dp-days{display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px;}
+.dp-day{
+  width:100%;aspect-ratio:1;border:none;background:none;border-radius:50%;
+  font-family:inherit;font-size:12px;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.dp-day:hover{background:var(--accent-bg);}
+.dp-day.empty{cursor:default;visibility:hidden;}
+.dp-day.selected{background:var(--accent);color:#fff;font-weight:700;}
+.dp-day.today:not(.selected){border:1px solid var(--accent);color:var(--accent);font-weight:700;}
+.dp-footer{display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
+.dp-footer button{
+  border:none;background:none;font-family:inherit;font-size:11.5px;font-weight:600;
+  color:var(--ink-soft);cursor:pointer;padding:4px 6px;border-radius:6px;
+}
+.dp-footer button:hover{background:var(--surface-alt);color:var(--ink);}
 
 /* modal */
 .modal-bg{
@@ -664,24 +741,21 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
 .settings-section-title{font-size:11.5px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
 .settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .settings-actions .btn{width:100%;}
-.cb-item{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:10px 14px;border:1px solid var(--border);border-radius:8px;
-  background:var(--surface-alt);
+.import-btn-wrap{position:relative;}
+.import-btn-wrap .btn{width:100%;}
+.import-menu{
+  display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:20;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;
+  box-shadow:var(--shadow-md, 0 8px 24px rgba(0,0,0,.12));overflow:hidden;
 }
-.cb-item .cb-name{font-size:13px;font-weight:600;color:var(--ink);}
-.cb-item .cb-meta{font-size:11.5px;color:var(--ink-soft);margin-right:2px;}
-.cb-item .cb-left{display:flex;flex-direction:column;gap:2px;}
-.cb-item .cb-right{display:flex;align-items:center;gap:10px;}
-.cb-delete{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:30px;height:30px;border-radius:7px;
-  border:1px solid var(--bad-bd);background:var(--bad-bg);color:var(--bad);
-  cursor:pointer;transition:background .12s ease,color .12s ease;
-  flex-shrink:0;
+.import-menu.open{display:block;}
+.import-menu-item{
+  display:block;width:100%;text-align:left;padding:10px 12px;font-size:13px;
+  background:var(--surface);border:none;border-bottom:1px solid var(--border);
+  color:var(--ink);cursor:pointer;
 }
-.cb-delete:hover{background:var(--bad);color:#fff;}
-.cb-delete svg{width:15px;height:15px;}
+.import-menu-item:last-child{border-bottom:none;}
+.import-menu-item:hover{background:var(--surface-alt);}
 .btn:disabled{opacity:0.45;cursor:not-allowed;}
 .btn:disabled:hover{background:var(--surface);}
 .hist-item{padding:9px 10px;border-bottom:1px solid var(--border);font-size:12.5px;display:flex;flex-direction:column;gap:2px;}
@@ -692,10 +766,6 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
 .hist-clickable{cursor:pointer;border-radius:6px;transition:background .12s ease;}
 .hist-clickable:hover{background:var(--accent-bg);}
 .hist-jump{color:var(--accent);font-weight:600;font-size:11.5px;}
-.cs-item{cursor:pointer;}
-.cs-item input[type="checkbox"]{width:17px;height:17px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
-.cs-item .cb-left{flex-direction:row;align-items:center;gap:8px;}
-.cs-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
 .form-grid label{font-size:11px;color:var(--ink-soft);display:block;margin-bottom:4px;font-weight:600;}
 .form-grid input,.form-grid select{
@@ -721,8 +791,7 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
   .logo-badge img{width:52px;height:52px;}
   .appbar .sub{font-size:11px;}
   .appbar-right{width:100%;justify-content:flex-start !important;flex-wrap:wrap;gap:8px !important;}
-  .appbar .sync-status{font-size:11.5px;padding:6px 10px;}
-  .appbar .health{font-size:11.5px;padding:6px 10px;}
+  .appbar .sync-status, .appbar .health{font-size:11.5px;padding:6px 10px;}
   .refresh-btn{width:32px;height:32px;}
 
   .branch-tabs{gap:6px;}
@@ -736,14 +805,14 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
   .status-breakdown, .unit-breakdown{padding:8px 10px;}
   .sb-chip, .ub-chip{font-size:10.5px;padding:4px 8px;}
 
-  .search-bar{padding:8px 10px;}
+
 
   .toolbar{padding:10px;gap:8px;}
   .toolbar select{flex:1 1 auto;}
   .toolbar .branch-picker-wrap{flex:1 1 auto;}
   .branch-picker-btn{width:100%;justify-content:space-between;max-width:none;}
   .toolbar .spacer{flex-basis:100%;height:0;}
-  .toolbar #addBtn{width:100%;}
+  .toolbar #addBtn, .toolbar #saveAllBtn{width:100%;}
 
   /* dropdown panels (branch picker, status filter, unit filter) become a
      centered "sheet" on mobile instead of a tiny box anchored to the
@@ -794,12 +863,31 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
   .modal h2{font-size:15px;}
   .form-grid{grid-template-columns:1fr;gap:8px 0;}
   .settings-actions{grid-template-columns:1fr;}
-  .cb-item{flex-wrap:wrap;}
 
   .branch-overview{padding:10px 12px;}
   .bo-row{flex-wrap:wrap;gap:6px 12px;padding:10px;}
   .bo-name{flex:1 1 100%;font-size:12.5px;}
   .bo-stat{flex:1 1 auto;min-width:0;text-align:left;}
+
+  /* Tap a customer -> that card takes over the whole screen instead of
+     just expanding inline in the list. Only applies to the single card
+     in "focus" mode (mobileFocusId) — a multi-expand like the Remarks
+     filter still expands inline as normal. */
+  .rowcard.mobile-focus{
+    position:fixed;inset:0;z-index:48;
+    margin:0;border:none;border-radius:0;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    background:var(--surface);
+  }
+  .rowcard.mobile-focus .rc-summary{
+    position:sticky;top:0;z-index:2;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding-top:14px;
+  }
+  .rowcard.mobile-focus .rc-back{display:flex;order:0;}
+  .rowcard.mobile-focus .rc-chevron{display:none;}
+  body.card-focused{overflow:hidden;}
 }
 @media (max-width:420px){
   .kpis{grid-template-columns:1fr;}
@@ -823,20 +911,29 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
       </div>
     </div>
     <div class="appbar-right" style="display:flex;align-items:center;gap:10px;">
-      <button type="button" class="refresh-btn" id="settingsBtn" title="Settings — import, export, connection">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </button>
-      <button type="button" class="refresh-btn" id="historyBtn" title="History — makita ang mga nabago sa dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <polyline points="12 7 12 12 15.5 14"/>
-        </svg>
-      </button>
+      <div class="more-wrap" id="moreWrap" style="position:relative;">
+        <button type="button" class="refresh-btn" id="moreBtn" title="More">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18.5" r="1.6"/></svg>
+        </button>
+        <div class="more-panel" id="morePanel">
+          <button type="button" class="more-item" id="settingsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </button>
+          <button type="button" class="more-item" id="historyBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <polyline points="12 7 12 12 15.5 14"/>
+            </svg>
+            <span>History</span>
+          </button>
+        </div>
+      </div>
       <div class="bell-wrap" id="bellWrap" style="position:relative;">
-        <button type="button" class="refresh-btn" id="notifBellBtn" title="Naka-pending na i-upload">
+        <button type="button" class="refresh-btn" id="notifBellBtn" title="Pending upload">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -851,24 +948,33 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
           <polyline points="21 3 21 9 15 9"/>
         </svg>
       </button>
-      <div class="sync-status" id="syncStatus"><span class="dot"></span><span id="syncStatusText">—</span></div>
-      <div class="health" id="healthChip">—</div>
+      <button type="button" class="refresh-btn" id="undoBtn" title="Undo — nothing to undo" disabled style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 4 9l5-5"/>
+          <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+        </svg>
+      </button>
+      <button type="button" class="refresh-btn" id="redoBtn" title="Redo — nothing to redo" disabled style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 14l5-5-5-5"/>
+          <path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>
+        </svg>
+      </button>
+      <div class="sync-health-stack" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
+        <div class="sync-status" id="statusCombo">
+          <span class="dot"></span><span id="syncStatusText">—</span>
+        </div>
+        <div class="health" id="healthChipText">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7v6c0 5 4 9 10 11 6-2 10-6 10-11V7z"/></svg>
+          <span id="healthChipTextVal">—</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="mini-toolbar" id="miniToolbar">
-    <button type="button" class="mini-btn" id="undoBtn" title="Undo — walang pwedeng i-undo" disabled>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 14 4 9l5-5"/>
-        <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
-      </svg>
-    </button>
-    <button type="button" class="mini-btn" id="redoBtn" title="Redo — walang pwedeng i-redo" disabled>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 14l5-5-5-5"/>
-        <path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>
-      </svg>
-    </button>
+  <div class="search-bar-sticky" id="searchBarSticky">
+    <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="search" class="search-bar-input" placeholder="Search customer, model, engine no, branch, remarks...">
   </div>
 
   <div class="conn-banner" id="connBanner"></div>
@@ -880,21 +986,18 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
 
   <div class="unit-breakdown" id="unitBreakdown"></div>
 
-  <div class="search-bar">
-    <input type="text" id="search" placeholder="Search customer, model, engine no, branch, remarks...">
-  </div>
+
 
   <div class="toolbar">
     <div class="branch-picker-wrap" id="statusFilterWrap">
       <button type="button" class="branch-picker-btn" id="statusFilterBtn">All status <span class="caret">▾</span></button>
       <div class="branch-picker-panel" id="statusFilterPanel"></div>
     </div>
-    <button class="btn" id="deleteStatusFilterBtn" style="display:none;color:#fff;background:var(--bad);border-color:var(--bad);" title="Buburahin ang LAHAT ng customer (sa branch na ito) na may kasalukuyang napiling status">🗑 Delete Filtered</button>
+    <button class="btn" id="deleteStatusFilterBtn" style="display:none;color:#fff;background:var(--bad);border-color:var(--bad);" title="Delete ALL customers (in this branch) with the currently selected status">🗑 Delete Filtered</button>
     <div class="branch-picker-wrap" id="unitFilterWrap">
       <button type="button" class="branch-picker-btn" id="unitFilterBtn">All unit status <span class="caret">▾</span></button>
       <div class="branch-picker-panel" id="unitFilterPanel"></div>
     </div>
-    <button class="btn" id="clearFiltersBtn" title="Clear search + status + unit status filters">Clear filters</button>
     <select id="remarksFilterSelect" title="Filter by Auditor Remarks (current) — not Last Audit Remarks">
       <option value="all">Remarks: All</option>
       <option value="has">With Remarks</option>
@@ -910,6 +1013,7 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
     </select>
     <span class="spacer"></span>
     <span class="count-note" id="rowCount"></span>
+    <button class="btn" id="saveAllBtn" title="Save ALL changes in ALL branches — not just the branch or customer currently in focus">💾 Save All</button>
     <button class="btn primary" id="addBtn">+ Add customer</button>
   </div>
 
@@ -940,22 +1044,29 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
     <div class="settings-section">
       <div class="settings-section-title">Data</div>
       <div class="settings-actions">
-        <button class="btn" id="importBtn">Import Ledger</button>
-        <button class="btn secondary" id="remarksImportBtn">Update Remarks</button>
+        <div class="import-btn-wrap">
+          <button class="btn" id="importMenuBtn">Import ▾</button>
+          <div class="import-menu" id="importMenu">
+            <button type="button" class="import-menu-item" id="importLedgerOption">📋 Import Ledger</button>
+            <button type="button" class="import-menu-item" id="importRemarksOption">📝 Update Remarks</button>
+          </div>
+        </div>
         <button class="btn" id="exportBtn">Export CSV</button>
-        <button class="btn secondary" id="printSummaryBtn">🖨 Print audit summary</button>
-        <button class="btn secondary" id="printListBtn">🖨 Print list (Customer–MA)</button>
+        <div class="import-btn-wrap">
+          <button class="btn secondary" id="printMenuBtn">🖨 Print ▾</button>
+          <div class="import-menu" id="printMenu">
+            <button type="button" class="import-menu-item" id="printSummaryOption">🖨 Print audit summary</button>
+            <button type="button" class="import-menu-item" id="printListOption">🖨 Print list (Customer–MA)</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="settings-section">
       <div class="settings-section-title" style="color:var(--bad);">Danger zone</div>
-      <div class="settings-actions">
-        <button class="btn" id="clearAllBtn" style="color:var(--bad);border-color:var(--bad-bd);">Delete by branch…</button>
-        <button class="btn" id="clearStatusBtn" style="color:var(--bad);border-color:var(--bad-bd);">Delete by status…</button>
-        <button class="btn" id="deleteAllBtn" style="color:#fff;background:var(--bad);border-color:var(--bad);">Delete ALL records</button>
-      </div>
+      <div class="hint" style="margin-top:0;">Para burahin ang isang buong branch, tingnan ang delete icon sa tabi ng branch name sa Per-Branch Overview. Para burahin ang mga customer na may partikular na status, gamitin ang "Delete Filtered" sa filter bar.</div>
     </div>
+
 
     <div class="row-actions">
       <button class="btn" id="settingsCloseBtn">Close</button>
@@ -1016,32 +1127,6 @@ input.date-audit-input:focus{outline:none;border-color:var(--accent);}
   </div>
 </div>
 
-<!-- Clear specific branch modal (shown from "Clear all" while viewing All Branches) -->
-<div class="modal-bg" id="clearBranchModalBg">
-  <div class="modal" style="max-width:420px;">
-    <h2>Alin ang gusto mong burahin?</h2>
-    <div class="hint">Pumili ng branch na gusto mong tanggalin ang lahat ng record. Ang ibang branches ay hindi maaapektuhan.</div>
-    <div id="clearBranchList" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;"></div>
-    <div class="row-actions">
-      <button class="btn" id="clearBranchCancel">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Delete by customer status modal — multi-select: pumili ng isa o ilang status
-     (BNEW - ADV, BNEW - CU, etc.) at buburahin ang LAHAT ng customer sa ilalim
-     ng napiling status(es), sa lahat ng branch. -->
-<div class="modal-bg" id="clearStatusModalBg">
-  <div class="modal" style="max-width:440px;">
-    <h2>Burahin ayon sa Customer Status</h2>
-    <div class="hint">Piliin ang isa o ilang Customer Status. Buburahin ang LAHAT ng customer na may napiling status, sa lahat ng branch. Hindi maaapektuhan ang ibang status.</div>
-    <div id="clearStatusList" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;"></div>
-    <div class="row-actions">
-      <button class="btn" id="clearStatusCancel">Cancel</button>
-      <button class="btn" id="clearStatusConfirm" style="color:#fff;background:var(--bad);border-color:var(--bad);" disabled>Delete Selected (0)</button>
-    </div>
-  </div>
-</div>
 
 <!-- History modal — read-only log of every add/edit/delete made on the
      dashboard, pulled from the hidden "ActivityLog" sheet tab so it's
@@ -1089,7 +1174,7 @@ const COLUMNS = [
   {key:'outstandingBalance', label:'Outstanding Balance', sourceLabel:'Outstanding Balance', type:'number'},
   {key:'remainingBalance', label:'Remaining Balance', sourceLabel:'Remaining Balance', type:'number'},
   {key:'customerStatus', label:'Customer Status', sourceLabel:'Customer Status', type:'select', options:['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL','REPO - ADV','REPO - CU','REPO - OD','REPO - DEL','RSTR - OD','RSTR - DEL','OD - BN']},
-  {key:'unitStatus', label:'Unit status', sourceLabel:'Unit status', type:'select', options:['CONFIRMED','MISSING','GOOD CONDITION','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED']},
+  {key:'unitStatus', label:'Unit status', sourceLabel:'Unit status', type:'select', options:['CONFIRMED','MISSING','GOOD CONDITION','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED','DAMAGE','CARNAP']},
   {key:'paymentMode', label:'Mode of Payment', sourceLabel:'Mode of Payment', type:'select', options:['BRANCH','FIELD','ONLINE']},
   {key:'dateOfAudit', label:'Date of Audit', sourceLabel:'Date of Audit', type:'text'},
   {key:'auditorRemarks', label:'Auditor Remarks', sourceLabel:'Auditor Remarks', type:'text'},
@@ -1103,6 +1188,12 @@ let records = [];
 let editingId = null;
 let sortKey = 'customerName', sortDir = 1;
 let expandedIds = new Set();
+/* Tracks which single record (if any) is in "focused" mode — used on
+   mobile to blow that one card up to fill the whole screen. Kept separate
+   from expandedIds because some flows (e.g. the "May Current Remarks"
+   filter) expand several cards at once, and those should stay as normal
+   inline-expanded list items, not fullscreen. */
+let mobileFocusId = null;
 let statusFilterValues = new Set();
 let unitFilterValues = new Set();
 const UNASSIGNED_BRANCH = 'Unassigned';
@@ -1260,7 +1351,7 @@ function runImportFromRows(rows, branchHint){
     if(nonEmpty.length===0) return;
     attempted++;
     const rec = mapper(cells, currentStatus);
-    if(rec && rec.customerName){
+    if(rec && rec.customerName && !isSummaryRow(rec)){
       if(!rec.branch && branchHint) rec.branch = branchHint;
       rec.id = uid();
       records.push(rec);
@@ -1268,6 +1359,14 @@ function runImportFromRows(rows, branchHint){
     }
   });
   return {added, attempted};
+}
+
+/* Some imported sheets carry leftover "Grand Total" / "Sub Total" summary rows
+   from the original spreadsheet — these aren't real customers, so exclude them
+   whenever we import (and whenever we print/export). */
+function isSummaryRow(r){
+  const n = (r.customerName||'').toString().trim().toLowerCase();
+  return n==='grand total' || n==='sub total' || n==='subtotal' || n==='total';
 }
 
 /* Remarks-only import: finds "Customer Name" and "Last Audit Remarks" columns in the
@@ -1387,7 +1486,9 @@ const UNIT_STATUS_CLASS = {
   'IMPOUND':'ustat-impound',
   'TOTAL WRECK':'ustat-wreck',
   'FOR TRACING':'ustat-tracing',
-  'NOT CONFIRMED':'ustat-notconfirmed'
+  'NOT CONFIRMED':'ustat-notconfirmed',
+  'DAMAGE':'ustat-damage',
+  'CARNAP':'ustat-carnap'
 };
 function unitStatusClass(val){
   return UNIT_STATUS_CLASS[(val||'').toUpperCase()] || 'ustat-blank';
@@ -1407,12 +1508,14 @@ const UNIT_STATUS_SLUG = {
   'IMPOUND':'impound',
   'TOTAL WRECK':'total-wreck',
   'FOR TRACING':'for-tracing',
-  'NOT CONFIRMED':'not-confirmed'
+  'NOT CONFIRMED':'not-confirmed',
+  'DAMAGE':'damage',
+  'CARNAP':'carnap'
 };
 /* "NOT CONFIRMED" is a deliberate label the auditor picks from the dropdown, so it
    gets its own count. A record with nothing picked yet falls under "No Label" instead —
    the two are tracked separately so ticking "Not Confirmed" moves it out of "No Label". */
-const UNIT_STATUS_ORDER = ['CONFIRMED','GOOD CONDITION','MISSING','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED'];
+const UNIT_STATUS_ORDER = ['CONFIRMED','GOOD CONDITION','MISSING','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED','DAMAGE','CARNAP'];
 let unitBreakdownCollapsed = false;
 function renderUnitBreakdown(){
   const wrap = document.getElementById('unitBreakdown');
@@ -1616,6 +1719,13 @@ function gsRun(fnName, ...args){
         // fetch() throws a generic TypeError for network-level failures
         // (offline, CORS block, bad URL) — treat those as "no backend".
         err.noBackend = true;
+      } else if(err instanceof SyntaxError){
+        // res.json() throws a SyntaxError when the response body isn't
+        // actually JSON — almost always because the Apps Script web app
+        // sent back an HTML page instead (a Google sign-in/permission
+        // prompt, or an unhandled error trace from the script itself).
+        // That's a deployment/access-settings problem, not "no internet".
+        err.authOrDeploy = true;
       }
       reject(err);
     }
@@ -1663,6 +1773,7 @@ function performUndo(){
   redoStack.push({label: last.label, snapshot: JSON.parse(JSON.stringify(records))});
   records = last.snapshot;
   expandedIds.clear();
+  mobileFocusId = null;
   logActivity(`Undo: reverted "${last.label}"`);
   saveRecords();
   renderAll();
@@ -1675,6 +1786,7 @@ function performRedo(){
   undoStack.push({label: last.label, snapshot: JSON.parse(JSON.stringify(records))});
   records = last.snapshot;
   expandedIds.clear();
+  mobileFocusId = null;
   logActivity(`Redo: re-applied "${last.label}"`);
   saveRecords();
   renderAll();
@@ -1686,11 +1798,13 @@ function updateUndoBtn(){
   if(!btn) return;
   if(undoStack.length===0){
     btn.disabled = true;
-    btn.title = 'Undo — walang pwedeng i-undo';
+    btn.title = 'Undo — nothing to undo';
+    btn.style.display = 'none';
   } else {
     btn.disabled = false;
     const top = undoStack[undoStack.length-1];
     btn.title = `Undo: ${top.label}`;
+    btn.style.display = '';
   }
 }
 function updateRedoBtn(){
@@ -1698,11 +1812,13 @@ function updateRedoBtn(){
   if(!btn) return;
   if(redoStack.length===0){
     btn.disabled = true;
-    btn.title = 'Redo — walang pwedeng i-redo';
+    btn.title = 'Redo — nothing to redo';
+    btn.style.display = 'none';
   } else {
     btn.disabled = false;
     const top = redoStack[redoStack.length-1];
     btn.title = `Redo: ${top.label}`;
+    btn.style.display = '';
   }
 }
 
@@ -1720,6 +1836,14 @@ let pendingSync = false;
 let syncInFlight = false;
 let syncRetryTimer = null;
 let noBackendLink = false;
+/* Set when a save request DID reach the backend and got a response, but that
+   response wasn't the JSON we expected (almost always because the Apps
+   Script web app sent back an HTML page instead — a login/permission
+   prompt, or its own error trace). This is a deployment/access problem, NOT
+   "no internet", so it gets its own status instead of being lumped in with
+   noBackendLink or a generic offline message. */
+let syncErrorType = null; // null | 'auth-or-deploy' | 'other'
+let lastSyncErrorMessage = '';
 
 function readLastSynced(){
   try{
@@ -1775,7 +1899,7 @@ function updateSyncStatus(){
   const pendingList = computePendingRecords();
   const pendingCount = pendingList.length;
   const targets = [
-    {el: document.getElementById('syncStatus'), txt: document.getElementById('syncStatusText')},
+    {el: document.getElementById('statusCombo'), txt: document.getElementById('syncStatusText')},
     {el: document.getElementById('settingsSyncStatus'), txt: document.getElementById('settingsSyncStatusText')}
   ];
   targets.forEach(({el, txt})=>{
@@ -1788,6 +1912,10 @@ function updateSyncStatus(){
       el.classList.add('offline');
       txt.textContent = 'Not connected';
       el.title = 'This copy isn\'t connected to the Google Sheets backend. Paste the deployed web app link in Settings so saves can sync.';
+    } else if(syncErrorType==='auth-or-deploy'){
+      el.classList.add('offline');
+      txt.textContent = 'Sync error — check deployment';
+      el.title = 'The Apps Script web app is not sending back JSON (likely a login/permission page). Make sure deployment access is set to "Anyone", and that the newest deployment URL is used in Settings.';
     } else if(!navigator.onLine){
       el.classList.add('offline');
       txt.textContent = pendingCount>0 ? `Offline — ${pendingCount} pending` : 'Offline';
@@ -1817,10 +1945,11 @@ function updateNotifBell(pendingList){
     badge.style.display = 'none';
   }
   let statusLine = '';
-  if(syncInFlight) statusLine = 'Sine-sync ngayon…';
-  else if(noBackendLink) statusLine = 'Hindi konektado sa Google Sheets.';
-  else if(!navigator.onLine) statusLine = 'Offline — awtomatikong mag-a-upload kapag bumalik ang internet.';
-  else if(count===0) statusLine = 'Naka-sync na lahat. ✅';
+  if(syncInFlight) statusLine = 'Syncing now…';
+  else if(noBackendLink) statusLine = 'Not connected to Google Sheets.';
+  else if(syncErrorType==='auth-or-deploy') statusLine = 'Sync error — server did not send valid data. Check deployment access.';
+  else if(!navigator.onLine) statusLine = 'Offline — will upload automatically once internet is back.';
+  else if(count===0) statusLine = 'All synced. ✅';
   let html = `<div class="np-title">Naka-pending na i-upload (${count})</div>`;
   if(statusLine) html += `<div class="notif-empty" style="padding:2px 4px 10px;text-align:left;">${escHtml(statusLine)}</div>`;
   if(count===0){
@@ -1867,6 +1996,36 @@ window.addEventListener('resize', ()=>{
   if(panel && panel.classList.contains('open')) positionNotifPanel();
 });
 
+/* ---------- "More" menu (Settings + History) ---------- */
+function positionMorePanel(){
+  const btn = document.getElementById('moreBtn');
+  const panel = document.getElementById('morePanel');
+  if(!btn || !panel) return;
+  const margin = 12;
+  const btnRect = btn.getBoundingClientRect();
+  const panelWidth = Math.min(180, window.innerWidth - margin*2);
+  let left = btnRect.left;
+  left = Math.max(margin, Math.min(left, window.innerWidth - panelWidth - margin));
+  let top = btnRect.bottom + 8;
+  panel.style.left = left + 'px';
+  panel.style.top = top + 'px';
+}
+document.getElementById('moreBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const panel = document.getElementById('morePanel');
+  const willOpen = !panel.classList.contains('open');
+  if(willOpen) positionMorePanel();
+  panel.classList.toggle('open');
+});
+document.addEventListener('click', (e)=>{
+  const wrap = document.getElementById('moreWrap');
+  if(wrap && !wrap.contains(e.target)) document.getElementById('morePanel').classList.remove('open');
+});
+window.addEventListener('resize', ()=>{
+  const panel = document.getElementById('morePanel');
+  if(panel && panel.classList.contains('open')) positionMorePanel();
+});
+
 document.getElementById('undoBtn').addEventListener('click', performUndo);
 document.getElementById('redoBtn').addEventListener('click', performRedo);
 
@@ -1882,12 +2041,12 @@ async function loadHistory(){
   try{
     const entries = await gsRun('getActivityLog');
     if(!entries || entries.length===0){
-      historyList.innerHTML = '<div class="hist-empty">Wala pang naitalang pagbabago.</div>';
+      historyList.innerHTML = '<div class="hist-empty">No changes logged yet.</div>';
       return;
     }
     historyList.innerHTML = entries.map((en,i)=>{
       const clickable = !!en.recordId;
-      return `<div class="hist-item${clickable?' hist-clickable':''}" ${clickable?`data-idx="${i}" title="I-click para makita ang customer na ito"`:''}><span class="hist-action">${String(en.action||'').replace(/</g,'&lt;')}${clickable?' <span class="hist-jump">→ tingnan</span>':''}</span><span class="hist-ts">${fmtHistoryTs(en.ts)}</span></div>`;
+      return `<div class="hist-item${clickable?' hist-clickable':''}" ${clickable?`data-idx="${i}" title="Click to view this customer"`:''}><span class="hist-action">${String(en.action||'').replace(/</g,'&lt;')}${clickable?' <span class="hist-jump">→ view</span>':''}</span><span class="hist-ts">${fmtHistoryTs(en.ts)}</span></div>`;
     }).join('');
     historyList.querySelectorAll('.hist-clickable').forEach(el=>{
       el.addEventListener('click', ()=>{
@@ -1896,13 +2055,13 @@ async function loadHistory(){
       });
     });
   }catch(e){
-    historyList.innerHTML = `<div class="hist-empty">Hindi ma-load ang history.<br><span style="font-size:11px;opacity:0.75;">${String((e&&e.message)||e).replace(/</g,'&lt;')}</span></div>`;
+    historyList.innerHTML = `<div class="hist-empty">Could not load history.<br><span style="font-size:11px;opacity:0.75;">${String((e&&e.message)||e).replace(/</g,'&lt;')}</span></div>`;
   }
 }
 function navigateToHistoryRecord(branch, recordId){
   const rec = records.find(r=>r.id===recordId);
   if(!rec){
-    alert('Nabura na ang customer record na ito, kaya hindi na ito matitingnan.');
+    alert('This customer record was deleted, so it can no longer be viewed.');
     return;
   }
   historyModalBg.classList.remove('open');
@@ -1913,6 +2072,7 @@ function navigateToHistoryRecord(branch, recordId){
   document.getElementById('remarksFilterSelect').value = 'all';
   currentBranch = branchOf(rec);
   expandedIds = new Set([recordId]);
+  mobileFocusId = recordId;
   renderAll();
   requestAnimationFrame(()=>{
     const el = document.querySelector(`.rowcard[data-id="${recordId}"]`);
@@ -1920,6 +2080,7 @@ function navigateToHistoryRecord(branch, recordId){
   });
 }
 document.getElementById('historyBtn').addEventListener('click', ()=>{
+  document.getElementById('morePanel').classList.remove('open');
   historyModalBg.classList.add('open');
   loadHistory();
 });
@@ -1936,20 +2097,20 @@ function updateConnBanner(pendingCount){
   banner.classList.remove('offline','pending','show');
   if(syncInFlight){
     banner.classList.add('show','pending');
-    banner.textContent = `🔄 Sine-sync ngayon ang ${pendingCount} pagbabago...`;
+    banner.textContent = `🔄 Syncing ${pendingCount} change${pendingCount===1?'':'s'} now...`;
   } else if(noBackendLink){
     banner.classList.add('show','offline');
-    banner.textContent = `⚠️ Hindi konektado sa Google Sheets backend.${pendingCount>0 ? ` ${pendingCount} pagbabago ang naka-save lang sa device na ito.` : ''}`;
+    banner.textContent = `⚠️ Not connected to Google Sheets backend.${pendingCount>0 ? ` ${pendingCount} change${pendingCount===1?'':'s'} saved on this device only.` : ''}`;
   } else if(!navigator.onLine){
     banner.classList.add('show','offline');
     banner.textContent = pendingCount>0
-      ? `🔴 OFFLINE — ${pendingCount} pagbabago ang naka-pending, awtomatikong mag-si-sync kapag bumalik ang internet.`
-      : '🔴 OFFLINE — walang koneksyon sa internet ngayon.';
+      ? `🔴 OFFLINE — ${pendingCount} change${pendingCount===1?'':'s'} waiting, will sync automatically once internet is back.`
+      : '🔴 OFFLINE — no internet connection right now.';
   } else if(pendingCount>0){
     banner.classList.add('show','pending');
-    banner.textContent = `🟡 ONLINE — ${pendingCount} pagbabago pa ang naka-pending, sine-sync pa...`;
+    banner.textContent = `🟡 ONLINE — ${pendingCount} change${pendingCount===1?'':'s'} still waiting, syncing...`;
   }
-  // else: online at fully synced — walang banner, para hindi nakaka-abala.
+  // else: online and fully synced — no banner, so it doesn't nag.
 }
 
 async function loadRecords(){
@@ -2005,14 +2166,24 @@ async function trySync(){
   try{
     await gsRun('saveAllRecords', records);
     noBackendLink = false;
+    syncErrorType = null;
+    lastSyncErrorMessage = '';
     markPending(false);
     markSynced();
     flushActivityLog();
   }catch(e){
+    lastSyncErrorMessage = (e && e.message) ? e.message : String(e);
     if(e && e.noBackend){
       noBackendLink = true;
+      syncErrorType = null;
       console.error('Not connected to the Apps Script backend — open this dashboard via its deployed web app link, not as a standalone/local file.');
+    } else if(e && e.authOrDeploy){
+      noBackendLink = false;
+      syncErrorType = 'auth-or-deploy';
+      console.error('The Apps Script web app responded with something that is not JSON (likely a Google login/permission page, or an unhandled script error). Check that the deployment\'s "Who has access" is set to "Anyone", and that the URL in Settings points at the latest deployment.', e);
     } else {
+      noBackendLink = false;
+      syncErrorType = 'other';
       console.error('Save failed, will retry when signal returns', e);
     }
     scheduleRetry();
@@ -2033,6 +2204,41 @@ function scheduleRetry(){
 window.addEventListener('online', ()=>{ updateSyncStatus(); if(pendingSync) trySync(); });
 window.addEventListener('offline', updateSyncStatus);
 
+/* "Save All" — a single, explicit, GLOBAL save. It always pushes the whole
+   `records` array (every branch, every customer), completely ignoring
+   currentBranch, the active filters, and which card happens to be expanded.
+   This exists on top of the automatic per-edit save so the auditor can, at
+   any moment, force everything pending — across ALL branches — to sync right
+   now, instead of only ever saving whatever one customer or branch is
+   currently in view. */
+async function saveAllGlobal(){
+  const btn = document.getElementById('saveAllBtn');
+  const pendingCount = computePendingCount();
+  if(pendingCount===0){
+    showToast('No new changes — all branches are already up to date.');
+    return;
+  }
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ Saving...';
+  try{
+    await trySync();
+    if(!pendingSync && !noBackendLink && !syncErrorType){
+      showToast(`✅ Saved ${pendingCount} change${pendingCount===1?'':'s'} across ALL branches.`);
+    } else if(noBackendLink){
+      showToast('❌ Not connected to Google Sheets yet. Check Settings.', 'error');
+    } else if(syncErrorType==='auth-or-deploy'){
+      showToast('❌ Could not save — server sent back invalid data. Check deployment access (should be set to "Anyone").', 'error');
+    } else {
+      showToast(`❌ Save failed${lastSyncErrorMessage ? ' — '+lastSyncErrorMessage : ''}. Will try again automatically.`, 'error');
+    }
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+document.getElementById('saveAllBtn').addEventListener('click', saveAllGlobal);
+
 async function refreshFromServer(){
   const btn = document.getElementById('refreshBtn');
   if(btn) btn.classList.add('spinning');
@@ -2048,6 +2254,7 @@ async function refreshFromServer(){
       noBackendLink = false;
       markSynced();
       expandedIds.clear();
+      mobileFocusId = null;
       renderAll();
     }
     updateSyncStatus();
@@ -2134,6 +2341,7 @@ function showToast(message, type){
 const settingsModalBg = document.getElementById('settingsModalBg');
 const settingsUrlInput = document.getElementById('settingsUrlInput');
 document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  document.getElementById('morePanel').classList.remove('open');
   settingsUrlInput.value = APPS_SCRIPT_URL;
   updateSyncStatus();
   settingsModalBg.classList.add('open');
@@ -2142,7 +2350,7 @@ document.getElementById('settingsCloseBtn').addEventListener('click', ()=>{ sett
 settingsModalBg.addEventListener('click', (e)=>{ if(e.target===settingsModalBg) settingsModalBg.classList.remove('open'); });
 document.getElementById('settingsUrlSave').addEventListener('click', async ()=>{
   const val = settingsUrlInput.value.trim();
-  if(!val){ alert('Ilagay ang deployed Web App URL.'); return; }
+  if(!val){ alert('Enter the deployed Web App URL.'); return; }
   try{ localStorage.setItem(APPS_SCRIPT_URL_KEY, val); }catch(e){}
   APPS_SCRIPT_URL = val;
   noBackendLink = false;
@@ -2151,7 +2359,7 @@ document.getElementById('settingsUrlSave').addEventListener('click', async ()=>{
   if(!noBackendLink && navigator.onLine){
     showToast('✅ Connected to Google Sheets!');
   } else {
-    showToast('❌ Hindi ma-connect — tingnan ang URL na inilagay mo.', 'error');
+    showToast('❌ Could not connect — check the URL you entered.', 'error');
   }
 });
 /* data-action buttons live inside the settings modal — close it once the
@@ -2171,6 +2379,7 @@ function renderFilterPanel(panelId, btnId, options, selectedSet, baseLabel, onCh
   const panel = document.getElementById(panelId);
   const btn = document.getElementById(btnId);
   let html = `<div class="picker-panel-title">${baseLabel.replace(/^All /,'Filter by ')}<button type="button" class="picker-panel-close" data-close-panel="${panelId}">✕</button></div>`;
+  html += `<button type="button" class="ms-clear-item">Clear</button>`;
   options.forEach(opt=>{
     const checked = selectedSet.has(opt) ? ' checked' : '';
     html += `<label class="ms-item"><input type="checkbox" value="${opt.replace(/"/g,'&quot;')}"${checked}><span>${opt}</span></label>`;
@@ -2178,6 +2387,19 @@ function renderFilterPanel(panelId, btnId, options, selectedSet, baseLabel, onCh
   panel.innerHTML = html || `<div class="ms-item" style="color:var(--ink-faint);cursor:default;">Wala pang datos</div>`;
   const closeBtn = panel.querySelector('.picker-panel-close');
   if(closeBtn) closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeAllPickerPanels(); });
+  // "Clear" — resets just THIS dropdown's own selections, right where the
+  // filter itself lives, instead of a separate standalone button elsewhere.
+  const clearBtn = panel.querySelector('.ms-clear-item');
+  if(clearBtn) clearBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    selectedSet.clear();
+    panel.querySelectorAll('input[type=checkbox]').forEach(cb=>{ cb.checked = false; });
+    btn.innerHTML = `${filterBtnLabel(baseLabel, selectedSet)} <span class="caret">▾</span>`;
+    btn.classList.remove('active');
+    renderCards();
+    if(onChange) onChange();
+    closeAllPickerPanels();
+  });
   panel.querySelectorAll('input[type=checkbox]').forEach(cb=>{
     cb.addEventListener('change', ()=>{
       if(cb.checked) selectedSet.add(cb.value); else selectedSet.delete(cb.value);
@@ -2282,37 +2504,25 @@ document.getElementById('deleteStatusFilterBtn').addEventListener('click', ()=>{
   const matches = recordsInScope().filter(r=>statusFilterValues.has(r.customerStatus));
   if(matches.length===0) return;
   const statusLabel = [...statusFilterValues].join(', ');
-  if(!confirm(`Buburahin ang ${matches.length} customer sa ${currentBranch} na may status: ${statusLabel}. Sigurado ka ba?`)) return;
+  if(!confirm(`Delete ${matches.length} customer${matches.length===1?'':'s'} in ${currentBranch} with status: ${statusLabel}?`)) return;
   const idsToRemove = new Set(matches.map(r=>r.id));
   const label = `Deleted ${matches.length} account${matches.length===1?'':'s'} in ${currentBranch} with status ${statusLabel}`;
   pushUndo(label);
   logActivity(label);
   records = records.filter(r=>!idsToRemove.has(r.id));
   expandedIds.clear();
+  mobileFocusId = null;
   saveRecords();
   renderAll();
-});
-
-/* "Clear filters" — resets search + status + unit filters in one click, without
-   touching the currently selected branch (that's navigation, not a filter) or sort. */
-document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
-  document.getElementById('search').value = '';
-  statusFilterValues.clear();
-  unitFilterValues.clear();
-  if(remarksFilterMode!=='all'){
-    remarksFilterMode = 'all';
-    document.getElementById('remarksFilterSelect').value = 'all';
-    expandedIds.clear();
-  }
-  populateFilterOptions();
-  renderCards();
 });
 
 /* "Remarks" filter — shows only customers who DO (or DON'T) have Auditor
    Remarks (the CURRENT remarks — deliberately not Last Audit Remarks, so
    the auditor can see exactly who still needs to be visited/remarked on
    this round). "May Current Remarks" auto-expands every match so the full
-   text is visible immediately without clicking each card open. */
+   text is visible immediately without clicking each card open.
+   Choosing "Remarks: All" IS this filter's own clear — no separate button
+   needed, same as the "Clear" item inside the status/unit-status dropdowns. */
 let remarksFilterMode = 'all'; // 'all' | 'has' | 'none'
 document.getElementById('remarksFilterSelect').addEventListener('change', (e)=>{
   remarksFilterMode = e.target.value;
@@ -2321,20 +2531,28 @@ document.getElementById('remarksFilterSelect').addEventListener('change', (e)=>{
   } else {
     expandedIds.clear();
   }
+  mobileFocusId = null;
   renderCards();
 });
 
 function toggleExpand(id){
   if(expandedIds.has(id)){
     expandedIds.delete(id);
+    if(mobileFocusId===id) mobileFocusId = null;
   } else {
     expandedIds.clear();
     expandedIds.add(id);
+    mobileFocusId = id;
   }
   renderCards();
+  if(mobileFocusId===id && window.matchMedia('(max-width:720px)').matches){
+    const el = document.querySelector(`.rowcard[data-id="${id}"]`);
+    if(el) el.scrollTop = 0;
+  }
 }
 
 function renderCards(){
+  document.body.classList.toggle('card-focused', !!mobileFocusId && window.matchMedia('(max-width:720px)').matches);
   const list = document.getElementById('cardList');
   if(currentBranch===null){
     list.style.display = 'none';
@@ -2359,14 +2577,18 @@ function renderCards(){
   }
   rows.forEach(r=>{
     const expanded = expandedIds.has(r.id);
+    const isMobileFocus = mobileFocusId===r.id;
     const card = document.createElement('div');
     const hasRemarks = (r.auditorRemarks && r.auditorRemarks.trim()) || (r.lastAuditRemarks && r.lastAuditRemarks.trim());
-    card.className = 'rowcard' + (expanded?' expanded':'') + (hasRemarks?' has-remarks':'');
+    card.className = 'rowcard' + (expanded?' expanded':'') + (isMobileFocus?' mobile-focus':'') + (hasRemarks?' has-remarks':'');
     card.dataset.id = r.id;
 
     const summary = document.createElement('div');
     summary.className = 'rc-summary';
     summary.innerHTML = `
+      <button type="button" class="rc-back" title="Back to list">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
       <div class="rc-avatar">${initials(r.customerName)}</div>
       <div class="rc-id">
         <div class="rc-name">${r.customerName || '(no name)'}</div>
@@ -2388,44 +2610,56 @@ function renderCards(){
     `;
     summary.addEventListener('click', ()=>toggleExpand(r.id));
     summary.querySelector('.rc-quick-delete').addEventListener('click', e=>{ e.stopPropagation(); deleteRow(r.id); });
+    summary.querySelector('.rc-back').addEventListener('click', e=>{ e.stopPropagation(); toggleExpand(r.id); });
     card.appendChild(summary);
 
-    /* Quick info strip — SI Date, Model, Engine No, Due Date, Terms, MA, Last
-       Payment, Outstanding Balance, Amount Payment and Date of Audit are all
-       shown here, matching the full detail view. */
+    /* Quick info strip — laid out as explicit grid rows so column 1 (SI Date/
+       Engine No/MA/Outstanding Balance/Date of Audit) and column 2 (Model/Due
+       Date/Last Payment/Amount Payment) always line up vertically, no matter
+       how long any single value is. Only rendered visible (see
+       .rowcard.expanded .rc-quickfields in the CSS) once this card is
+       tapped/focused. */
     const quick = document.createElement('div');
     quick.className = 'rc-quickfields';
-    const QUICK_KEYS = ['siDate','model','engineNo','dueDay','terms','ma','lastPayment','outstandingBalance','amountPaid'];
-    QUICK_KEYS.forEach(key=>{
-      const c = COL_BY_KEY[key];
+    /* Flat, ordered list (no more hardcoded row/column numbers) so the
+       browser can auto-flow these into 3 columns on phones (matching the
+       original mobile layout) or 6 columns on desktop/tablet, based on the
+       @media rule above — "wide" items just span 2 columns wherever they land. */
+    const QUICK_FIELDS = [
+      {key:'siDate'}, {key:'model', wide:true},
+      {key:'engineNo'}, {key:'dueDay'}, {key:'terms'},
+      {key:'ma'}, {key:'lastPayment', wide:true},
+      {key:'outstandingBalance'}, {key:'amountPaid', wide:true}
+    ];
+    QUICK_FIELDS.forEach(item=>{
+      const c = COL_BY_KEY[item.key];
       const f = document.createElement('div');
-      f.className = 'rc-qf';
-      f.innerHTML = `<div class="rc-qf-label">${c.label}</div><div class="rc-qf-value">${fieldDisplay(key, r)}</div>`;
+      f.className = 'rc-qf' + (item.wide ? ' rc-qf-wide' : '');
+      f.innerHTML = `<div class="rc-qf-label">${c.label}</div><div class="rc-qf-value">${fieldDisplay(item.key, r)}</div>`;
       quick.appendChild(f);
     });
     /* Date of Audit — typed manually by the auditor on-site or back at the office,
-       so it's a live editable field right here, always visible, not just when expanded. */
+       so it's a live editable field right here inside the quick-info strip
+       (own row, same column-1 alignment as SI Date/Engine No/MA above). */
     const qDateWrap = document.createElement('div');
     qDateWrap.className = 'rc-qf';
     const qDateLabel = document.createElement('div');
     qDateLabel.className = 'rc-qf-label';
     qDateLabel.textContent = 'Date of Audit';
     qDateWrap.appendChild(qDateLabel);
-    const qDateInput = document.createElement('input');
-    qDateInput.type = 'text';
-    qDateInput.className = 'date-audit-input';
-    qDateInput.placeholder = 'mm/dd/yyyy';
-    qDateInput.value = r.dateOfAudit || '';
-    qDateInput.addEventListener('click', e=>e.stopPropagation());
-    qDateInput.addEventListener('change', ()=>{
-      const newVal = qDateInput.value.trim();
-      if(newVal === (r.dateOfAudit||'')) return;
-      pushUndo(`Set Date of Audit for "${r.customerName||'(no name)'}"`);
-      r.dateOfAudit = newVal;
-      logActivity(`Set Date of Audit for "${r.customerName||'(no name)'}" to ${r.dateOfAudit||'(blank)'}`, {recordId: r.id, branch: branchOf(r)});
-      saveRecords();
+    const qDateField = createDateField({
+      value: r.dateOfAudit || '',
+      placeholder: 'mm/dd/yyyy',
+      onChange: (newVal)=>{
+        if(newVal === (r.dateOfAudit||'')) return;
+        pushUndo(`Set Date of Audit for "${r.customerName||'(no name)'}"`);
+        r.dateOfAudit = newVal;
+        logActivity(`Set Date of Audit for "${r.customerName||'(no name)'}" to ${r.dateOfAudit||'(blank)'}`, {recordId: r.id, branch: branchOf(r)});
+        saveRecords();
+      }
     });
-    qDateWrap.appendChild(qDateInput);
+    qDateField.addEventListener('click', e=>e.stopPropagation());
+    qDateWrap.appendChild(qDateField);
     quick.appendChild(qDateWrap);
     quick.addEventListener('click', ()=>toggleExpand(r.id));
     card.appendChild(quick);
@@ -2446,7 +2680,7 @@ function renderCards(){
     auditorBlock.appendChild(auditorLabel);
     const auditorInput = document.createElement('textarea');
     auditorInput.className = 'rc-remark-input';
-    auditorInput.placeholder = 'I-type ang remarks dito...';
+    auditorInput.placeholder = 'Type remarks here...';
     auditorInput.value = r.auditorRemarks || '';
     auditorInput.addEventListener('click', e=>e.stopPropagation());
     auditorInput.addEventListener('input', ()=>{
@@ -2544,11 +2778,12 @@ function renderKpis(){
   renderUnitBreakdown();
 
   const pct = total>0 ? Math.round(((total-overdue)/total)*100) : null;
-  const chip = document.getElementById('healthChip');
-  if(pct===null){ chip.textContent='No data yet'; chip.classList.remove('warn'); }
+  const healthWrap = document.getElementById('healthChipText');
+  const healthText = document.getElementById('healthChipTextVal');
+  if(pct===null){ healthText.textContent='No data yet'; healthWrap.classList.remove('warn'); }
   else{
-    chip.textContent = pct+'% current';
-    if(pct<75) chip.classList.add('warn'); else chip.classList.remove('warn');
+    healthText.textContent = pct+'% current';
+    if(pct<75) healthWrap.classList.add('warn'); else healthWrap.classList.remove('warn');
   }
 }
 
@@ -2586,7 +2821,7 @@ function renderBranchTabs(){
   html += `<div class="branch-picker-wrap" id="branchPickerWrap">`;
   html += `<button type="button" class="branch-picker-btn${isSingleBranch?' active':''}" id="branchPickerBtn">${btnLabel} <span class="caret">▾</span></button>`;
   html += `<div class="branch-picker-panel" id="branchPickerPanel">`;
-  html += `<div class="picker-panel-title">Piliin ang branch<button type="button" class="picker-panel-close" id="branchPickerCloseBtn">✕</button></div>`;
+  html += `<div class="picker-panel-title">Choose a branch<button type="button" class="picker-panel-close" id="branchPickerCloseBtn">✕</button></div>`;
   branches.forEach(b=>{
     const count = records.filter(r=>branchOf(r)===b).length;
     const sel = currentBranch===b ? ' selected' : '';
@@ -2629,7 +2864,7 @@ if(!window.__branchPickerOutsideClickBound){
 function renderBranchOverview(){
   const wrap = document.getElementById('branchOverview');
   const branches = branchList();
-  if(currentBranch!==null || branches.length<2){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+  if(currentBranch!==null || branches.length<1){ wrap.style.display='none'; wrap.innerHTML=''; return; }
   wrap.style.display='block';
   let html = '<div class="bo-title">Per-Branch Overview</div><div class="bo-table">';
   branches.forEach(b=>{
@@ -2643,12 +2878,27 @@ function renderBranchOverview(){
         <div class="bo-stat bo-accent"><div class="bo-s-label">Accounts</div><div class="bo-s-value">${total}</div></div>
         <div class="bo-stat bo-danger"><div class="bo-s-label">Overdue</div><div class="bo-s-value">${overdue}</div></div>
         <div class="bo-stat"><div class="bo-s-label">Balance</div><div class="bo-s-value">${fmtCurrency(balance)}</div></div>
+        <button type="button" class="bo-delete rc-quick-delete" data-branch="${b.replace(/"/g,'&quot;')}" title="Delete branch ${b}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+        </button>
       </div>`;
   });
   html += '</div>';
   wrap.innerHTML = html;
   wrap.querySelectorAll('.bo-row').forEach(row=>{
     row.addEventListener('click', ()=>setBranch(row.dataset.branch));
+  });
+  // Delete icon per branch — click stays on this row only (stopPropagation)
+  // so it never triggers the row's own click (which would navigate INTO
+  // that branch instead of deleting it).
+  wrap.querySelectorAll('.bo-delete').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const b = btn.dataset.branch;
+      const count = records.filter(r=>branchOf(r)===b).length;
+      if(!confirm(`Delete "${b}" (${count} account${count===1?'':'s'})? This cannot be undone.`)) return;
+      clearBranchRecords(b);
+    });
   });
 }
 
@@ -2662,7 +2912,34 @@ function renderAll(){
 
 /* import ledger modal */
 const importModalBg = document.getElementById('importModalBg');
-document.getElementById('importBtn').addEventListener('click', ()=>{ document.getElementById('importFile').click(); });
+const importMenuBtn = document.getElementById('importMenuBtn');
+const importMenu = document.getElementById('importMenu');
+importMenuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  importMenu.classList.toggle('open');
+});
+document.getElementById('importLedgerOption').addEventListener('click', ()=>{
+  importMenu.classList.remove('open');
+  document.getElementById('importFile').click();
+});
+document.getElementById('importRemarksOption').addEventListener('click', ()=>{
+  importMenu.classList.remove('open');
+  document.getElementById('remarksImportFile').click();
+});
+// Close the dropdown on any outside click, so it behaves like a normal menu.
+document.addEventListener('click', (e)=>{
+  if(!importMenu.contains(e.target) && e.target!==importMenuBtn) importMenu.classList.remove('open');
+});
+
+const printMenuBtn = document.getElementById('printMenuBtn');
+const printMenu = document.getElementById('printMenu');
+printMenuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  printMenu.classList.toggle('open');
+});
+document.addEventListener('click', (e)=>{
+  if(!printMenu.contains(e.target) && e.target!==printMenuBtn) printMenu.classList.remove('open');
+});
 document.getElementById('importCancel').addEventListener('click', ()=>{
   importModalBg.classList.remove('open');
   document.getElementById('importFile').value='';
@@ -2748,7 +3025,6 @@ document.getElementById('importConfirm').addEventListener('click', ()=>{
 
 /* update Last Audit Remarks-only modal */
 const remarksModalBg = document.getElementById('remarksModalBg');
-document.getElementById('remarksImportBtn').addEventListener('click', ()=>{ document.getElementById('remarksImportFile').click(); });
 document.getElementById('remarksImportCancel').addEventListener('click', ()=>{
   remarksModalBg.classList.remove('open');
   document.getElementById('remarksImportFile').value='';
@@ -2838,6 +3114,141 @@ document.getElementById('remarksImportConfirm').addEventListener('click', ()=>{
   finishRemarksImport(updated, unmatched);
 });
 
+/* ---------- Reusable calendar date picker ----------
+   Keeps the stored value as MM/DD/YYYY text (same format already used
+   across the sheet/import), but shows a calendar-icon field + a popup
+   month-grid picker instead of a bare text box. Used for SI Date and
+   Date of Audit, in both the Add/Edit modal and the quick-edit strip. */
+const DP_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DP_WEEKDAYS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+function dpParse(str){
+  const m = (str||'').toString().trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(!m) return null;
+  let yyyy = m[3];
+  if(yyyy.length===2) yyyy = '20'+yyyy;
+  const d = new Date(Number(yyyy), Number(m[1])-1, Number(m[2]));
+  return isNaN(d.getTime()) ? null : d;
+}
+function dpFormat(d){
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${mm}/${dd}/${d.getFullYear()}`;
+}
+let dpActive = null; // {panel} of the currently open picker, if any
+function closeActiveDatePicker(){
+  if(dpActive){ dpActive.panel.classList.remove('open'); dpActive = null; }
+}
+function createDateField(opts){
+  const wrap = document.createElement('div');
+  wrap.className = 'date-field';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'date-field-input';
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span class="dfi-text"></span>`;
+  const textEl = btn.querySelector('.dfi-text');
+  const panel = document.createElement('div');
+  panel.className = 'date-picker-panel';
+  document.body.appendChild(panel);
+
+  let value = opts.value || '';
+  let viewDate = dpParse(value) || new Date();
+
+  function refreshText(){
+    const d = dpParse(value);
+    if(d){ textEl.textContent = dpFormat(d); textEl.classList.remove('placeholder'); }
+    else if(value){ textEl.textContent = value; textEl.classList.remove('placeholder'); }
+    else { textEl.textContent = opts.placeholder || 'mm/dd/yyyy'; textEl.classList.add('placeholder'); }
+  }
+  function setValue(newVal, closeAfter){
+    value = newVal;
+    refreshText();
+    if(opts.onChange) opts.onChange(value);
+    if(closeAfter) closePanel();
+  }
+  function renderPanel(){
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    const startWeekday = new Date(y, m, 1).getDay();
+    const daysInMonth = new Date(y, m+1, 0).getDate();
+    const today = new Date();
+    const selected = dpParse(value);
+    let html = `<div class="dp-header">
+        <button type="button" class="dp-nav" data-nav="-1">‹</button>
+        <div class="dp-month-label">${DP_MONTHS[m]} ${y}</div>
+        <button type="button" class="dp-nav" data-nav="1">›</button>
+      </div>
+      <div class="dp-weekdays">${DP_WEEKDAYS.map(w=>`<span>${w}</span>`).join('')}</div>
+      <div class="dp-days">`;
+    for(let i=0;i<startWeekday;i++) html += `<div class="dp-day empty"></div>`;
+    for(let day=1; day<=daysInMonth; day++){
+      const isToday = today.getFullYear()===y && today.getMonth()===m && today.getDate()===day;
+      const isSelected = selected && selected.getFullYear()===y && selected.getMonth()===m && selected.getDate()===day;
+      html += `<button type="button" class="dp-day${isToday?' today':''}${isSelected?' selected':''}" data-day="${day}">${day}</button>`;
+    }
+    html += `</div>
+      <div class="dp-footer">
+        <button type="button" data-action="today">Today</button>
+        <button type="button" data-action="clear">Clear</button>
+      </div>`;
+    panel.innerHTML = html;
+    panel.querySelectorAll('.dp-nav').forEach(b=>b.addEventListener('click', e=>{
+      e.stopPropagation();
+      viewDate = new Date(y, m + Number(b.dataset.nav), 1);
+      renderPanel();
+    }));
+    panel.querySelectorAll('.dp-day:not(.empty)').forEach(b=>b.addEventListener('click', e=>{
+      e.stopPropagation();
+      setValue(dpFormat(new Date(y, m, Number(b.dataset.day))), true);
+    }));
+    panel.querySelector('[data-action="today"]').addEventListener('click', e=>{
+      e.stopPropagation();
+      const d = new Date();
+      viewDate = d;
+      setValue(dpFormat(d), true);
+    });
+    panel.querySelector('[data-action="clear"]').addEventListener('click', e=>{
+      e.stopPropagation();
+      setValue('', true);
+    });
+  }
+  function positionPanel(){
+    const margin = 12;
+    const rect = btn.getBoundingClientRect();
+    const panelWidth = Math.min(280, window.innerWidth - margin*2);
+    let left = Math.max(margin, Math.min(rect.left, window.innerWidth - panelWidth - margin));
+    const estHeight = 320;
+    let top = rect.bottom + 6;
+    if(top + estHeight > window.innerHeight - margin) top = Math.max(margin, rect.top - estHeight - 6);
+    panel.style.left = left + 'px';
+    panel.style.top = top + 'px';
+    panel.style.width = panelWidth + 'px';
+  }
+  function openPanel(){
+    if(dpActive && dpActive.panel !== panel) closeActiveDatePicker();
+    viewDate = dpParse(value) || new Date();
+    renderPanel();
+    positionPanel();
+    panel.classList.add('open');
+    dpActive = {panel};
+  }
+  function closePanel(){
+    panel.classList.remove('open');
+    if(dpActive && dpActive.panel === panel) dpActive = null;
+  }
+  btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(panel.classList.contains('open')) closePanel(); else openPanel();
+  });
+  refreshText();
+  wrap.appendChild(btn);
+  wrap._dateField = { getValue:()=>value, setValue:(v)=>{value=v; refreshText();}, destroy:()=>panel.remove() };
+  return wrap;
+}
+document.addEventListener('click', (e)=>{
+  if(dpActive && !dpActive.panel.contains(e.target)) closeActiveDatePicker();
+});
+window.addEventListener('resize', closeActiveDatePicker);
+window.addEventListener('scroll', closeActiveDatePicker, true);
+
 /* add/edit row modal */
 const rowModalBg = document.getElementById('rowModalBg');
 function buildRowForm(rec){
@@ -2854,6 +3265,16 @@ function buildRowForm(rec){
       input = document.createElement('select');
       input.innerHTML = '<option value=""></option>' + c.options.map(o=>`<option value="${o}">${o}</option>`).join('');
       input.value = rec[c.key] || '';
+    } else if(c.key==='siDate' || c.key==='dateOfAudit'){
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.value = rec[c.key] || '';
+      const dateField = createDateField({
+        value: rec[c.key] || '',
+        placeholder: 'mm/dd/yyyy',
+        onChange: (v)=>{ input.value = v; }
+      });
+      wrap.appendChild(dateField);
     } else {
       input = document.createElement('input');
       input.type = 'text';
@@ -2903,20 +3324,21 @@ function deleteRow(id){
   pushUndo(label);
   logActivity(label);
   expandedIds.delete(id);
+  if(mobileFocusId===id) mobileFocusId = null;
   records = records.filter(r=>r.id!==id);
   saveRecords();
   renderAll();
 }
 
 document.getElementById('search').addEventListener('input', renderCards);
+
 document.getElementById('sortSelect').addEventListener('change', (e)=>{
   const [key,dir] = e.target.value.split(':');
   sortKey = key; sortDir = parseInt(dir,10);
   renderCards();
 });
 
-const clearBranchModalBg = document.getElementById('clearBranchModalBg');
-const clearBranchList = document.getElementById('clearBranchList');
+
 
 function clearBranchRecords(branchName){
   const idsToRemove = new Set(records.filter(r=>branchOf(r)===branchName).map(r=>r.id));
@@ -2926,114 +3348,10 @@ function clearBranchRecords(branchName){
   records = records.filter(r=>!idsToRemove.has(r.id));
   currentBranch = branchList().includes(currentBranch) ? currentBranch : null;
   expandedIds.clear();
+  mobileFocusId = null;
   saveRecords();
   renderAll();
 }
-
-document.getElementById('clearAllBtn').addEventListener('click', ()=>{
-  if(records.length===0){ alert('Wala nang laman dito.'); return; }
-  renderClearBranchList();
-  clearBranchModalBg.classList.add('open');
-});
-document.getElementById('deleteAllBtn').addEventListener('click', ()=>{
-  if(records.length===0){ alert('Wala nang laman dito.'); return; }
-  if(!confirm(`Buburahin LAHAT ng ${records.length} record sa LAHAT ng branch. Hindi na ito puwedeng ibalik maliban sa Undo agad. Sigurado ka ba?`)) return;
-  const label = `Deleted all records (${records.length} account${records.length===1?'':'s'})`;
-  pushUndo(label);
-  logActivity(label);
-  records = [];
-  currentBranch = null;
-  expandedIds.clear();
-  saveRecords();
-  renderAll();
-  settingsModalBg.classList.remove('open');
-});
-function renderClearBranchList(){
-  const branches = branchList();
-  let html = '';
-  branches.forEach(b=>{
-    const count = records.filter(r=>branchOf(r)===b).length;
-    html += `<div class="cb-item"><div class="cb-left"><span class="cb-name">${b}</span></div><div class="cb-right"><span class="cb-meta">${count} account${count===1?'':'s'}</span><button type="button" class="cb-delete" data-branch="${b.replace(/"/g,'&quot;')}" title="Delete ${b}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg></button></div></div>`;
-  });
-  clearBranchList.innerHTML = html;
-  clearBranchList.querySelectorAll('.cb-delete').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const b = btn.dataset.branch;
-      clearBranchRecords(b);
-      if(branchList().length===0){ clearBranchModalBg.classList.remove('open'); }
-      else{ renderClearBranchList(); }
-    });
-  });
-}
-document.getElementById('clearBranchCancel').addEventListener('click', ()=>{ clearBranchModalBg.classList.remove('open'); });
-clearBranchModalBg.addEventListener('click', (e)=>{ if(e.target===clearBranchModalBg) clearBranchModalBg.classList.remove('open'); });
-
-/* ---------- Delete by customer status (multi-select, across all branches) ---------- */
-const clearStatusModalBg = document.getElementById('clearStatusModalBg');
-const clearStatusList = document.getElementById('clearStatusList');
-const clearStatusConfirm = document.getElementById('clearStatusConfirm');
-let statusesToDelete = new Set();
-
-function statusCountsAll(){
-  const counts = {};
-  records.forEach(r=>{
-    const v = (r.customerStatus||'').trim();
-    if(!v) return;
-    counts[v] = (counts[v]||0)+1;
-  });
-  return counts;
-}
-function renderClearStatusList(){
-  statusesToDelete = new Set();
-  updateClearStatusConfirmLabel();
-  const counts = statusCountsAll();
-  const allStatuses = [...CUSTOMER_STATUS_ORDER, ...Object.keys(counts).filter(s=>!CUSTOMER_STATUS_ORDER.includes(s))];
-  let html = '';
-  allStatuses.forEach(status=>{
-    const count = counts[status]||0;
-    if(count===0) return; // walang customer na may status na ito ngayon — huwag ipakita
-    html += `<label class="cb-item cs-item"><input type="checkbox" class="cs-checkbox" data-status="${status.replace(/"/g,'&quot;')}"><span class="cb-left"><span class="chip ${statusClass(status)}">${status}</span></span><div class="cb-right"><span class="cb-meta">${count} account${count===1?'':'s'}</span></div></label>`;
-  });
-  if(!html){
-    html = '<div class="hint" style="margin:0;">Walang customer status na may laman ngayon.</div>';
-  }
-  clearStatusList.innerHTML = html;
-  clearStatusList.querySelectorAll('.cs-checkbox').forEach(cb=>{
-    cb.addEventListener('change', ()=>{
-      if(cb.checked) statusesToDelete.add(cb.dataset.status);
-      else statusesToDelete.delete(cb.dataset.status);
-      updateClearStatusConfirmLabel();
-    });
-  });
-}
-function updateClearStatusConfirmLabel(){
-  clearStatusConfirm.textContent = `Delete Selected (${statusesToDelete.size})`;
-  clearStatusConfirm.disabled = statusesToDelete.size===0;
-}
-document.getElementById('clearStatusBtn').addEventListener('click', ()=>{
-  if(records.length===0){ alert('Wala nang laman dito.'); return; }
-  renderClearStatusList();
-  clearStatusModalBg.classList.add('open');
-});
-document.getElementById('clearStatusCancel').addEventListener('click', ()=>{ clearStatusModalBg.classList.remove('open'); });
-clearStatusModalBg.addEventListener('click', (e)=>{ if(e.target===clearStatusModalBg) clearStatusModalBg.classList.remove('open'); });
-clearStatusConfirm.addEventListener('click', ()=>{
-  if(statusesToDelete.size===0) return;
-  const idsToRemove = new Set(records.filter(r=>statusesToDelete.has((r.customerStatus||'').trim())).map(r=>r.id));
-  if(idsToRemove.size===0){ clearStatusModalBg.classList.remove('open'); return; }
-  const statusLabel = [...statusesToDelete].join(', ');
-  if(!confirm(`Buburahin ang ${idsToRemove.size} customer na may status: ${statusLabel}. Sigurado ka ba?`)) return;
-  const label = `Deleted ${idsToRemove.size} account${idsToRemove.size===1?'':'s'} with status ${statusLabel} (all branches)`;
-  pushUndo(label);
-  logActivity(label);
-  records = records.filter(r=>!idsToRemove.has(r.id));
-  currentBranch = branchList().includes(currentBranch) ? currentBranch : null;
-  expandedIds.clear();
-  saveRecords();
-  renderAll();
-  clearStatusModalBg.classList.remove('open');
-  settingsModalBg.classList.remove('open');
-});
 
 function csvFromRecords(recs){
   const header = COLUMNS.map(c=>c.label).join(',');
@@ -3064,7 +3382,8 @@ function autoBackupBeforeImport(label){
 
 document.getElementById('exportBtn').addEventListener('click', ()=>{
   const fname = currentBranch===null ? 'genesis-audited-account.csv' : `genesis-audited-account-${currentBranch.replace(/[^a-z0-9]+/gi,'-')}.csv`;
-  downloadCSV(csvFromRecords(recordsInScope()), fname);
+  const exportRecs = recordsInScope().filter(r=>!isSummaryRow(r));
+  downloadCSV(csvFromRecords(exportRecs), fname);
 });
 
 /* Print only Customer Name -> MA columns (matches the plain spreadsheet layout),
@@ -3073,14 +3392,8 @@ function escHtml(s){
   return (s===undefined||s===null?'':s).toString()
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-/* Some imported sheets carry leftover "Grand Total" / "Sub Total" summary rows
-   from the original spreadsheet — these aren't real customers, so exclude them
-   from the printed list. */
-function isSummaryRow(r){
-  const n = (r.customerName||'').toString().trim().toLowerCase();
-  return n==='grand total' || n==='sub total' || n==='subtotal' || n==='total';
-}
-document.getElementById('printListBtn').addEventListener('click', ()=>{
+document.getElementById('printListOption').addEventListener('click', ()=>{
+  printMenu.classList.remove('open');
   const recs = getFiltered().filter(r=>!isSummaryRow(r));
   const printCols = [
     {key:'customerName', label:'Customer Name'},
@@ -3101,7 +3414,7 @@ document.getElementById('printListBtn').addEventListener('click', ()=>{
   }).join('') || `<tr><td colspan="${printCols.length}" style="text-align:center;color:#8C99AB;">No data</td></tr>`;
   const scopeLabel = currentBranch===null ? 'All Branches' : currentBranch;
   const win = window.open('', '_blank');
-  if(!win){ alert('Naka-block ang pop-up. Payagan ang pop-ups para ma-print ang listahan.'); return; }
+  if(!win){ alert('Pop-up was blocked. Allow pop-ups to print the list.'); return; }
   win.document.write(`<!DOCTYPE html><html><head><title>GAA Customer List</title><meta charset="UTF-8">
     <style>
       body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
@@ -3124,7 +3437,8 @@ document.getElementById('printListBtn').addEventListener('click', ()=>{
   setTimeout(()=>{ win.print(); }, 350);
 });
 
-document.getElementById('printSummaryBtn').addEventListener('click', ()=>{
+document.getElementById('printSummaryOption').addEventListener('click', ()=>{
+  printMenu.classList.remove('open');
   const branches = branchList();
   const total = records.length;
   const overdue = records.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
@@ -3144,7 +3458,7 @@ document.getElementById('printSummaryBtn').addEventListener('click', ()=>{
   });
   const unitRowsHtml = UNIT_STATUS_ORDER.map(o=>`<tr><td>${o}</td><td>${unitCounts[o]}</td></tr>`).join('');
   const win = window.open('', '_blank');
-  if(!win){ alert('Naka-block ang pop-up. Payagan ang pop-ups para ma-print ang summary.'); return; }
+  if(!win){ alert('Pop-up was blocked. Allow pop-ups to print the summary.'); return; }
   win.document.write(`<!DOCTYPE html><html><head><title>GAA Audit Summary</title><meta charset="UTF-8">
     <style>
       body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
