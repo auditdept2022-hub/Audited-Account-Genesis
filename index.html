@@ -70,28 +70,40 @@ html{overflow-x:hidden;}
 body{max-width:100%;}
 body{
   margin:0;
-  background:var(--page-bg);
+  background:
+    radial-gradient(ellipse 1000px 320px at 50% 0%, rgba(173,125,31,0.07) 0%, rgba(173,125,31,0) 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpolygon points='70.87,55.72 55.72,70.87 34.28,70.87 19.13,55.72 19.13,34.28 34.28,19.13 55.72,19.13 70.87,34.28' fill='none' stroke='%231C3A5C' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(180deg, rgba(28,58,92,0.045) 0px, rgba(28,58,92,0.045) 1px, transparent 1px, transparent 30px),
+    linear-gradient(180deg, #EEF1F6 0%, #E7EBF2 100%);
+  background-attachment:fixed;
   color:var(--ink);
   font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   padding:22px 24px 60px;
 }
-.wrap{max-width:1180px;margin:0 auto;}
+.wrap{max-width:1180px;margin:0 auto;position:relative;}
 
 /* header bar */
 .appbar{
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:var(--accent);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='1' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23E9C878' stop-opacity='0.5'/%3E%3Cstop offset='55%25' stop-color='%23AD7D1F' stop-opacity='0.14'/%3E%3Cstop offset='100%25' stop-color='%23AD7D1F' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l1' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='230' y2='195'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l2' gradientUnits='userSpaceOnUse' x1='0' y1='35' x2='320' y2='0'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l3' gradientUnits='userSpaceOnUse' x1='0' y1='95' x2='270' y2='200'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l4' gradientUnits='userSpaceOnUse' x1='35' y1='0' x2='0' y2='170'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l5' gradientUnits='userSpaceOnUse' x1='0' y1='150' x2='360' y2='45'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l6' gradientUnits='userSpaceOnUse' x1='65' y1='0' x2='400' y2='150'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l7' gradientUnits='userSpaceOnUse' x1='0' y1='12' x2='430' y2='95'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l8' gradientUnits='userSpaceOnUse' x1='130' y1='0' x2='65' y2='200'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l9' gradientUnits='userSpaceOnUse' x1='0' y1='125' x2='190' y2='0'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l10' gradientUnits='userSpaceOnUse' x1='0' y1='200' x2='500' y2='30'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='800,0 580,0 800,200' fill='url(%23g)'/%3E%3Cg stroke-width='1.6'%3E%3Cline x1='0' y1='0' x2='230' y2='195' stroke='url(%23l1)'/%3E%3Cline x1='0' y1='35' x2='320' y2='0' stroke='url(%23l2)'/%3E%3Cline x1='0' y1='95' x2='270' y2='200' stroke='url(%23l3)'/%3E%3Cline x1='35' y1='0' x2='0' y2='170' stroke='url(%23l4)'/%3E%3Cline x1='0' y1='150' x2='360' y2='45' stroke='url(%23l5)'/%3E%3Cline x1='65' y1='0' x2='400' y2='150' stroke='url(%23l6)'/%3E%3Cline x1='0' y1='12' x2='430' y2='95' stroke='url(%23l7)'/%3E%3Cline x1='130' y1='0' x2='65' y2='200' stroke='url(%23l8)'/%3E%3Cline x1='0' y1='125' x2='190' y2='0' stroke='url(%23l9)'/%3E%3Cline x1='0' y1='200' x2='500' y2='30' stroke='url(%23l10)'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(108deg, var(--accent-dark) 0%, var(--accent) 38%, #7C5F2A 62%, var(--gold) 100%);
+  background-size:cover, cover;
+  background-position:right center, center;
   border:1px solid var(--accent-dark);
   border-bottom:3px solid var(--gold);
   border-radius:10px;
   padding:16px 22px;
   margin-bottom:16px;
   box-shadow:var(--shadow-md);
+  overflow:hidden;
 }
-.appbar-brand{display:flex;align-items:center;gap:13px;}
+.appbar-brand{display:flex;align-items:center;gap:13px;position:relative;z-index:1;}
 .logo-badge{flex:0 0 auto;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.25));}
+.logo-badge img{display:block;}
 .appbar h1{font-size:19px;font-weight:600;margin:0;color:#fff;letter-spacing:.01em;}
 .appbar .sub{font-size:12.5px;color:rgba(255,255,255,0.72);margin-top:3px;}
 .appbar .health{
@@ -253,83 +265,97 @@ body{
 .kpi.teal{background:var(--teal-bg);border-left-color:var(--teal);}
 .kpi.teal .k-value{color:var(--teal);}
 
-/* unit status breakdown panel */
+/* unit status breakdown panel — now a floating dropdown (like the
+   filter buttons below) instead of an inline block that pushes the rest
+   of the page down when opened. */
 .unit-breakdown{
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:8px 12px;margin-bottom:16px;box-shadow:var(--shadow-sm);
+  position:relative;width:fit-content;max-width:100%;
+  background:var(--surface);border:1px solid var(--border);border-radius:9px;
+  padding:6px 10px;box-shadow:var(--shadow-sm);
 }
-.unit-breakdown .ub-title{font-size:10.5px;color:var(--accent);font-weight:700;margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
-.ub-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.ub-title-row .ub-title{margin-bottom:0;}
+.unit-breakdown .ub-title{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;min-width:0;}
+.ub-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;}
 .ub-toggle{
   flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-  width:22px;height:22px;border-radius:5px;border:1px solid transparent;
-  background:transparent;color:var(--ink-faint);cursor:pointer;padding:0;margin-bottom:7px;
-  transition:transform .15s ease,background .12s ease,color .12s ease;
+  background:transparent;border:none;color:var(--ink-faint);cursor:pointer;padding:2px;
+  font-size:10px;opacity:.75;line-height:1;
+  transition:transform .15s ease,color .12s ease;
 }
-.ub-toggle svg{width:14px;height:14px;}
-.ub-toggle:hover{background:var(--accent-bg);color:var(--accent);}
+.ub-toggle svg{width:9px;height:9px;}
+.ub-toggle:hover{color:var(--accent);opacity:1;}
 .ub-toggle.collapsed{transform:rotate(-90deg);}
-.ub-chips{display:flex;flex-wrap:wrap;gap:6px;}
 .ub-chip{
-  display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:16px;
-  font-size:11px;font-weight:600;border:1px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:8px 10px;border-radius:7px;border:none;background:none;
+  font-size:12.5px;font-weight:600;color:var(--ink);text-align:left;
+  cursor:pointer;transition:background .12s ease;
 }
-.ub-chip .ub-count{font-size:12px;font-weight:800;}
-.ub-chip.confirmed{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
-.ub-chip.good-condition{background:#E9EEF5;color:#1C3A5C;border-color:#CDD5E0;}
-.ub-chip.missing{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
-.ub-chip.impound{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
-.ub-chip.total-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;}
-.ub-chip.for-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
-.ub-chip.not-confirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
-.ub-chip.damage{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bd);}
-.ub-chip.carnap{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);}
-.ub-chip.blank{background:#fff;color:var(--ink-faint);border-color:var(--border-strong);border-style:dashed;}
-.ub-chip{cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;}
-.ub-chip:hover{box-shadow:0 0 0 2px rgba(20,40,63,0.12);}
-.ub-chip.ub-active{box-shadow:0 0 0 2px var(--accent);}
+.ub-chip:hover{background:var(--surface-alt);}
+.ub-chip.ub-active{background:var(--accent-bg);}
+.ub-chip .ub-count{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-faint);}
+.ub-chip.ub-active .ub-count{color:var(--accent-dark);}
+.ub-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;background:var(--dot,var(--ink-faint));}
+.ub-chip.confirmed{--dot:var(--good);}
+.ub-chip.good-condition{--dot:#1C3A5C;}
+.ub-chip.missing{--dot:var(--bad);}
+.ub-chip.impound{--dot:#B0630F;}
+.ub-chip.total-wreck{--dot:#8A2B2B;}
+.ub-chip.for-tracing{--dot:var(--purple);}
+.ub-chip.not-confirmed{--dot:var(--neutral);}
+.ub-chip.damage{--dot:var(--teal);}
+.ub-chip.carnap{--dot:var(--maroon);}
+.ub-chip.blank{--dot:var(--ink-faint);}
 .ub-hint{font-size:10px;color:var(--ink-faint);text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px;}
 
-/* customer status breakdown panel (BNEW-OD, REPO-DEL, etc.) */
+/* customer status breakdown panel (BNEW-OD, REPO-DEL, etc.) — same
+   floating-dropdown treatment as unit status breakdown above. */
 .status-breakdown{
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:8px 12px;margin-bottom:12px;box-shadow:var(--shadow-sm);
+  position:relative;width:fit-content;max-width:100%;
+  background:var(--surface);border:1px solid var(--border);border-radius:9px;
+  padding:6px 10px;box-shadow:var(--shadow-sm);
 }
-.status-breakdown .sb-title{font-size:10.5px;color:var(--accent);font-weight:700;margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
-.sb-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.sb-title-row .sb-title{margin-bottom:0;}
+.status-breakdown .sb-title{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;min-width:0;}
+.sb-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;}
 .sb-toggle{
   flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-  width:22px;height:22px;border-radius:5px;border:1px solid transparent;
-  background:transparent;color:var(--ink-faint);cursor:pointer;padding:0;margin-bottom:7px;
-  transition:transform .15s ease,background .12s ease,color .12s ease;
+  background:transparent;border:none;color:var(--ink-faint);cursor:pointer;padding:2px;
+  font-size:10px;opacity:.75;line-height:1;
+  transition:transform .15s ease,color .12s ease;
 }
-.sb-toggle svg{width:14px;height:14px;}
-.sb-toggle:hover{background:var(--accent-bg);color:var(--accent);}
+.sb-toggle svg{width:9px;height:9px;}
+.sb-toggle:hover{color:var(--accent);opacity:1;}
 .sb-toggle.collapsed{transform:rotate(-90deg);}
-.sb-chips{display:flex;flex-wrap:wrap;gap:6px;}
 .sb-chip{
-  display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:16px;
-  font-size:11px;font-weight:600;border:1px solid transparent;white-space:nowrap;
-  cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:8px 10px;border-radius:7px;border:none;background:none;
+  font-size:12.5px;font-weight:600;color:var(--ink);text-align:left;
+  cursor:pointer;transition:background .12s ease;
 }
-.sb-chip .sb-count{font-size:12px;font-weight:800;}
-.sb-chip:hover{box-shadow:0 0 0 2px rgba(20,40,63,0.12);}
-.sb-chip.sb-active{box-shadow:0 0 0 2px var(--accent);}
-.sb-chip.status-bnew-adv{background:var(--cyan-bg);color:var(--cyan);border-color:var(--cyan-bd);}
-.sb-chip.status-bnew-cu{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
-.sb-chip.status-bnew-od{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd);}
-.sb-chip.status-bnew-del{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);}
-.sb-chip.status-repo-adv{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
-.sb-chip.status-repo-cu{background:var(--pink-bg);color:var(--pink);border-color:var(--pink-bd);}
-.sb-chip.status-repo-od{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-bd);}
-.sb-chip.status-repo-del{background:var(--maroon-bg);color:var(--maroon);border-color:var(--maroon-bd);}
-.sb-chip.status-rstr-od{background:var(--accent-bg);color:var(--accent);border-color:var(--border-strong);}
-.sb-chip.status-rstr-del{background:var(--olive-bg);color:var(--olive);border-color:var(--olive-bd);}
-.sb-chip.status-od-bn{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
-.sb-chip.blank{background:#fff;color:var(--ink-faint);border-color:var(--border-strong);border-style:dashed;}
-.sb-chip.total{background:var(--accent-bg);color:var(--accent);border-color:var(--border-strong);font-weight:700;cursor:default;}
+.sb-chip:hover{background:var(--surface-alt);}
+.sb-chip.sb-active{background:var(--accent-bg);}
+.sb-chip .sb-count{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-faint);}
+.sb-chip.sb-active .sb-count{color:var(--accent-dark);}
+.sb-chip .ub-dot{background:var(--dot,var(--ink-faint));}
+.sb-chip.status-bnew-adv{--dot:var(--cyan);}
+.sb-chip.status-bnew-cu{--dot:var(--good);}
+.sb-chip.status-bnew-od{--dot:var(--warn);}
+.sb-chip.status-bnew-del{--dot:var(--bad);}
+.sb-chip.status-repo-adv{--dot:var(--purple);}
+.sb-chip.status-repo-cu{--dot:var(--pink);}
+.sb-chip.status-repo-od{--dot:var(--orange);}
+.sb-chip.status-repo-del{--dot:var(--maroon);}
+.sb-chip.status-rstr-od{--dot:var(--accent);}
+.sb-chip.status-rstr-del{--dot:var(--olive);}
+.sb-chip.status-od-bn{--dot:var(--neutral);}
+.sb-chip.blank{--dot:var(--ink-faint);}
+.sb-chip.total{
+  font-weight:700;cursor:default;color:var(--accent-dark);
+  border-bottom:1px solid var(--border);border-radius:0;margin-bottom:4px;padding-bottom:10px;
+}
+.sb-chip.total:hover{background:none;}
+.sb-chip.total .ub-dot{background:var(--accent);}
+.sb-chip.total .sb-count{color:var(--accent-dark);}
+.ub-chip .chip-label, .sb-chip .chip-label{flex:1 1 auto;min-width:0;color:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 /* toast — brief auto-hiding confirmation, e.g. "Connected to Google Sheets" */
 .toast{
@@ -343,9 +369,15 @@ body{
 .toast.error{background:var(--bad);border-color:var(--bad);}
 
 /* branch tabs — switch focus between one branch and all branches combined */
+.top-row-flex{
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  margin-bottom:12px;
+}
+.top-row-flex .status-breakdown, .top-row-flex .unit-breakdown{
+  flex:1 1 130px;min-width:110px;
+}
 .branch-tabs{
   display:flex;gap:7px;flex-wrap:wrap;align-items:center;
-  margin-bottom:12px;
 }
 .branch-tab{
   display:inline-flex;align-items:center;gap:6px;
@@ -396,7 +428,7 @@ body{
 }
 .ms-item:hover{background:var(--surface-alt);}
 .ms-item input[type=checkbox]{margin:0;accent-color:var(--accent);width:14px;height:14px;flex-shrink:0;}
-.ms-item span{overflow:hidden;text-overflow:ellipsis;}
+.ms-item span{overflow:hidden;}
 .ms-clear-item{
   display:block;width:100%;text-align:left;padding:8px 12px;border-radius:7px;cursor:pointer;
   font-size:12.5px;color:var(--accent);font-weight:600;background:none;border:none;
@@ -405,6 +437,18 @@ body{
 .ms-clear-item:hover{background:var(--surface-alt);}
 .picker-panel-title{display:none;}
 .picker-backdrop{display:none;}
+
+/* Unit/Customer Status Breakdown chip panels reuse .branch-picker-panel's
+   floating-dropdown mechanics (position:absolute on desktop, centered
+   sheet + backdrop on mobile) instead of sitting inline in the page flow.
+   These overrides widen it out and let the chips wrap onto multiple lines
+   instead of the picker's usual single-column checkbox list. */
+.ub-chips.branch-picker-panel, .sb-chips.branch-picker-panel{
+  left:0;right:auto;min-width:240px;width:min(300px,92vw);max-width:min(92vw,320px);
+  display:none;flex-direction:column;gap:1px;padding:8px;
+  max-height:min(320px,60vh);overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.ub-chips.branch-picker-panel.open, .sb-chips.branch-picker-panel.open{display:flex;}
 
 /* branch overview — shown only when "All Branches" is selected */
 .branch-overview{
@@ -664,6 +708,19 @@ select.pmode-field{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
 select.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
 
+/* Mode of Payment toggle pills (multi-select — see parsePaymentModes) */
+.pmode-group{display:flex;flex-wrap:wrap;gap:6px;}
+.pmode-toggle{
+  font-family:inherit;font-size:11.5px;font-weight:600;
+  padding:5px 10px;border-radius:20px;cursor:pointer;
+  border:1px solid var(--border-strong);background:#fff;color:var(--ink-soft);
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
+}
+.pmode-toggle:hover{border-color:var(--accent);}
+.pmode-toggle.pmode-branch.active{background:#E9EEF5;color:#1C3A5C;border-color:#CDD5E0;}
+.pmode-toggle.pmode-field.active{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+.pmode-toggle.pmode-online.active{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+
 /* ---------- Calendar date picker (SI Date / Date of Audit) ---------- */
 .date-field{position:relative;width:100%;}
 .date-field-input{
@@ -674,7 +731,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 }
 .date-field-input:hover{border-color:var(--accent);}
 .date-field-input svg{width:15px;height:15px;flex:none;color:var(--ink-faint);}
-.date-field-input .dfi-text{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.date-field-input .dfi-text{flex:1 1 auto;min-width:0;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent 100%);mask-image:linear-gradient(90deg,#000 85%,transparent 100%);}
 .date-field-input .dfi-text.placeholder{color:var(--ink-faint);}
 .rc-qf .date-field-input{padding:5px 8px;font-size:11.5px;}
 
@@ -802,7 +859,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .kpi .k-label{font-size:10.5px;margin-bottom:4px;}
   .kpi .k-value{font-size:16px;}
 
-  .status-breakdown, .unit-breakdown{padding:8px 10px;}
+  .status-breakdown, .unit-breakdown{padding:6px 10px;}
   .sb-chip, .ub-chip{font-size:10.5px;padding:4px 8px;}
 
 
@@ -830,6 +887,12 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
     border-radius:14px;padding:8px;
     box-shadow:0 20px 60px rgba(0,0,0,.35);
     z-index:200;
+  }
+  .ub-chips.branch-picker-panel, .sb-chips.branch-picker-panel{
+    position:fixed;left:50%;top:50%;right:auto;
+    transform:translate(-50%,-50%);
+    width:calc(100vw - 40px);max-width:420px;min-width:0;
+    max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
   }
   .branch-picker-item, .ms-item{
     white-space:normal;padding:12px 14px;font-size:13.5px;
@@ -980,13 +1043,11 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   <div class="conn-banner" id="connBanner"></div>
   <div class="toast" id="toast"></div>
 
-  <div class="branch-tabs" id="branchTabs"></div>
-
-  <div class="status-breakdown" id="statusBreakdown"></div>
-
-  <div class="unit-breakdown" id="unitBreakdown"></div>
-
-
+  <div class="top-row-flex">
+    <div class="branch-tabs" id="branchTabs"></div>
+    <div class="status-breakdown" id="statusBreakdown"></div>
+    <div class="unit-breakdown" id="unitBreakdown"></div>
+  </div>
 
   <div class="toolbar">
     <div class="branch-picker-wrap" id="statusFilterWrap">
@@ -1013,7 +1074,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
     </select>
     <span class="spacer"></span>
     <span class="count-note" id="rowCount"></span>
-    <button class="btn" id="saveAllBtn" title="Save ALL changes in ALL branches — not just the branch or customer currently in focus">💾 Save All</button>
+    <button class="btn" id="saveAllBtn" title="Save any pending changes, across all branches — a branch with nothing to save is left untouched.">💾 Save All</button>
     <button class="btn primary" id="addBtn">+ Add customer</button>
   </div>
 
@@ -1246,12 +1307,19 @@ function splitDelimited(line, delim){
   cells.push(cur);
   return cells.map(c=>c.trim());
 }
+/* Normalizes a header cell for matching: lowercase, trimmed, and any
+   trailing period stripped — so "Engine No." and "Engine No" (or "Due Date"
+   and "Due Day") are treated as the same header regardless of which exact
+   wording a given export uses. */
+function normHeaderCell(s){
+  return (s||'').toString().trim().toLowerCase().replace(/\.+$/, '');
+}
 function looksLikeHeaderRow(cells){
   let matches = 0;
   COLUMNS.forEach((c,i)=>{
-    const cell = (cells[i]||'').trim().toLowerCase();
-    const wanted = (c.sourceLabel || c.label).toLowerCase();
-    if(cell && cell === wanted) matches++;
+    const cell = normHeaderCell(cells[i]);
+    const candidates = [c.sourceLabel, c.label].filter(Boolean).map(normHeaderCell);
+    if(cell && candidates.includes(cell)) matches++;
   });
   return matches >= Math.ceil(COLUMNS.length/2);
 }
@@ -1271,13 +1339,17 @@ function cleanRowMapper(cells){
 }
 
 /* Builds a {columnKey: cellIndex} map by matching each COLUMNS entry's sourceLabel
-   against the actual header row text. This lets a Branch column (or any column) sit
-   anywhere in the file — position no longer has to match COLUMNS order exactly. */
+   OR its display label against the actual header row text (normalized — see
+   normHeaderCell). This lets a Branch column (or any column) sit anywhere in the
+   file — position no longer has to match COLUMNS order exactly — and tolerates an
+   uploaded file using either wording (e.g. "Engine No." or "Engine No", "Due Date"
+   or "Due Day") for the same column instead of silently coming in blank. */
 function buildHeaderIndex(headerRow){
   const idx = {};
+  const headerNorm = headerRow.map(normHeaderCell);
   COLUMNS.forEach(c=>{
-    const wanted = (c.sourceLabel || c.label).toLowerCase();
-    const i = headerRow.findIndex(h=>(h||'').toString().trim().toLowerCase() === wanted);
+    const candidates = [c.sourceLabel, c.label].filter(Boolean).map(normHeaderCell);
+    const i = headerNorm.findIndex(h=>h && candidates.includes(h));
     if(i !== -1) idx[c.key] = i;
   });
   return idx;
@@ -1318,14 +1390,28 @@ function rawRowMapper(cells, currentStatus){
   };
 }
 
-/* Core import engine for the full ledger import — takes a 2D array of rows and adds
-   matching records. Auto-detects clean dashboard format vs. raw system-export format.
-   branchHint (optional) is the Excel tab name the rows came from — it's used to fill in
-   each record's Branch whenever the row itself doesn't already carry a Branch value
-   (e.g. a raw system export, or a clean file with no Branch column). */
+/* Core import engine for the full ledger import. Refreshes the dashboard to
+   exactly match the imported file FOR WHICHEVER BRANCH(ES) APPEAR IN IT —
+   branches not present in the file are left completely untouched:
+     - a row that matches an existing record in that branch by Customer Name
+       + Engine No. (both non-blank) UPDATES that record in place. Any field
+       left blank in the new row keeps its old value, so blank cells never
+       silently erase existing data — EXCEPT Auditor Remarks: whatever the
+       auditor had typed there is archived into Last Audit Remarks first,
+       then Auditor Remarks is cleared, ready for this new audit cycle (the
+       new row's own Auditor Remarks value is used instead, if it has one).
+     - a row with no match becomes a brand-new record.
+     - any existing record in that branch with NO matching row in the new
+       file is removed — the branch's data is fully replaced by the import,
+       not just merged on top of.
+   branchHint (optional) is the Excel tab name / uploaded filename the rows
+   came from — used to fill in each record's Branch whenever the row itself
+   doesn't already carry a Branch value (e.g. a raw system export, or a
+   clean file with no Branch column), and to decide which branch's existing
+   data gets replaced when nothing in the file states a branch. */
 function runImportFromRows(rows, branchHint){
   rows = rows.filter(r => r.some(c => (c===undefined||c===null?'':String(c)).trim() !== ''));
-  if(rows.length===0) return {added:0, attempted:0};
+  if(rows.length===0) return {added:0, attempted:0, updated:0, removed:0};
   const header = rows[0].map(c=>(c===undefined||c===null?'':String(c)).trim());
   const first = header[0].toLowerCase();
   let dataRows = rows;
@@ -1340,7 +1426,9 @@ function runImportFromRows(rows, branchHint){
     dataRows = rows.slice(1);
     mapper = cells=>cleanRowMapperIndexed(cells, buildHeaderIndex(header));
   }
-  let added = 0, attempted = 0, currentStatus = '';
+
+  let attempted = 0, currentStatus = '';
+  const parsedRecs = [];
   dataRows.forEach(cellsRaw=>{
     const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
     const nonEmpty = cells.filter(c=>c!=='');
@@ -1353,12 +1441,61 @@ function runImportFromRows(rows, branchHint){
     const rec = mapper(cells, currentStatus);
     if(rec && rec.customerName && !isSummaryRow(rec)){
       if(!rec.branch && branchHint) rec.branch = branchHint;
-      rec.id = uid();
-      records.push(rec);
-      added++;
+      parsedRecs.push(rec);
     }
   });
-  return {added, attempted};
+
+  // Group the newly-parsed rows by the branch they resolve to, so each
+  // affected branch's existing data can be replaced independently — a
+  // branch that doesn't appear in this file is never touched.
+  const groups = new Map();
+  parsedRecs.forEach(rec=>{
+    const key = branchOf(rec);
+    if(!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(rec);
+  });
+
+  let added = 0, updated = 0, removed = 0;
+  groups.forEach((recs, branchKey)=>{
+    const existingInBranch = records.filter(r=>branchOf(r)===branchKey);
+    const matchedIds = new Set();
+    recs.forEach(rec=>{
+      const nameKey = normName(rec.customerName);
+      const engineKey = normName(rec.engineNo);
+      // Blank Engine No. on either side never counts as a match (safer to
+      // add a new row than risk merging into the wrong account).
+      const match = (nameKey && engineKey)
+        ? existingInBranch.find(r=>!matchedIds.has(r.id) && normName(r.customerName)===nameKey && normName(r.engineNo)===engineKey)
+        : undefined;
+      if(match){
+        if(match.auditorRemarks && match.auditorRemarks.trim()){
+          match.lastAuditRemarks = match.auditorRemarks;
+        }
+        match.auditorRemarks = '';
+        COLUMNS.forEach(c=>{
+          if(c.key==='auditorRemarks' || c.key==='lastAuditRemarks') return; // handled above
+          const v = rec[c.key];
+          if(v!==undefined && v!==null && String(v).trim()!==''){ match[c.key] = v; }
+        });
+        if(rec.auditorRemarks && rec.auditorRemarks.trim()){ match.auditorRemarks = rec.auditorRemarks; }
+        matchedIds.add(match.id);
+        updated++;
+      } else {
+        rec.id = uid();
+        records.push(rec);
+        added++;
+      }
+    });
+    existingInBranch.forEach(r=>{
+      if(!matchedIds.has(r.id)){
+        const idx = records.indexOf(r);
+        if(idx!==-1) records.splice(idx,1);
+        removed++;
+      }
+    });
+  });
+
+  return {added, attempted, updated, removed};
 }
 
 /* Some imported sheets carry leftover "Grand Total" / "Sub Total" summary rows
@@ -1501,6 +1638,12 @@ const PAYMENT_MODE_CLASS = {
 function paymentModeClass(val){
   return PAYMENT_MODE_CLASS[(val||'').toUpperCase()] || 'pmode-blank';
 }
+/* Mode of Payment can hold more than one channel (e.g. "BRANCH, ONLINE") —
+   this splits that stored string back into a clean array of the individual
+   selected options, for both the card's toggle pills and the Add/Edit modal. */
+function parsePaymentModes(val){
+  return (val||'').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
+}
 const UNIT_STATUS_SLUG = {
   'CONFIRMED':'confirmed',
   'GOOD CONDITION':'good-condition',
@@ -1516,7 +1659,7 @@ const UNIT_STATUS_SLUG = {
    gets its own count. A record with nothing picked yet falls under "No Label" instead —
    the two are tracked separately so ticking "Not Confirmed" moves it out of "No Label". */
 const UNIT_STATUS_ORDER = ['CONFIRMED','GOOD CONDITION','MISSING','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED','DAMAGE','CARNAP'];
-let unitBreakdownCollapsed = false;
+let unitBreakdownCollapsed = true;
 function renderUnitBreakdown(){
   const wrap = document.getElementById('unitBreakdown');
   const counts = {};
@@ -1527,24 +1670,39 @@ function renderUnitBreakdown(){
     if(v && counts.hasOwnProperty(v)) counts[v]++;
     else noLabel++;
   });
-  let html = `<div class="ub-title-row">
-      <div class="ub-title">Unit Status Breakdown <span class="ub-hint">(click a status to filter the list below)</span></div>
+  let html = `<div class="ub-title-row" id="ubTitleRow">
+      <div class="ub-title">Unit Status Breakdown</div>
       <button type="button" class="ub-toggle${unitBreakdownCollapsed?' collapsed':''}" id="ubToggleBtn" title="${unitBreakdownCollapsed?'Show':'Hide'} breakdown">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-    </div><div class="ub-chips"${unitBreakdownCollapsed?' style="display:none;"':''}>`;
+    </div><div class="ub-chips branch-picker-panel${unitBreakdownCollapsed?'':' open'}" id="ubChipsPanel">`;
   UNIT_STATUS_ORDER.forEach(o=>{
     const isActive = unitFilterValues.size===1 && unitFilterValues.has(o);
-    html += `<span class="ub-chip ${UNIT_STATUS_SLUG[o]}${isActive?' ub-active':''}" data-status="${o}" role="button" tabindex="0">${o} <span class="ub-count">${counts[o]}</span></span>`;
+    html += `<span class="ub-chip ${UNIT_STATUS_SLUG[o]}${isActive?' ub-active':''}" data-status="${o}" role="button" tabindex="0"><span class="ub-dot"></span><span class="chip-label">${o}</span><span class="ub-count">${counts[o]}</span></span>`;
   });
   html += '</div>';
   wrap.innerHTML = html;
-  document.getElementById('ubToggleBtn').addEventListener('click', ()=>{
+  const toggleUb = (e)=>{
+    if(e) e.stopPropagation();
     unitBreakdownCollapsed = !unitBreakdownCollapsed;
+    if(!unitBreakdownCollapsed && !statusBreakdownCollapsed){
+      statusBreakdownCollapsed = true;
+      renderStatusBreakdown();
+    }
     renderUnitBreakdown();
-  });
+    if(!unitBreakdownCollapsed){
+      const sfp = document.getElementById('statusFilterPanel'); if(sfp) sfp.classList.remove('open');
+      const ufp = document.getElementById('unitFilterPanel'); if(ufp) ufp.classList.remove('open');
+      const bpp = document.getElementById('branchPickerPanel'); if(bpp) bpp.classList.remove('open');
+      showPickerBackdrop(true);
+    } else {
+      showPickerBackdrop(false);
+    }
+  };
+  document.getElementById('ubTitleRow').addEventListener('click', toggleUb);
   wrap.querySelectorAll('.ub-chip').forEach(chip=>{
-    chip.addEventListener('click', ()=>{
+    chip.addEventListener('click', (e)=>{
+      e.stopPropagation();
       const status = chip.dataset.status;
       if(unitFilterValues.size===1 && unitFilterValues.has(status)){
         unitFilterValues.clear();
@@ -1554,13 +1712,15 @@ function renderUnitBreakdown(){
       }
       populateFilterOptions();
       renderCards();
+      unitBreakdownCollapsed = true;
       renderUnitBreakdown();
+      showPickerBackdrop(false);
       document.getElementById('cardList').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 }
 const CUSTOMER_STATUS_ORDER = ['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL','REPO - ADV','REPO - CU','REPO - OD','REPO - DEL','RSTR - OD','RSTR - DEL','OD - BN'];
-let statusBreakdownCollapsed = false;
+let statusBreakdownCollapsed = true;
 function renderStatusBreakdown(){
   const wrap = document.getElementById('statusBreakdown');
   wrap.style.display = '';
@@ -1575,29 +1735,44 @@ function renderStatusBreakdown(){
     else if(v) counts[v] = (counts[v]||0)+1;
     else noLabel++;
   });
-  let html = `<div class="sb-title-row">
-      <div class="sb-title">Customer Status Breakdown <span class="ub-hint">(click a status to filter the list below)</span></div>
+  let html = `<div class="sb-title-row" id="sbTitleRow">
+      <div class="sb-title">Customer Status Breakdown</div>
       <button type="button" class="sb-toggle${statusBreakdownCollapsed?' collapsed':''}" id="sbToggleBtn" title="${statusBreakdownCollapsed?'Show':'Hide'} breakdown">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-    </div><div class="sb-chips"${statusBreakdownCollapsed?' style="display:none;"':''}>
-    <span class="sb-chip total">Total Accounts <span class="sb-count">${totalAccounts}</span></span>`;
+    </div><div class="sb-chips branch-picker-panel${statusBreakdownCollapsed?'':' open'}" id="sbChipsPanel">
+    <span class="sb-chip total"><span class="ub-dot"></span><span class="chip-label">Total Accounts</span><span class="sb-count">${totalAccounts}</span></span>`;
   CUSTOMER_STATUS_ORDER.forEach(o=>{
     const isActive = statusFilterValues.size===1 && statusFilterValues.has(o);
-    html += `<span class="sb-chip ${STATUS_EXACT_CLASS[o]||'blank'}${isActive?' sb-active':''}" data-status="${o}" role="button" tabindex="0">${o} <span class="sb-count">${counts[o]}</span></span>`;
+    html += `<span class="sb-chip ${STATUS_EXACT_CLASS[o]||'blank'}${isActive?' sb-active':''}" data-status="${o}" role="button" tabindex="0"><span class="ub-dot"></span><span class="chip-label">${o}</span><span class="sb-count">${counts[o]}</span></span>`;
   });
   if(noLabel>0){
     const isActive = false;
-    html += `<span class="sb-chip blank" role="button" tabindex="0" style="cursor:default;">No Label <span class="sb-count">${noLabel}</span></span>`;
+    html += `<span class="sb-chip blank" role="button" tabindex="0" style="cursor:default;"><span class="ub-dot"></span><span class="chip-label">No Label</span><span class="sb-count">${noLabel}</span></span>`;
   }
   html += '</div>';
   wrap.innerHTML = html;
-  document.getElementById('sbToggleBtn').addEventListener('click', ()=>{
+  const toggleSb = (e)=>{
+    if(e) e.stopPropagation();
     statusBreakdownCollapsed = !statusBreakdownCollapsed;
+    if(!statusBreakdownCollapsed && !unitBreakdownCollapsed){
+      unitBreakdownCollapsed = true;
+      renderUnitBreakdown();
+    }
     renderStatusBreakdown();
-  });
+    if(!statusBreakdownCollapsed){
+      const sfp = document.getElementById('statusFilterPanel'); if(sfp) sfp.classList.remove('open');
+      const ufp = document.getElementById('unitFilterPanel'); if(ufp) ufp.classList.remove('open');
+      const bpp = document.getElementById('branchPickerPanel'); if(bpp) bpp.classList.remove('open');
+      showPickerBackdrop(true);
+    } else {
+      showPickerBackdrop(false);
+    }
+  };
+  document.getElementById('sbTitleRow').addEventListener('click', toggleSb);
   wrap.querySelectorAll('.sb-chip[data-status]').forEach(chip=>{
-    chip.addEventListener('click', ()=>{
+    chip.addEventListener('click', (e)=>{
+      e.stopPropagation();
       const status = chip.dataset.status;
       if(statusFilterValues.size===1 && statusFilterValues.has(status)){
         statusFilterValues.clear();
@@ -1607,7 +1782,9 @@ function renderStatusBreakdown(){
       }
       populateFilterOptions();
       renderCards();
+      statusBreakdownCollapsed = true;
       renderStatusBreakdown();
+      showPickerBackdrop(false);
       document.getElementById('cardList').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
@@ -1681,10 +1858,13 @@ function gsRun(fnName, ...args){
         // text/plain on purpose: keeps this a "simple request" so the
         // browser skips the CORS preflight (OPTIONS), which Apps Script
         // web apps can't respond to.
+        // args[1] (branches) tells the backend EXACTLY which branch tabs
+        // this save is allowed to touch — every other tab is left
+        // completely alone, even if it isn't present in `records` at all.
         const res = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           headers: {'Content-Type': 'text/plain;charset=utf-8'},
-          body: JSON.stringify({action: 'saveAllRecords', records: args[0]})
+          body: JSON.stringify({action: 'saveAllRecords', records: args[0], branches: args[1] || null})
         });
         if(!res.ok) throw new Error('Network error: ' + res.status);
         const data = await res.json();
@@ -1855,8 +2035,22 @@ function writeLastSynced(data){
   try{ localStorage.setItem(LAST_SYNCED_KEY, JSON.stringify(data)); }catch(e){}
 }
 let lastSyncedRecords = readLastSynced();
-function markSynced(){
+/* Full clone — used only right after a clean load from the server (the
+   fetched copy IS by definition fully in sync, for every branch). */
+function markSyncedAll(){
   lastSyncedRecords = JSON.parse(JSON.stringify(records));
+  writeLastSynced(lastSyncedRecords);
+}
+/* Only the branches actually just pushed to the backend become "in sync" —
+   any other branch that got edited while this request was in flight (or
+   that simply wasn't part of this particular save) keeps its OLD
+   last-synced snapshot, so it still correctly shows up as pending on the
+   next diff instead of being silently marked as saved when it wasn't. */
+function markSynced(syncedBranches){
+  const syncedSet = new Set(syncedBranches);
+  const merged = lastSyncedRecords.filter(r=>!syncedSet.has(branchOf(r)));
+  records.forEach(r=>{ if(syncedSet.has(branchOf(r))) merged.push(JSON.parse(JSON.stringify(r))); });
+  lastSyncedRecords = merged;
   writeLastSynced(lastSyncedRecords);
 }
 /* Lists which customer records differ from what's actually saved on the
@@ -1879,6 +2073,51 @@ function computePendingRecords(){
 function computePendingCount(){
   return computePendingRecords().length;
 }
+/* Same diff as computePendingRecords(), but restricted to one branch — a
+   record counts if it currently belongs to that branch, OR (for a record
+   that's been deleted, or moved to a different branch since the last sync)
+   it USED to belong to that branch in the last-synced copy. Powers the
+   per-branch "Save [Branch]" button. */
+function computePendingRecordsForBranch(branchName){
+  const lastMap = {};
+  lastSyncedRecords.forEach(r=>{ lastMap[r.id] = r; });
+  const seen = new Set();
+  const list = [];
+  records.forEach(r=>{
+    seen.add(r.id);
+    const prev = lastMap[r.id];
+    const inBranch = branchOf(r)===branchName || (prev && branchOf(prev)===branchName);
+    if(!inBranch) return;
+    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Bago'}); }
+    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Na-edit'}); }
+  });
+  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id) && branchOf(r)===branchName) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Tinanggal'}); });
+  return list;
+}
+/* Which branches currently have ANY unsynced change (added/edited/deleted/
+   moved-in/moved-out) — derived straight from the records-vs-lastSynced
+   diff, so a branch with zero real changes is NEVER included. This is what
+   makes every save — automatic on each edit, or the manual "Save" button —
+   touch only the branch(es) actually being worked on: the payload sent to
+   the backend only ever contains these branches' records, and the backend
+   is told to rewrite (or, if now empty, delete) ONLY these branch tabs —
+   every other branch's tab is left completely untouched. */
+function computePendingBranches(){
+  const lastMap = {};
+  lastSyncedRecords.forEach(r=>{ lastMap[r.id] = r; });
+  const seen = new Set();
+  const branches = new Set();
+  records.forEach(r=>{
+    seen.add(r.id);
+    const prev = lastMap[r.id];
+    if(!prev || JSON.stringify(prev) !== JSON.stringify(r)){
+      branches.add(branchOf(r));
+      if(prev) branches.add(branchOf(prev)); // record moved branches — the OLD branch also needs rewriting
+    }
+  });
+  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id)) branches.add(branchOf(r)); }); // deleted record — its old branch needs rewriting too
+  return [...branches];
+}
 
 function readLocalCache(){
   try{
@@ -1898,6 +2137,7 @@ function markPending(isPending){
 function updateSyncStatus(){
   const pendingList = computePendingRecords();
   const pendingCount = pendingList.length;
+  updateSaveBtnLabel();
   const targets = [
     {el: document.getElementById('statusCombo'), txt: document.getElementById('syncStatusText')},
     {el: document.getElementById('settingsSyncStatus'), txt: document.getElementById('settingsSyncStatusText')}
@@ -2135,7 +2375,7 @@ async function loadRecords(){
     writeLocalCache(records);
     noBackendLink = false;
     markPending(false);
-    markSynced();
+    markSyncedAll();
     renderAll();
   }catch(e){
     // No signal / failed to reach server — fall back to whatever's cached,
@@ -2161,15 +2401,23 @@ async function trySync(){
   // request to have already picked up the latest data.
   if(syncInFlight){ scheduleRetry(); return; }
   if(!navigator.onLine){ updateSyncStatus(); scheduleRetry(); return; }
+  // Figure out exactly which branch(es) actually have unsynced changes
+  // right now, and send ONLY those records — every other branch is never
+  // even included in the request, so the backend never touches its tab.
+  const branchesToSync = computePendingBranches();
+  if(branchesToSync.length===0){ markPending(false); updateSyncStatus(); return; }
   syncInFlight = true;
   updateSyncStatus();
   try{
-    await gsRun('saveAllRecords', records);
+    const recordsToSync = records.filter(r=>branchesToSync.includes(branchOf(r)));
+    await gsRun('saveAllRecords', recordsToSync, branchesToSync);
     noBackendLink = false;
     syncErrorType = null;
     lastSyncErrorMessage = '';
-    markPending(false);
-    markSynced();
+    markSynced(branchesToSync);
+    // A different branch may have been edited while this request was in
+    // flight — re-check instead of assuming everything is now clean.
+    markPending(computePendingBranches().length>0);
     flushActivityLog();
   }catch(e){
     lastSyncErrorMessage = (e && e.message) ? e.message : String(e);
@@ -2204,40 +2452,64 @@ function scheduleRetry(){
 window.addEventListener('online', ()=>{ updateSyncStatus(); if(pendingSync) trySync(); });
 window.addEventListener('offline', updateSyncStatus);
 
-/* "Save All" — a single, explicit, GLOBAL save. It always pushes the whole
-   `records` array (every branch, every customer), completely ignoring
-   currentBranch, the active filters, and which card happens to be expanded.
-   This exists on top of the automatic per-edit save so the auditor can, at
-   any moment, force everything pending — across ALL branches — to sync right
-   now, instead of only ever saving whatever one customer or branch is
-   currently in view. */
-async function saveAllGlobal(){
+/* "Save" button — adapts to whichever branch is currently in view:
+   - "All Branches" view: flushes whatever is currently pending, which may
+     span several branches — but crucially, ONLY branches that actually
+     have real changes are ever included (see computePendingBranches()); a
+     branch with nothing to save is never touched.
+   - A specific branch selected: the underlying flush still pushes anything
+     genuinely pending (which could technically include another branch too,
+     if it has changes waiting in the background) — but the button's
+     enabled state and its toast message are scoped to just the branch
+     currently in view, so "Save [Branch]" accurately answers "is THIS
+     branch saved", instead of a possibly-misleading global count. */
+async function handleSaveBtnClick(){
   const btn = document.getElementById('saveAllBtn');
-  const pendingCount = computePendingCount();
+  const scopedToBranch = currentBranch;
+  const pendingCount = scopedToBranch===null ? computePendingCount() : computePendingRecordsForBranch(scopedToBranch).length;
   if(pendingCount===0){
-    showToast('No new changes — all branches are already up to date.');
+    showToast(scopedToBranch===null ? 'No new changes — all branches are already up to date.' : `No new changes in ${scopedToBranch}.`);
     return;
   }
-  const originalLabel = btn.textContent;
   btn.disabled = true;
   btn.textContent = '⏳ Saving...';
   try{
     await trySync();
-    if(!pendingSync && !noBackendLink && !syncErrorType){
-      showToast(`✅ Saved ${pendingCount} change${pendingCount===1?'':'s'} across ALL branches.`);
+    const stillPending = scopedToBranch===null ? computePendingCount() : computePendingRecordsForBranch(scopedToBranch).length;
+    if(stillPending===0 && !noBackendLink && !syncErrorType){
+      showToast(scopedToBranch===null
+        ? `✅ Saved ${pendingCount} change${pendingCount===1?'':'s'} across all branches.`
+        : `✅ Saved ${pendingCount} change${pendingCount===1?'':'s'} in ${scopedToBranch}.`);
     } else if(noBackendLink){
       showToast('❌ Not connected to Google Sheets yet. Check Settings.', 'error');
     } else if(syncErrorType==='auth-or-deploy'){
       showToast('❌ Could not save — server sent back invalid data. Check deployment access (should be set to "Anyone").', 'error');
-    } else {
+    } else if(stillPending>0){
       showToast(`❌ Save failed${lastSyncErrorMessage ? ' — '+lastSyncErrorMessage : ''}. Will try again automatically.`, 'error');
     }
   } finally {
     btn.disabled = false;
-    btn.textContent = originalLabel;
+    updateSaveBtnLabel();
   }
 }
-document.getElementById('saveAllBtn').addEventListener('click', saveAllGlobal);
+document.getElementById('saveAllBtn').addEventListener('click', handleSaveBtnClick);
+/* Keeps the Save button's label/tooltip in sync with whichever branch is
+   currently in view, and with the current pending count — called on every
+   branch switch (renderBranchTabs) and every sync-status refresh. */
+function updateSaveBtnLabel(){
+  const btn = document.getElementById('saveAllBtn');
+  if(!btn || btn.disabled) return; // don't relabel mid-save ("⏳ Saving...")
+  if(currentBranch===null){
+    btn.textContent = '💾 Save All';
+    btn.title = 'Save any pending changes, across all branches — a branch with nothing to save is left untouched.';
+  } else {
+    const n = computePendingRecordsForBranch(currentBranch).length;
+    btn.textContent = `💾 Save ${currentBranch}`;
+    btn.title = n>0
+      ? `Save ${n} pending change${n===1?'':'s'} in ${currentBranch}. Only this branch's data is touched — every other branch is left exactly as-is.`
+      : `No pending changes in ${currentBranch}.`;
+  }
+}
 
 async function refreshFromServer(){
   const btn = document.getElementById('refreshBtn');
@@ -2292,7 +2564,24 @@ const AUTO_REFRESH_MS = 45000; // 45s
 
 function isAnyModalOpen(){
   if(editingId) return true;
-  return Array.from(document.querySelectorAll('.modal-bg')).some(m => m.classList.contains('open'));
+  if(Array.from(document.querySelectorAll('.modal-bg')).some(m => m.classList.contains('open'))) return true;
+  // The calendar/date-picker popover (SI Date, Date of Audit) lives outside
+  // any modal — guard it explicitly via its own open-tracking variable.
+  if(typeof dpActive !== 'undefined' && dpActive) return true;
+  // Also treat an actively-focused form field as "editing in progress" —
+  // this covers the inline Auditor Remarks box, and now also the Unit
+  // status / Mode of Payment <select> dropdowns (a <select> that's open
+  // for choosing IS the focused/activeElement, same as a textarea being
+  // typed into). Those all commit on 'change'/blur, so while the control
+  // is still focused/open, the in-progress choice exists only in the DOM,
+  // not yet in `records`. Without this check, a quiet background refresh
+  // could swap `records` for the server's copy and re-render mid-selection,
+  // silently discarding the pick before it had a chance to be saved —
+  // which is exactly why a first attempt at picking a date, unit status,
+  // or mode of payment could seem to do nothing and need a 2nd try.
+  const ae = document.activeElement;
+  if(ae && (ae.tagName==='TEXTAREA' || ae.tagName==='INPUT' || ae.tagName==='SELECT' || ae.isContentEditable)) return true;
+  return false;
 }
 
 async function autoRefreshTick(){
@@ -2446,6 +2735,7 @@ if(!window.__filterDropdownsBound){
   document.getElementById('statusFilterBtn').addEventListener('click', (e)=>{
     e.stopPropagation();
     document.getElementById('unitFilterPanel').classList.remove('open');
+    closeBreakdownPanels();
     const p = document.getElementById('statusFilterPanel');
     p.classList.toggle('open');
     showPickerBackdrop(p.classList.contains('open'));
@@ -2453,6 +2743,7 @@ if(!window.__filterDropdownsBound){
   document.getElementById('unitFilterBtn').addEventListener('click', (e)=>{
     e.stopPropagation();
     document.getElementById('statusFilterPanel').classList.remove('open');
+    closeBreakdownPanels();
     const p = document.getElementById('unitFilterPanel');
     p.classList.toggle('open');
     showPickerBackdrop(p.classList.contains('open'));
@@ -2460,14 +2751,31 @@ if(!window.__filterDropdownsBound){
   document.addEventListener('click', (e)=>{
     const sw = document.getElementById('statusFilterWrap');
     const uw = document.getElementById('unitFilterWrap');
+    const ubw = document.getElementById('unitBreakdown');
+    const sbw = document.getElementById('statusBreakdown');
     let anyOpen = false;
     if(sw && !sw.contains(e.target)) document.getElementById('statusFilterPanel').classList.remove('open');
     if(uw && !uw.contains(e.target)) document.getElementById('unitFilterPanel').classList.remove('open');
+    if(ubw && !ubw.contains(e.target) && !unitBreakdownCollapsed){ unitBreakdownCollapsed = true; renderUnitBreakdown(); }
+    if(sbw && !sbw.contains(e.target) && !statusBreakdownCollapsed){ statusBreakdownCollapsed = true; renderStatusBreakdown(); }
     if(document.getElementById('statusFilterPanel').classList.contains('open')) anyOpen = true;
     if(document.getElementById('unitFilterPanel').classList.contains('open')) anyOpen = true;
     if(document.getElementById('branchPickerPanel') && document.getElementById('branchPickerPanel').classList.contains('open')) anyOpen = true;
+    if(!unitBreakdownCollapsed || !statusBreakdownCollapsed) anyOpen = true;
     if(!anyOpen) showPickerBackdrop(false);
   });
+}
+/* Closes just the two breakdown dropdowns (without touching the filter
+   panels) — used when opening one of the "All status"/"All unit status"
+   filter dropdowns, so only one floating panel is ever open at a time. */
+function closeBreakdownPanels(){
+  let changed = false;
+  if(!unitBreakdownCollapsed){ unitBreakdownCollapsed = true; changed = true; }
+  if(!statusBreakdownCollapsed){ statusBreakdownCollapsed = true; changed = true; }
+  if(changed){
+    if(document.getElementById('unitBreakdown')) renderUnitBreakdown();
+    if(document.getElementById('statusBreakdown')) renderStatusBreakdown();
+  }
 }
 
 function getFiltered(){
@@ -2579,7 +2887,11 @@ function renderCards(){
     const expanded = expandedIds.has(r.id);
     const isMobileFocus = mobileFocusId===r.id;
     const card = document.createElement('div');
-    const hasRemarks = (r.auditorRemarks && r.auditorRemarks.trim()) || (r.lastAuditRemarks && r.lastAuditRemarks.trim());
+    /* Card only picks up the gold highlight once the auditor has typed
+       something into "Auditor Remarks" themselves — a pre-existing "Last
+       Audit Remarks" value (e.g. brought in on import) should NOT color
+       the card on its own. */
+    const hasRemarks = !!(r.auditorRemarks && r.auditorRemarks.trim());
     card.className = 'rowcard' + (expanded?' expanded':'') + (isMobileFocus?' mobile-focus':'') + (hasRemarks?' has-remarks':'');
     card.dataset.id = r.id;
 
@@ -2684,9 +2996,9 @@ function renderCards(){
     auditorInput.value = r.auditorRemarks || '';
     auditorInput.addEventListener('click', e=>e.stopPropagation());
     auditorInput.addEventListener('input', ()=>{
-      auditorBlock.classList.toggle('filled', auditorInput.value.trim().length>0);
-      const stillHasRemarks = auditorInput.value.trim().length>0 || !!(r.lastAuditRemarks && r.lastAuditRemarks.trim());
-      card.classList.toggle('has-remarks', stillHasRemarks);
+      const filled = auditorInput.value.trim().length>0;
+      auditorBlock.classList.toggle('filled', filled);
+      card.classList.toggle('has-remarks', filled);
     });
     auditorInput.addEventListener('change', ()=>{
       if(auditorInput.value === (r.auditorRemarks||'')) return;
@@ -2732,19 +3044,32 @@ function renderCards(){
     const paymentField = document.createElement('div');
     paymentField.className = 'field-inline';
     paymentField.innerHTML = `<label>Mode of Payment</label>`;
-    const pmodeSel = document.createElement('select');
-    pmodeSel.className = 'pmode-select ' + paymentModeClass(r.paymentMode);
-    pmodeSel.innerHTML = '<option value=""></option>' + COL_BY_KEY.paymentMode.options.map(o=>`<option value="${o}"${o===r.paymentMode?' selected':''}>${o}</option>`).join('');
-    pmodeSel.addEventListener('click', e=>e.stopPropagation());
-    pmodeSel.addEventListener('change', ()=>{
-      if(pmodeSel.value === (r.paymentMode||'')) return;
-      pushUndo(`Set Mode of Payment for "${r.customerName||'(no name)'}"`);
-      r.paymentMode = pmodeSel.value;
-      pmodeSel.className = 'pmode-select ' + paymentModeClass(pmodeSel.value);
-      logActivity(`Set Mode of Payment for "${r.customerName||'(no name)'}" to ${r.paymentMode||'(blank)'}`, {recordId: r.id, branch: branchOf(r)});
-      saveRecords();
+    // Multiple payment channels can apply to the same account over time
+    // (e.g. paid online once, paid via branch/field another time), so this
+    // is a set of independently-toggleable pills instead of a single-choice
+    // dropdown. Stored as a comma-separated string, e.g. "BRANCH, ONLINE".
+    const pmodeGroup = document.createElement('div');
+    pmodeGroup.className = 'pmode-group';
+    const selectedModes = new Set(parsePaymentModes(r.paymentMode));
+    COL_BY_KEY.paymentMode.options.forEach(opt=>{
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'pmode-toggle ' + paymentModeClass(opt) + (selectedModes.has(opt) ? ' active' : '');
+      pill.textContent = opt;
+      pill.addEventListener('click', e=>{
+        e.stopPropagation();
+        if(selectedModes.has(opt)) selectedModes.delete(opt); else selectedModes.add(opt);
+        const newVal = COL_BY_KEY.paymentMode.options.filter(o=>selectedModes.has(o)).join(', ');
+        if(newVal === (r.paymentMode||'')) return;
+        pushUndo(`Set Mode of Payment for "${r.customerName||'(no name)'}"`);
+        r.paymentMode = newVal;
+        pill.classList.toggle('active', selectedModes.has(opt));
+        logActivity(`Set Mode of Payment for "${r.customerName||'(no name)'}" to ${r.paymentMode||'(blank)'}`, {recordId: r.id, branch: branchOf(r)});
+        saveRecords();
+      });
+      pmodeGroup.appendChild(pill);
     });
-    paymentField.appendChild(pmodeSel);
+    paymentField.appendChild(pmodeGroup);
     actions.appendChild(paymentField);
 
     const spacer = document.createElement('div');
@@ -2799,10 +3124,16 @@ function showPickerBackdrop(show){
   if(show && isMobileViewport()) bd.classList.add('show'); else bd.classList.remove('show');
 }
 function closeAllPickerPanels(){
-  ['statusFilterPanel','unitFilterPanel','branchPickerPanel'].forEach(id=>{
+  ['statusFilterPanel','unitFilterPanel','branchPickerPanel','ubChipsPanel','sbChipsPanel'].forEach(id=>{
     const p = document.getElementById(id);
     if(p) p.classList.remove('open');
   });
+  unitBreakdownCollapsed = true;
+  statusBreakdownCollapsed = true;
+  const ubToggle = document.getElementById('ubToggleBtn');
+  if(ubToggle) ubToggle.classList.add('collapsed');
+  const sbToggle = document.getElementById('sbToggleBtn');
+  if(sbToggle) sbToggle.classList.add('collapsed');
   showPickerBackdrop(false);
 }
 if(!window.__pickerBackdropBound){
@@ -2813,6 +3144,7 @@ if(!window.__pickerBackdropBound){
 function renderBranchTabs(){
   const wrap = document.getElementById('branchTabs');
   const branches = branchList();
+  updateSaveBtnLabel();
   if(branches.length===0){ wrap.innerHTML=''; return; }
 
   const isSingleBranch = currentBranch!==null;
@@ -2956,14 +3288,14 @@ function processImportFile(file){
       reader.onload = (evt)=>{
         try{
           const wb = XLSX.read(evt.target.result, {type:'array', cellDates:true});
-          let totalAdded=0, totalAttempted=0;
+          let totalAdded=0, totalAttempted=0, totalUpdated=0, totalRemoved=0;
           wb.SheetNames.forEach(name=>{
             const sheet = wb.Sheets[name];
             const rows2D = XLSX.utils.sheet_to_json(sheet, {header:1, blankrows:false, defval:'', raw:false, dateNF:'mm/dd/yyyy'});
-            const {added, attempted} = runImportFromRows(rows2D, branchHint);
-            totalAdded += added; totalAttempted += attempted;
+            const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
+            totalAdded += added; totalAttempted += attempted; totalUpdated += updated; totalRemoved += removed;
           });
-          resolve({added: totalAdded, attempted: totalAttempted});
+          resolve({added: totalAdded, attempted: totalAttempted, updated: totalUpdated, removed: totalRemoved});
         }catch(err){ reject(err); }
       };
       reader.onerror = ()=>reject(new Error('read-error'));
@@ -2972,8 +3304,8 @@ function processImportFile(file){
       const reader = new FileReader();
       reader.onload = (evt)=>{
         const rows2D = parseDelimitedRows(evt.target.result);
-        const {added, attempted} = runImportFromRows(rows2D, branchHint);
-        resolve({added, attempted});
+        const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
+        resolve({added, attempted, updated, removed});
       };
       reader.onerror = ()=>reject(new Error('read-error'));
       reader.readAsText(file);
@@ -2989,12 +3321,12 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
   pushUndo(`Imported from ${files.length} file${files.length===1?'':'s'}`);
   autoBackupBeforeImport('pre-ledger-import');
 
-  let totalAdded = 0, totalAttempted = 0;
+  let totalAdded = 0, totalAttempted = 0, totalUpdated = 0, totalRemoved = 0;
   const failedFiles = [];
   for(const file of files){
     try{
-      const {added, attempted} = await processImportFile(file);
-      totalAdded += added; totalAttempted += attempted;
+      const {added, attempted, updated, removed} = await processImportFile(file);
+      totalAdded += added; totalAttempted += attempted; totalUpdated += (updated||0); totalRemoved += (removed||0);
     }catch(err){
       failedFiles.push(file.name);
     }
@@ -3005,7 +3337,14 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
   document.getElementById('importFile').value='';
   nameEl.textContent='No file chosen';
   importModalBg.classList.remove('open');
-  if(totalAdded>0){ logActivity(`Imported ${totalAdded} account${totalAdded===1?'':'s'} from ${files.length} file${files.length===1?'':'s'}`); saveRecords(); renderAll(); }
+  if(totalAdded>0 || totalUpdated>0 || totalRemoved>0){
+    const parts = [];
+    if(totalAdded>0) parts.push(`${totalAdded} new account${totalAdded===1?'':'s'}`);
+    if(totalUpdated>0) parts.push(`${totalUpdated} existing account${totalUpdated===1?'':'s'} updated (matched by name + engine no.)`);
+    if(totalRemoved>0) parts.push(`${totalRemoved} account${totalRemoved===1?'':'s'} removed (not in the new file)`);
+    logActivity(`Imported from ${files.length} file${files.length===1?'':'s'}: ${parts.join(', ')}`);
+    saveRecords(); renderAll();
+  }
 });
 
 document.getElementById('importConfirm').addEventListener('click', ()=>{
@@ -3013,14 +3352,20 @@ document.getElementById('importConfirm').addEventListener('click', ()=>{
   const branchHint = document.getElementById('pasteBranchName').value.trim();
   if(raw.trim()){ pushUndo('Imported pasted rows'); autoBackupBeforeImport('pre-ledger-import'); }
   const rows2D = parseDelimitedRows(raw);
-  const {added, attempted} = runImportFromRows(rows2D, branchHint);
+  const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
   document.getElementById('pasteArea').value='';
   document.getElementById('pasteBranchName').value='';
   document.getElementById('importFile').value='';
   document.getElementById('fileName').textContent='No file chosen';
   importModalBg.classList.remove('open');
-  if(added>0){ logActivity(`Imported ${added} account${added===1?'':'s'}${branchHint?` into ${branchHint}`:''} (pasted)`); saveRecords(); renderAll(); }
-  else if(attempted>0){ alert('No valid rows found — make sure "Customer Name" is filled in for each row.'); }
+  if(added>0 || updated>0 || removed>0){
+    const parts = [];
+    if(added>0) parts.push(`${added} new account${added===1?'':'s'}`);
+    if(updated>0) parts.push(`${updated} existing account${updated===1?'':'s'} updated (matched by name + engine no.)`);
+    if(removed>0) parts.push(`${removed} account${removed===1?'':'s'} removed (not in the new file)`);
+    logActivity(`Imported${branchHint?` into ${branchHint}`:''} (pasted): ${parts.join(', ')}`);
+    saveRecords(); renderAll();
+  } else if(attempted>0){ alert('No valid rows found — make sure "Customer Name" is filled in for each row.'); }
 });
 
 /* update Last Audit Remarks-only modal */
@@ -3261,7 +3606,30 @@ function buildRowForm(rec){
     label.textContent = c.label;
     wrap.appendChild(label);
     let input;
-    if(c.type==='select'){
+    if(c.key==='paymentMode'){
+      // Same multi-select toggle pills as the card view — Mode of Payment
+      // can hold more than one channel (e.g. "BRANCH, ONLINE").
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.value = rec[c.key] || '';
+      const group = document.createElement('div');
+      group.className = 'pmode-group';
+      const selectedModes = new Set(parsePaymentModes(rec[c.key]));
+      c.options.forEach(opt=>{
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = 'pmode-toggle ' + paymentModeClass(opt) + (selectedModes.has(opt) ? ' active' : '');
+        pill.textContent = opt;
+        pill.addEventListener('click', e=>{
+          e.stopPropagation();
+          if(selectedModes.has(opt)) selectedModes.delete(opt); else selectedModes.add(opt);
+          pill.classList.toggle('active', selectedModes.has(opt));
+          input.value = c.options.filter(o=>selectedModes.has(o)).join(', ');
+        });
+        group.appendChild(pill);
+      });
+      wrap.appendChild(group);
+    } else if(c.type==='select'){
       input = document.createElement('select');
       input.innerHTML = '<option value=""></option>' + c.options.map(o=>`<option value="${o}">${o}</option>`).join('');
       input.value = rec[c.key] || '';
@@ -3500,10 +3868,27 @@ loadRecords();
 
 /* Registers the service worker so Chrome/Android offers "Add to Home
    screen" / "Install app" for this dashboard. Safe no-op on browsers
-   without SW support, and safe if sw.js 404s (e.g. hosted differently). */
+   without SW support, and safe if sw.js 404s (e.g. hosted differently).
+   Before registering, we also purge any previously-installed service
+   worker + its Cache Storage for this origin. Without this, a device
+   that already installed an earlier version of this dashboard keeps
+   getting served the OLD cached index.html/CSS/JS forever, even after
+   this file is replaced — testers see stale UI and think a fix didn't
+   apply. Safe to leave in for production too, it just costs one extra
+   network round-trip on first load instead of an instant cache hit. */
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.getRegistrations()
+      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
+      .catch(()=>{})
+      .then(()=>{
+        if('caches' in window){
+          return caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).catch(()=>{});
+        }
+      })
+      .then(()=>{
+        navigator.serviceWorker.register('sw.js').catch(()=>{});
+      });
   });
 }
 </script>
