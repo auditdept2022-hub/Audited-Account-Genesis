@@ -1094,7 +1094,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 
     <div class="settings-section">
       <div class="settings-section-title">Connection</div>
-      <div class="hint" style="margin-top:0;">I-paste dito ang deployed Apps Script Web App URL para maconnect ang dashboard na ito sa Google Sheet mo.</div>
+      <div class="hint" style="margin-top:0;">Paste the deployed Apps Script Web App URL here to connect this dashboard to your Google Sheet.</div>
       <input type="text" id="settingsUrlInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="width:100%;padding:9px 10px;border:1px solid var(--border-strong);border-radius:8px;font-size:12.5px;font-family:'Courier New',monospace;background:var(--surface-alt);">
       <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
         <button class="btn primary" id="settingsUrlSave">Save &amp; Connect</button>
@@ -1125,7 +1125,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 
     <div class="settings-section">
       <div class="settings-section-title" style="color:var(--bad);">Danger zone</div>
-      <div class="hint" style="margin-top:0;">Para burahin ang isang buong branch, tingnan ang delete icon sa tabi ng branch name sa Per-Branch Overview. Para burahin ang mga customer na may partikular na status, gamitin ang "Delete Filtered" sa filter bar.</div>
+      <div class="hint" style="margin-top:0;">To delete an entire branch, look for the delete icon next to the branch name in the Per-Branch Overview. To delete customers with a specific status, use "Delete Filtered" in the filter bar.</div>
     </div>
 
 
@@ -1140,21 +1140,21 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   <div class="modal">
     <h2>Import ledger rows</h2>
     <div class="hint">
-      Auto-detect na ngayon ang dalawang klase ng file:<br>
-      • <b>Clean template</b> (Customer Name, SI Date, Model, Engine No, Due Day, Terms, MA, Last payment, Outstanding Balance, Remaining Balance, Customer Status, Unit status, Mode of Payment, Date of Audit, Auditor Remarks, Last Audit Remarks, Amount Payment) — direktang import.<br>
-      • <b>Raw system export</b> (Acct Type/Status Customer, Release/Rstr Date, Model, Engine No, Due, Term, MA, Beg, ...) — ang mga divider row tulad ng "BNEW - ADV" ay ginagamit bilang Customer Status ng mga susunod na customer sa ilalim nito. Ang mga field na wala sa raw file ay iiwanang blangko.<br>
-      Ang <b>pangalan mismo ng file</b> na ini-upload mo ang gagamitin bilang Branch ng lahat ng customer sa file na iyon (hal. "Cabuyao.xlsx" → Branch: "Cabuyao"), kahit ilang tabs pa ang laman ng workbook. Maliban na lang kung may sarili nang "Branch" column ang file — dun na kukunin.<br>
-      Pwede ka nang <b>pumili ng maraming file nang sabay-sabay</b> (hal. Cabuyao.xlsx, Malolos.xlsx, atbp.) — iimport lahat isa-isa, at ang bawat isa ay gagamit ng sarili niyang filename bilang Branch.
+      Now auto-detects two kinds of file:<br>
+      • <b>Clean template</b> (Customer Name, SI Date, Model, Engine No, Due Day, Terms, MA, Last payment, Outstanding Balance, Remaining Balance, Customer Status, Unit status, Mode of Payment, Date of Audit, Auditor Remarks, Last Audit Remarks, Amount Payment) — imported directly.<br>
+      • <b>Raw system export</b> (Acct Type/Status Customer, Release/Rstr Date, Model, Engine No, Due, Term, MA, Beg, ...) — divider rows like "BNEW - ADV" are used as the Customer Status for the customers listed below them. Fields not present in the raw file are left blank.<br>
+      The <b>file's own name</b> that you upload is used as the Branch for every customer in that file (e.g. "Cabuyao.xlsx" → Branch: "Cabuyao"), no matter how many tabs the workbook contains. Unless the file already has its own "Branch" column — then that's used instead.<br>
+      You can now <b>select multiple files at once</b> (e.g. Cabuyao.xlsx, Malolos.xlsx, etc.) — they'll all be imported one by one, each using its own filename as its Branch.
     </div>
     <div class="file-drop" id="fileDrop">
       <input type="file" id="importFile" accept=".csv,.tsv,.txt,.xlsx,.xls" multiple>
       <label for="importFile" class="btn" id="importFileBtn">Choose file(s) — imports right away</label>
       <span class="count-note" id="fileName">No file chosen</span>
     </div>
-    <div class="hint">Pagpili ng isa o maraming Excel/CSV file ay direktang iim-import ang mga ito, gamit ang pangalan ng bawat file bilang Branch. Kung magpa-paste ka ng rows sa halip, lagyan ng Branch name sa field sa ibaba bago i-click ang "Import rows".</div>
+    <div class="hint">Selecting one or more Excel/CSV files imports them directly, using each file's name as the Branch. If you paste rows instead, fill in the Branch name field below before clicking "Import rows".</div>
     <div class="form-grid" style="margin-bottom:12px;">
       <div class="full">
-        <label for="pasteBranchName">Branch name (para sa pasted rows lang)</label>
+        <label for="pasteBranchName">Branch name (for pasted rows only)</label>
         <input type="text" id="pasteBranchName" placeholder="hal. Cabuyao">
       </div>
     </div>
@@ -1171,15 +1171,15 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   <div class="modal">
     <h2>Update Last Audit Remarks</h2>
     <div class="hint">
-      I-upload ang file ng bagong audit (halimbawa: ang sheet na may Customer Name at Last Audit Remarks columns). <b>Ang "Last Audit Remarks" column lang ang kukunin</b> — lahat ng ibang columns sa file na ito ay balewalain. Ang bawat row ay itutugma sa existing na customer gamit ang <b>Customer Name</b> (at Engine No kung available, para sa mas tumpak na tugma), at papalitan lang ang "Last Audit Remarks" niya — ang ibang datos ng customer ay hindi magbabago.<br>
-      Kung may customer sa file na wala pang record sa dashboard, ilalagay ito sa listahan ng "hindi natugma" pagkatapos mag-import.
+      Upload the new audit file (for example: a sheet with Customer Name and Last Audit Remarks columns). <b>Only the "Last Audit Remarks" column is used</b> — every other column in this file is ignored. Each row is matched to an existing customer using <b>Customer Name</b> (and Engine No if available, for a more accurate match), and only their "Last Audit Remarks" is replaced — the rest of the customer's data stays unchanged.<br>
+      If a customer in the file has no matching record on the dashboard, they'll be added to the "unmatched" list after importing.
     </div>
     <div class="file-drop" id="remarksFileDrop">
       <input type="file" id="remarksImportFile" accept=".csv,.tsv,.txt,.xlsx,.xls" multiple>
       <label for="remarksImportFile" class="btn" id="remarksImportFileBtn">Choose file(s) — imports right away</label>
       <span class="count-note" id="remarksFileName">No file chosen</span>
     </div>
-    <div class="hint">Pwede ring i-paste ang rows sa ibaba (dapat may header row na may "Customer Name" at "Last Audit Remarks").</div>
+    <div class="hint">You can also paste rows below (must have a header row with "Customer Name" and "Last Audit Remarks").</div>
     <textarea id="remarksPasteArea" placeholder="Paste rows here (tab- or comma-separated)..."></textarea>
     <div class="row-actions">
       <button class="btn" id="remarksImportCancel">Cancel</button>
@@ -1195,7 +1195,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 <div class="modal-bg" id="historyModalBg">
   <div class="modal" style="max-width:520px;">
     <h2>🕘 History</h2>
-    <div class="hint">Listahan ng mga huling pagbabago sa dashboard na ito — pagdaragdag, pag-edit, at pagbura ng customer.</div>
+    <div class="hint">A list of the most recent changes made on this dashboard — customers added, edited, and deleted.</div>
     <div id="historyList" style="display:flex;flex-direction:column;gap:2px;max-height:420px;overflow-y:auto;margin-top:8px;"></div>
     <div class="row-actions">
       <button class="btn" id="historyRefresh">Refresh</button>
@@ -2064,10 +2064,10 @@ function computePendingRecords(){
   records.forEach(r=>{
     seen.add(r.id);
     const prev = lastMap[r.id];
-    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Bago'}); }
-    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Na-edit'}); }
+    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'New'}); }
+    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Edited'}); }
   });
-  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id)) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Tinanggal'}); });
+  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id)) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Deleted'}); });
   return list;
 }
 function computePendingCount(){
@@ -2088,10 +2088,10 @@ function computePendingRecordsForBranch(branchName){
     const prev = lastMap[r.id];
     const inBranch = branchOf(r)===branchName || (prev && branchOf(prev)===branchName);
     if(!inBranch) return;
-    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Bago'}); }
-    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Na-edit'}); }
+    if(!prev){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'New'}); }
+    else if(JSON.stringify(prev) !== JSON.stringify(r)){ list.push({id:r.id, name:r.customerName||'(no name)', reason:'Edited'}); }
   });
-  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id) && branchOf(r)===branchName) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Tinanggal'}); });
+  lastSyncedRecords.forEach(r=>{ if(!seen.has(r.id) && branchOf(r)===branchName) list.push({id:r.id, name:r.customerName||'(no name)', reason:'Deleted'}); });
   return list;
 }
 /* Which branches currently have ANY unsynced change (added/edited/deleted/
@@ -2190,10 +2190,10 @@ function updateNotifBell(pendingList){
   else if(syncErrorType==='auth-or-deploy') statusLine = 'Sync error — server did not send valid data. Check deployment access.';
   else if(!navigator.onLine) statusLine = 'Offline — will upload automatically once internet is back.';
   else if(count===0) statusLine = 'All synced. ✅';
-  let html = `<div class="np-title">Naka-pending na i-upload (${count})</div>`;
+  let html = `<div class="np-title">Pending upload (${count})</div>`;
   if(statusLine) html += `<div class="notif-empty" style="padding:2px 4px 10px;text-align:left;">${escHtml(statusLine)}</div>`;
   if(count===0){
-    if(!statusLine) html += '<div class="notif-empty">Wala pang naka-pending.</div>';
+    if(!statusLine) html += '<div class="notif-empty">Nothing pending.</div>';
   } else {
     html += pendingList.slice(0,50).map(p=>
       `<div class="notif-item"><span>${escHtml(p.name)}</span><span class="ni-reason">${escHtml(p.reason)}</span></div>`
@@ -2673,7 +2673,7 @@ function renderFilterPanel(panelId, btnId, options, selectedSet, baseLabel, onCh
     const checked = selectedSet.has(opt) ? ' checked' : '';
     html += `<label class="ms-item"><input type="checkbox" value="${opt.replace(/"/g,'&quot;')}"${checked}><span>${opt}</span></label>`;
   });
-  panel.innerHTML = html || `<div class="ms-item" style="color:var(--ink-faint);cursor:default;">Wala pang datos</div>`;
+  panel.innerHTML = html || `<div class="ms-item" style="color:var(--ink-faint);cursor:default;">No data yet</div>`;
   const closeBtn = panel.querySelector('.picker-panel-close');
   if(closeBtn) closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeAllPickerPanels(); });
   // "Clear" — resets just THIS dropdown's own selections, right where the
@@ -3383,14 +3383,14 @@ function finishRemarksImport(updated, unmatched, fileCount, failedFiles){
   remarksModalBg.classList.remove('open');
   if(updated>0){ logActivity(`Updated Last Audit Remarks for ${updated} account${updated===1?'':'s'} (import)`); saveRecords(); renderAll(); }
   let msg = updated>0
-    ? (fileCount>1 ? `Updated Last Audit Remarks for ${updated} record(s) mula sa ${fileCount} file.` : `Updated Last Audit Remarks for ${updated} record(s).`)
+    ? (fileCount>1 ? `Updated Last Audit Remarks for ${updated} record(s) from ${fileCount} file(s).` : `Updated Last Audit Remarks for ${updated} record(s).`)
     : 'No matching customers were found.';
   if(unmatched && unmatched.length>0){
     const shown = unmatched.slice(0,15).join('\n');
     msg += `\n\n${unmatched.length} name(s) in the file(s) did not match any existing customer and were skipped:\n${shown}${unmatched.length>15?`\n...and ${unmatched.length-15} more`:''}`;
   }
   if(failedFiles && failedFiles.length>0){
-    msg += `\n\nHindi mabuksan (baka sirang file o hindi supported): ${failedFiles.join(', ')}`;
+    msg += `\n\nCould not open (file may be corrupted or unsupported): ${failedFiles.join(', ')}`;
   }
   alert(msg);
 }
