@@ -785,6 +785,17 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   box-shadow:0 12px 36px rgba(20,26,38,0.28);
 }
 .modal h2{font-size:16.5px;font-weight:700;margin:0 0 12px;color:var(--ink);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+.modal-head h2{margin:0;}
+.modal-close{
+  flex:0 0 auto;
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  border:none;background:transparent;border-radius:8px;
+  color:var(--ink-soft);cursor:pointer;
+  font-size:18px;line-height:1;
+}
+.modal-close:hover{background:var(--surface-alt);color:var(--ink);}
 .modal textarea{
   width:100%;min-height:120px;
   font-family:"Courier New",monospace;font-size:11.5px;
@@ -992,6 +1003,21 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
               <polyline points="12 7 12 12 15.5 14"/>
             </svg>
             <span>History</span>
+          </button>
+          <button type="button" class="more-item" id="fullscreenBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="fullscreenIconEnter">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
+              <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+              <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
+              <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="fullscreenIconExit" style="display:none;">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3"/>
+              <path d="M21 8h-3a2 2 0 0 1-2-2V3"/>
+              <path d="M3 16h3a2 2 0 0 1 2 2v3"/>
+              <path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
+            </svg>
+            <span id="fullscreenBtnLabel">Full Screen</span>
           </button>
         </div>
       </div>
@@ -1207,7 +1233,10 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 <!-- Add / edit customer modal -->
 <div class="modal-bg" id="rowModalBg">
   <div class="modal">
-    <h2 id="rowModalTitle">Add customer</h2>
+    <div class="modal-head">
+      <h2 id="rowModalTitle">Add customer</h2>
+      <button type="button" class="modal-close" id="rowModalX" aria-label="Close" title="Close">✕</button>
+    </div>
     <div class="form-grid" id="rowForm"></div>
     <div class="row-actions">
       <button class="btn" id="rowCancel">Cancel</button>
@@ -2323,6 +2352,40 @@ document.getElementById('historyBtn').addEventListener('click', ()=>{
   document.getElementById('morePanel').classList.remove('open');
   historyModalBg.classList.add('open');
   loadHistory();
+});
+
+/* Full Screen toggle (desktop-friendly): uses the browser Fullscreen API to
+   hide the browser chrome (tabs/address bar) so the dashboard fills the
+   whole screen. Requires a user gesture to trigger, which the menu click
+   provides. Falls back silently if the browser/OS refuses (e.g. some
+   embedded/iframe contexts don't allow it). The icon + label update to
+   reflect actual fullscreen state, and also react if the user exits via
+   Esc or F11 instead of this button. */
+function updateFullscreenUI(){
+  const isFs = !!document.fullscreenElement;
+  const enterIcon = document.getElementById('fullscreenIconEnter');
+  const exitIcon = document.getElementById('fullscreenIconExit');
+  const label = document.getElementById('fullscreenBtnLabel');
+  if(enterIcon) enterIcon.style.display = isFs ? 'none' : '';
+  if(exitIcon) exitIcon.style.display = isFs ? '' : 'none';
+  if(label) label.textContent = isFs ? 'Exit Full Screen' : 'Full Screen';
+}
+document.getElementById('fullscreenBtn').addEventListener('click', ()=>{
+  document.getElementById('morePanel').classList.remove('open');
+  if(!document.fullscreenElement){
+    (document.documentElement.requestFullscreen ? document.documentElement.requestFullscreen() : Promise.reject()).catch(()=>{});
+  } else {
+    (document.exitFullscreen ? document.exitFullscreen() : Promise.reject()).catch(()=>{});
+  }
+});
+document.addEventListener('fullscreenchange', updateFullscreenUI);
+
+/* Esc key closes whichever modal is currently open — a safety net so the
+   Add/Edit customer modal (and any other) can always be dismissed even if
+   a particular close control is missed. */
+document.addEventListener('keydown', (e)=>{
+  if(e.key !== 'Escape') return;
+  document.querySelectorAll('.modal-bg.open').forEach(bg=>bg.classList.remove('open'));
 });
 document.getElementById('historyRefresh').addEventListener('click', loadHistory);
 document.getElementById('historyClose').addEventListener('click', ()=>{ historyModalBg.classList.remove('open'); });
@@ -3662,6 +3725,8 @@ function openRowModal(id){
 }
 document.getElementById('addBtn').addEventListener('click', ()=>openRowModal(null));
 document.getElementById('rowCancel').addEventListener('click', ()=>{ rowModalBg.classList.remove('open'); });
+document.getElementById('rowModalX').addEventListener('click', ()=>{ rowModalBg.classList.remove('open'); });
+rowModalBg.addEventListener('click', (e)=>{ if(e.target===rowModalBg) rowModalBg.classList.remove('open'); });
 document.getElementById('rowSave').addEventListener('click', ()=>{
   const inputs = document.querySelectorAll('#rowForm [data-key]');
   const data = {};
