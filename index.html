@@ -832,6 +832,12 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 .import-btn-wrap .btn{width:100%;}
 .toolbar .import-btn-wrap .btn:not(.icon-btn){width:auto;}
 .toolbar .import-menu{min-width:170px;}
+/* Wraps Import/Export/Print together so they can become one neat row of
+   three equal buttons on mobile (see the max-width:720px media query)
+   instead of Import sitting alone with the icon buttons stranded below
+   it. On desktop this stays invisible in the layout (display:contents)
+   so the toolbar's existing single-row flex behavior is unaffected. */
+.toolbar-io-row{display:contents;}
 .import-menu{
   display:none;position:fixed;z-index:55;
   background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;
@@ -892,17 +898,45 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .kpi .k-value{font-size:16px;}
 
   .ub-icon-btn, .sb-icon-btn{height:32px;padding:0 8px;}
+  .toolbar .status-breakdown, .toolbar .unit-breakdown{width:100%;}
+  .toolbar .ub-icon-btn, .toolbar .sb-icon-btn{width:100%;}
   .ub-icon-btn .btn-label, .sb-icon-btn .btn-label{font-size:9.5px;}
   .sb-chip, .ub-chip{font-size:10.5px;padding:4px 8px;}
 
 
 
-  .toolbar{padding:10px;gap:8px;}
-  .toolbar select{flex:1 1 auto;}
-  .toolbar .branch-picker-wrap{flex:1 1 auto;}
+  .toolbar{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;
+    padding:10px;align-items:stretch;
+  }
+  .toolbar select{width:100%;}
+  .toolbar .branch-picker-wrap{width:100%;}
   .branch-picker-btn{width:100%;justify-content:space-between;max-width:none;}
-  .toolbar .spacer{flex-basis:100%;height:0;}
+  /* Controls that need the FULL row instead of an awkward half-width
+     slot: the branch switcher up top, the "Delete Filtered" warning
+     button (only shown once a status is checked), the Import/Export/
+     Print row, and the two bottom action buttons. Everything else
+     (Customer/Unit Status toggles, All status/All unit status, Remarks/
+     Sort) is left to fall into the 2-column grid naturally, in pairs,
+     in the order it already appears in the markup. */
+  .toolbar .branch-tabs,
+  .toolbar #deleteStatusFilterBtn,
+  .toolbar .toolbar-io-row,
+  .toolbar #saveAllBtn,
+  .toolbar #addBtn{
+    grid-column:1 / -1;
+  }
+  .toolbar .spacer{display:none;}
   .toolbar #addBtn, .toolbar #saveAllBtn{width:100%;}
+
+  /* Import / Export / Print: one tidy row of three same-size buttons,
+     instead of Import alone on its own half-width row with the two
+     icon buttons left stranded underneath it. */
+  .toolbar-io-row{display:flex;gap:8px;}
+  .toolbar-io-row > *{flex:1 1 0;min-width:0;}
+  .toolbar-io-row .btn, .toolbar .toolbar-io-row .btn:not(.icon-btn){
+    width:100%;height:38px;
+  }
 
   /* dropdown panels (branch picker, status filter, unit filter) become a
      centered "sheet" on mobile instead of a tiny box anchored to the
@@ -1114,23 +1148,25 @@ body.branch-focused select#sortSelect{
       <option value="outstandingBalance:-1">Sort: Outstanding (High–Low)</option>
       <option value="dateOfAudit:-1">Sort: Date of Audit (Newest)</option>
     </select>
-    <div class="import-btn-wrap" id="toolbarImportWrap">
-      <button class="btn btn-compact" id="importMenuBtn" title="Import Ledger or Update Remarks">Import ▾</button>
-      <div class="import-menu" id="importMenu">
-        <button type="button" class="import-menu-item" id="importLedgerOption">📋 Import Ledger</button>
-        <button type="button" class="import-menu-item" id="importRemarksOption">📝 Update Remarks</button>
+    <div class="toolbar-io-row" id="toolbarIoRow">
+      <div class="import-btn-wrap" id="toolbarImportWrap">
+        <button class="btn btn-compact" id="importMenuBtn" title="Import Ledger or Update Remarks">Import ▾</button>
+        <div class="import-menu" id="importMenu">
+          <button type="button" class="import-menu-item" id="importLedgerOption">📋 Import Ledger</button>
+          <button type="button" class="import-menu-item" id="importRemarksOption">📝 Update Remarks</button>
+        </div>
       </div>
-    </div>
-    <button class="btn icon-btn" id="exportBtn" title="Export CSV">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-    </button>
-    <div class="import-btn-wrap" id="toolbarPrintWrap">
-      <button class="btn icon-btn" id="printMenuBtn" title="Print">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      <button class="btn icon-btn" id="exportBtn" title="Export CSV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
       </button>
-      <div class="import-menu" id="printMenu">
-        <button type="button" class="import-menu-item" id="printSummaryOption">🖨 Print audit summary</button>
-        <button type="button" class="import-menu-item" id="printListOption">🖨 Print list (Customer–MA)</button>
+      <div class="import-btn-wrap" id="toolbarPrintWrap">
+        <button class="btn icon-btn" id="printMenuBtn" title="Print">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        </button>
+        <div class="import-menu" id="printMenu">
+          <button type="button" class="import-menu-item" id="printSummaryOption">🖨 Print audit summary</button>
+          <button type="button" class="import-menu-item" id="printListOption">🖨 Print list (Customer–MA)</button>
+        </div>
       </div>
     </div>
     <span class="spacer"></span>
