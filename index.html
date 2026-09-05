@@ -8,62 +8,62 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#14283F">
+<meta name="theme-color" content="#0B1D33">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="GAA">
 <style>
 :root{
-  --page-bg:#EEF1F5;
+  --page-bg:#E6EBF2;
   --surface:#FFFFFF;
-  --surface-alt:#F5F7FA;
-  --ink:#1B2635;
-  --ink-soft:#5B6B80;
-  --ink-faint:#8C99AB;
-  --border:#E1E6ED;
-  --border-strong:#CDD5E0;
-  --accent:#1C3A5C;
-  --accent-dark:#14283F;
-  --accent-bg:#E9EEF5;
-  --gold:#AD7D1F;
-  --gold-bg:#FBF2DE;
-  --gold-bd:#E9D3A0;
-  --good:#146B5A;
-  --good-bg:#E2F2EE;
-  --good-bd:#B9DDD4;
-  --bad:#A83A3A;
-  --bad-bg:#F7EAEA;
-  --bad-bd:#E5C2C2;
-  --warn:#AD7D1F;
-  --warn-bg:#FBF2DE;
-  --warn-bd:#E9D3A0;
-  --purple:#5B4E8C;
-  --purple-bg:#EEECF5;
-  --purple-bd:#D4CEE7;
-  --teal:#2C6E68;
-  --teal-bg:#E7F1EF;
-  --teal-bd:#C4DEDA;
-  --pink:#8C4B5E;
-  --pink-bg:#F5EBEE;
-  --pink-bd:#DEC2CB;
-  --neutral:#5B6B80;
-  --neutral-bg:#F0F2F5;
-  --neutral-bd:#DBE1E9;
-  --orange:#B5651D;
-  --orange-bg:#FBEBDD;
-  --orange-bd:#EFCBA0;
-  --maroon:#7A2E2E;
-  --maroon-bg:#F3E3E3;
-  --maroon-bd:#DCB8B8;
-  --olive:#6E6B1E;
-  --olive-bg:#F2F1DC;
-  --olive-bd:#DFDBA0;
-  --cyan:#1B6FA8;
-  --cyan-bg:#E3EEF6;
-  --cyan-bd:#B9D2E6;
-  --shadow-sm:0 1px 2px rgba(20,28,40,0.06);
-  --shadow-md:0 4px 14px rgba(20,28,40,0.08);
+  --surface-alt:#F2F5F9;
+  --ink:#101826;
+  --ink-soft:#48566B;
+  --ink-faint:#7C8CA0;
+  --border:#DCE2EA;
+  --border-strong:#B9C4D3;
+  --accent:#123253;
+  --accent-dark:#0B1D33;
+  --accent-bg:#E3EAF4;
+  --gold:#96690F;
+  --gold-bg:#FBF1DA;
+  --gold-bd:#E6CB8E;
+  --good:#0E5C4C;
+  --good-bg:#DEF1EB;
+  --good-bd:#A6D6C7;
+  --bad:#9C2F2F;
+  --bad-bg:#F7E4E4;
+  --bad-bd:#DCACAC;
+  --warn:#96690F;
+  --warn-bg:#FBF1DA;
+  --warn-bd:#E6CB8E;
+  --purple:#4E3F82;
+  --purple-bg:#ECE8F5;
+  --purple-bd:#C6BBE0;
+  --teal:#205F59;
+  --teal-bg:#E1F0ED;
+  --teal-bd:#A6D2CA;
+  --pink:#7A3B4E;
+  --pink-bg:#F3E4EA;
+  --pink-bd:#D6AEBC;
+  --neutral:#48566B;
+  --neutral-bg:#EAEEF3;
+  --neutral-bd:#C9D3E0;
+  --orange:#9C5314;
+  --orange-bg:#FAE7D5;
+  --orange-bd:#E7BC88;
+  --maroon:#6B2323;
+  --maroon-bg:#F1DDDD;
+  --maroon-bd:#D2A5A5;
+  --olive:#5C591A;
+  --olive-bg:#EFEDD2;
+  --olive-bd:#D4CE8A;
+  --cyan:#145E8F;
+  --cyan-bg:#DBE9F4;
+  --cyan-bd:#A7CAE2;
+  --shadow-sm:0 1px 3px rgba(11,20,32,0.10);
+  --shadow-md:0 6px 20px rgba(11,20,32,0.13);
 }
 *{box-sizing:border-box;}
 html{overflow-x:hidden;}
@@ -71,16 +71,16 @@ body{max-width:100%;}
 body{
   margin:0;
   background:
-    radial-gradient(ellipse 1000px 320px at 50% 0%, rgba(173,125,31,0.07) 0%, rgba(173,125,31,0) 65%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpolygon points='70.87,55.72 55.72,70.87 34.28,70.87 19.13,55.72 19.13,34.28 34.28,19.13 55.72,19.13 70.87,34.28' fill='none' stroke='%231C3A5C' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(180deg, rgba(28,58,92,0.045) 0px, rgba(28,58,92,0.045) 1px, transparent 1px, transparent 30px),
-    linear-gradient(180deg, #EEF1F6 0%, #E7EBF2 100%);
+    radial-gradient(ellipse 1000px 320px at 50% 0%, rgba(150,105,15,0.08) 0%, rgba(150,105,15,0) 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpolygon points='70.87,55.72 55.72,70.87 34.28,70.87 19.13,55.72 19.13,34.28 34.28,19.13 55.72,19.13 70.87,34.28' fill='none' stroke='%23123253' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(180deg, rgba(18,50,83,0.055) 0px, rgba(18,50,83,0.055) 1px, transparent 1px, transparent 30px),
+    linear-gradient(180deg, #E9EDF4 0%, #DEE4ED 100%);
   background-attachment:fixed;
   color:var(--ink);
   font-family:"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   padding:22px 24px 60px;
 }
-.wrap{max-width:1180px;margin:0 auto;position:relative;}
+.wrap{max-width:100%;margin:0 auto;position:relative;}
 
 /* header bar */
 .appbar{
@@ -88,13 +88,8 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='1' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23E9C878' stop-opacity='0.5'/%3E%3Cstop offset='55%25' stop-color='%23AD7D1F' stop-opacity='0.14'/%3E%3Cstop offset='100%25' stop-color='%23AD7D1F' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l1' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='230' y2='195'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l2' gradientUnits='userSpaceOnUse' x1='0' y1='35' x2='320' y2='0'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l3' gradientUnits='userSpaceOnUse' x1='0' y1='95' x2='270' y2='200'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l4' gradientUnits='userSpaceOnUse' x1='35' y1='0' x2='0' y2='170'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l5' gradientUnits='userSpaceOnUse' x1='0' y1='150' x2='360' y2='45'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l6' gradientUnits='userSpaceOnUse' x1='65' y1='0' x2='400' y2='150'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l7' gradientUnits='userSpaceOnUse' x1='0' y1='12' x2='430' y2='95'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l8' gradientUnits='userSpaceOnUse' x1='130' y1='0' x2='65' y2='200'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l9' gradientUnits='userSpaceOnUse' x1='0' y1='125' x2='190' y2='0'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='l10' gradientUnits='userSpaceOnUse' x1='0' y1='200' x2='500' y2='30'%3E%3Cstop offset='0%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3Cstop offset='50%25' stop-color='%23F4E4B8' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23F4E4B8' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='800,0 580,0 800,200' fill='url(%23g)'/%3E%3Cg stroke-width='1.6'%3E%3Cline x1='0' y1='0' x2='230' y2='195' stroke='url(%23l1)'/%3E%3Cline x1='0' y1='35' x2='320' y2='0' stroke='url(%23l2)'/%3E%3Cline x1='0' y1='95' x2='270' y2='200' stroke='url(%23l3)'/%3E%3Cline x1='35' y1='0' x2='0' y2='170' stroke='url(%23l4)'/%3E%3Cline x1='0' y1='150' x2='360' y2='45' stroke='url(%23l5)'/%3E%3Cline x1='65' y1='0' x2='400' y2='150' stroke='url(%23l6)'/%3E%3Cline x1='0' y1='12' x2='430' y2='95' stroke='url(%23l7)'/%3E%3Cline x1='130' y1='0' x2='65' y2='200' stroke='url(%23l8)'/%3E%3Cline x1='0' y1='125' x2='190' y2='0' stroke='url(%23l9)'/%3E%3Cline x1='0' y1='200' x2='500' y2='30' stroke='url(%23l10)'/%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(108deg, var(--accent-dark) 0%, var(--accent) 38%, #7C5F2A 62%, var(--gold) 100%);
-  background-size:cover, cover;
-  background-position:right center, center;
-  border:1px solid var(--accent-dark);
-  border-bottom:3px solid var(--gold);
+  background:#154A8C;
+  border:1px solid #0F3568;
   border-radius:10px;
   padding:16px 22px;
   margin-bottom:16px;
@@ -107,51 +102,42 @@ body{
 .appbar h1{font-size:19px;font-weight:600;margin:0;color:#fff;letter-spacing:.01em;}
 .appbar .sub{font-size:12.5px;color:rgba(255,255,255,0.72);margin-top:3px;}
 .appbar .health{
-  font-size:12.5px;
-  padding:7px 14px;
-  border-radius:6px;
+  font-size:11px;
+  padding:2px 4px;
+  border-radius:4px;
   font-weight:600;
-  background:rgba(255,255,255,0.95);
-  color:var(--good);
-  border:1px solid rgba(255,255,255,0.4);
+  background:transparent;
+  color:#7FE3C4;
+  border:none;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
 }
-.appbar .health.warn{background:rgba(255,255,255,0.95);color:var(--bad);border-color:rgba(255,255,255,0.4);}
+.appbar .health.warn{background:transparent;color:#F29B9B;border:none;}
 /* Two separate status chips — sync state and data-completeness are
-   different pieces of information, so each gets its own pill instead of
-   being merged into one shared box. */
+   different pieces of information, so each gets its own line instead of
+   being merged into one shared box. No background/border — they sit
+   directly on the header color, kept compact. */
 .appbar .sync-status{
-  font-size:12.5px;
-  padding:7px 14px;
-  border-radius:6px;
+  font-size:11px;
+  padding:2px 4px;
+  border-radius:4px;
   font-weight:600;
-  background:rgba(255,255,255,0.95);
-  color:var(--good);
-  border:1px solid rgba(255,255,255,0.4);
+  background:transparent;
+  color:#7FE3C4;
+  border:none;
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:5px;
   white-space:nowrap;
 }
-.appbar .sync-status .dot{width:7px;height:7px;border-radius:50%;background:var(--good);flex:none;}
-.appbar .sync-status.offline{color:var(--bad);}
-.appbar .sync-status.offline .dot{background:var(--bad);}
-.appbar .sync-status.syncing{color:var(--gold);}
-.appbar .sync-status.syncing .dot{background:var(--gold);animation:pulse-dot 1s ease-in-out infinite;}
-.appbar .health{
-  font-size:12.5px;
-  padding:7px 14px;
-  border-radius:6px;
-  font-weight:600;
-  background:rgba(255,255,255,0.95);
-  color:var(--good);
-  border:1px solid rgba(255,255,255,0.4);
-  display:flex;
-  align-items:center;
-  gap:6px;
-  white-space:nowrap;
-}
-.appbar .health svg{width:13px;height:13px;flex:none;}
-.appbar .health.warn{color:var(--bad);}
+.appbar .sync-status .dot{width:6px;height:6px;border-radius:50%;background:#7FE3C4;flex:none;}
+.appbar .sync-status.offline{color:#F29B9B;}
+.appbar .sync-status.offline .dot{background:#F29B9B;}
+.appbar .sync-status.syncing{color:#F0C264;}
+.appbar .sync-status.syncing .dot{background:#F0C264;animation:pulse-dot 1s ease-in-out infinite;}
+.appbar .health svg{width:12px;height:12px;flex:none;}
 /* Notification bell — shows how many customer edits are saved on this device
    but not yet uploaded to the Google Sheet (handy in areas with no signal). */
 .notif-badge{
@@ -171,22 +157,6 @@ body{
 .notif-item:hover{background:var(--surface-alt);}
 .notif-item .ni-reason{font-size:10px;color:var(--ink-faint);white-space:nowrap;flex:0 0 auto;}
 .notif-empty{font-size:12.5px;color:var(--ink-faint);padding:12px 6px;text-align:center;}
-/* "More" menu — combines Settings + History (the two least-frequently-tapped
-   header actions) behind one icon instead of two, using the same fixed-position
-   + JS-placement pattern as the notif/search panels so it stays on-screen. */
-.more-panel{
-  position:fixed;width:180px;max-width:calc(100vw - 24px);
-  background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;
-  box-shadow:var(--shadow-md);z-index:45;display:none;padding:6px;
-}
-.more-panel.open{display:block;}
-.more-item{
-  display:flex;align-items:center;gap:10px;width:100%;
-  padding:9px 10px;border:none;background:none;border-radius:7px;
-  font-family:inherit;font-size:13px;color:var(--ink);cursor:pointer;text-align:left;
-}
-.more-item:hover{background:var(--surface-alt);}
-.more-item svg{width:16px;height:16px;flex:none;color:var(--ink-soft);}
 /* Bigger, harder-to-miss banner (vs. the small header chip) that only shows up
    when something needs attention: offline, still syncing, or not connected. */
 .conn-banner{display:none;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:14px;}
@@ -198,46 +168,69 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:34px;
-  height:34px;
+  width:26px;
+  height:26px;
   border-radius:6px;
-  border:1px solid rgba(255,255,255,0.4);
-  background:rgba(255,255,255,0.95);
-  color:var(--accent-dark);
+  border:none;
+  background:transparent;
+  color:rgba(255,255,255,0.85);
   cursor:pointer;
   flex:none;
   transition:transform 0.15s ease;
 }
-.refresh-btn:hover{background:#fff;}
+.refresh-btn:hover{background:rgba(255,255,255,0.14);color:#fff;}
 .refresh-btn:active{transform:scale(0.92);}
 .refresh-btn:disabled{opacity:0.35;cursor:not-allowed;}
-.refresh-btn:disabled:hover{background:rgba(255,255,255,0.95);}
+.refresh-btn:disabled:hover{background:transparent;}
 .refresh-btn:disabled:active{transform:none;}
-.refresh-btn svg{width:17px;height:17px;}
+.refresh-btn svg{width:14px;height:14px;}
 .refresh-btn.spinning svg{animation:spin-refresh 0.7s linear infinite;}
 @keyframes spin-refresh{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+/* Groups the header's icon buttons (Settings/History/Bell/Refresh/Undo/Redo)
+   into one row — no background/border, just tight spacing, so they sit
+   directly on the header color instead of a separate white card. */
+.icon-toolbar{
+  display:flex;align-items:center;gap:2px;
+}
 
 /* Undo/Redo live in the header (see .refresh-btn) alongside the other
-   quick actions. Only the search bar below stays pinned on scroll (see
+   quick actions. Only the search bar stays pinned on scroll (see
    .search-bar-sticky) — the header itself scrolls away normally so it
    doesn't eat into space meant for viewing the customer list. */
 .refresh-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;}
-/* Search — a plain always-visible bar (not hidden behind an icon toggle),
-   pinned to the top of the viewport while scrolling so it's always
-   reachable without permanently pinning the rest of the header too. */
+/* Search — a small floating pill fixed to the top-right of the VIEWPORT
+   (not just "sticky" within the header) so it's reachable from anywhere
+   on the page without scrolling back up. It used to just be positioned
+   inline in the header with no actual position:fixed rule — and even
+   position:sticky wouldn't have been enough here, since .appbar has
+   overflow:hidden (for its rounded corners/background pattern), which
+   clips a sticky descendant the moment the header itself scrolls out of
+   view. True position:fixed escapes that entirely. It keeps its own
+   solid background now (rather than transparent-on-header) since it can
+   end up floating over the light page content, not just the dark header. */
 .search-bar-sticky{
-  position:sticky;top:8px;z-index:40;
-  display:flex;align-items:center;gap:10px;
-  background:var(--surface);border:1px solid var(--border-strong);
-  border-radius:10px;box-shadow:var(--shadow-md);
-  padding:11px 16px;margin-bottom:16px;
+  position:fixed;top:14px;right:16px;z-index:60;
+  display:flex;align-items:center;gap:6px;
+  background:#154A8C;border:1px solid #0F3568;
+  border-radius:20px;
+  padding:0;
+  width:fit-content;max-width:calc(100vw - 32px);
+  box-shadow:0 3px 12px rgba(0,0,0,0.28);
+  transition:background .12s ease;
 }
-.search-bar-icon{width:18px;height:18px;flex:none;color:var(--ink-faint);}
+.search-bar-sticky.collapsed{
+  width:36px;height:36px;padding:0;justify-content:center;cursor:pointer;
+}
+.search-bar-sticky:not(.collapsed){padding:6px 14px;}
+.search-bar-sticky.collapsed:hover{background:#1A5AA3;}
+.search-bar-sticky.collapsed .search-bar-input{width:0;flex:0 0 auto;padding:0;}
+.search-bar-icon{width:15px;height:15px;flex:none;color:rgba(255,255,255,0.85);}
 .search-bar-input{
   flex:1 1 auto;border:none;outline:none;background:transparent;
-  font-family:inherit;font-size:13.5px;color:var(--ink);padding:0;
+  font-family:inherit;font-size:13px;color:#fff;padding:0;
+  width:200px;max-width:45vw;
 }
-.search-bar-input::placeholder{color:var(--ink-faint);}
+.search-bar-input::placeholder{color:rgba(255,255,255,0.6);}
 
 /* kpi row */
 .kpis{
@@ -270,20 +263,19 @@ body{
    of the page down when opened. */
 .unit-breakdown{
   position:relative;width:fit-content;max-width:100%;
-  background:var(--surface);border:1px solid var(--border);border-radius:9px;
-  padding:6px 10px;box-shadow:var(--shadow-sm);
 }
-.unit-breakdown .ub-title{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;min-width:0;}
-.ub-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;}
-.ub-toggle{
-  flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-  background:transparent;border:none;color:var(--ink-faint);cursor:pointer;padding:2px;
-  font-size:10px;opacity:.75;line-height:1;
-  transition:transform .15s ease,color .12s ease;
+.ub-title-row{display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ub-icon-btn{
+  display:flex;align-items:center;gap:6px;justify-content:center;
+  width:auto;height:34px;border-radius:9px;padding:0 10px;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--ink-soft);cursor:pointer;box-shadow:var(--shadow-sm);
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
 }
-.ub-toggle svg{width:9px;height:9px;}
-.ub-toggle:hover{color:var(--accent);opacity:1;}
-.ub-toggle.collapsed{transform:rotate(-90deg);}
+.ub-icon-btn svg{width:15px;height:15px;flex:0 0 auto;}
+.ub-icon-btn .btn-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;}
+.ub-icon-btn:hover{background:var(--surface-alt);color:var(--accent);}
+.ub-icon-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .ub-chip{
   display:flex;align-items:center;gap:9px;width:100%;
   padding:8px 10px;border-radius:7px;border:none;background:none;
@@ -296,9 +288,9 @@ body{
 .ub-chip.ub-active .ub-count{color:var(--accent-dark);}
 .ub-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;background:var(--dot,var(--ink-faint));}
 .ub-chip.confirmed{--dot:var(--good);}
-.ub-chip.good-condition{--dot:#1C3A5C;}
+.ub-chip.good-condition{--dot:#123253;}
 .ub-chip.missing{--dot:var(--bad);}
-.ub-chip.impound{--dot:#B0630F;}
+.ub-chip.impound{--dot:#9C5314;}
 .ub-chip.total-wreck{--dot:#8A2B2B;}
 .ub-chip.for-tracing{--dot:var(--purple);}
 .ub-chip.not-confirmed{--dot:var(--neutral);}
@@ -311,20 +303,19 @@ body{
    floating-dropdown treatment as unit status breakdown above. */
 .status-breakdown{
   position:relative;width:fit-content;max-width:100%;
-  background:var(--surface);border:1px solid var(--border);border-radius:9px;
-  padding:6px 10px;box-shadow:var(--shadow-sm);
 }
-.status-breakdown .sb-title{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;min-width:0;}
-.sb-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;}
-.sb-toggle{
-  flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-  background:transparent;border:none;color:var(--ink-faint);cursor:pointer;padding:2px;
-  font-size:10px;opacity:.75;line-height:1;
-  transition:transform .15s ease,color .12s ease;
+.sb-title-row{display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.sb-icon-btn{
+  display:flex;align-items:center;gap:6px;justify-content:center;
+  width:auto;height:34px;border-radius:9px;padding:0 10px;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--ink-soft);cursor:pointer;box-shadow:var(--shadow-sm);
+  transition:background .12s ease,color .12s ease,border-color .12s ease;
 }
-.sb-toggle svg{width:9px;height:9px;}
-.sb-toggle:hover{color:var(--accent);opacity:1;}
-.sb-toggle.collapsed{transform:rotate(-90deg);}
+.sb-icon-btn svg{width:15px;height:15px;flex:0 0 auto;}
+.sb-icon-btn .btn-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;}
+.sb-icon-btn:hover{background:var(--surface-alt);color:var(--accent);}
+.sb-icon-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .sb-chip{
   display:flex;align-items:center;gap:9px;width:100%;
   padding:8px 10px;border-radius:7px;border:none;background:none;
@@ -374,7 +365,7 @@ body{
   margin-bottom:12px;
 }
 .top-row-flex .status-breakdown, .top-row-flex .unit-breakdown{
-  flex:1 1 130px;min-width:110px;
+  flex:0 0 auto;
 }
 .branch-tabs{
   display:flex;gap:7px;flex-wrap:wrap;align-items:center;
@@ -488,16 +479,43 @@ body{
   margin-bottom:14px;
   box-shadow:var(--shadow-sm);
 }
+/* On desktop widths, force everything onto one row — if it doesn't all
+   fit, the bar scrolls sideways instead of pushing "+ Customer" (or
+   anything else) down onto a second line. Each child gets flex-shrink:0
+   so buttons keep their normal size instead of getting squished; the
+   scrollbar is kept slim so it doesn't look like a stray UI element. */
+@media (min-width:721px){
+  .toolbar{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:thin;
+  }
+  .toolbar > *{flex-shrink:0;}
+  .toolbar .spacer{display:none;}
+  .toolbar::-webkit-scrollbar{height:6px;}
+  .toolbar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+}
 .toolbar input[type=text], .toolbar select{
   font-family:inherit;
-  font-size:13px;
-  padding:8px 11px;
+  font-size:12px;
+  padding:6px 9px;
   border:1px solid var(--border-strong);
   border-radius:8px;
   background:var(--surface-alt);
   color:var(--ink);
 }
 .toolbar input[type=text]{width:230px;}
+/* The Sort dropdown otherwise renders as wide as its longest option
+   ("Sort: Date of Audit (Newest)") even while a short option is selected.
+   Capping its width and ellipsizing the overflow keeps it compact; the
+   full option text still shows normally in the open dropdown list. */
+#sortSelect{
+  max-width:118px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+}
 .btn{
   font-family:inherit;
   font-size:13px;
@@ -512,11 +530,18 @@ body{
 }
 .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
 .btn.secondary{background:var(--accent-bg);color:var(--accent-dark);border-color:#C3CEDD;}
+.btn.btn-compact{padding:6px 10px;font-size:12px;}
+.btn.icon-btn{
+  width:34px;height:34px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn.icon-btn svg{width:16px;height:16px;}
 .btn:hover{background:var(--surface-alt);}
 .btn.primary:hover{background:var(--accent-dark);}
 .btn.secondary:hover{background:#DCE3ED;}
 .spacer{flex:1;}
 .count-note{font-size:12px;color:var(--ink-soft);white-space:nowrap;}
+#rowCount{display:none;}
 
 /* card list (replaces the old spreadsheet grid) */
 .list{display:flex;flex-direction:column;gap:10px;}
@@ -599,9 +624,13 @@ body{
 }
 .rowcard.expanded .rc-quickfields{display:grid;}
 /* Desktop/tablet: same fields, same order, but spread across a wider grid
-   instead of staying squeezed into the narrow phone-width columns. */
+   instead of staying squeezed into the narrow phone-width columns. Uses
+   auto-fit with a capped column width (not repeat(6,1fr)) — 1fr columns
+   would each stretch to fill the full card width on a wide monitor, leaving
+   huge empty gaps after short values like "CLICK 125 2025" before the next
+   field starts. minmax(150px,190px) keeps columns content-sized instead. */
 @media (min-width:721px){
-  .rc-quickfields{grid-template-columns:repeat(6,1fr);padding-left:84px;}
+  .rc-quickfields{grid-template-columns:repeat(auto-fit,minmax(150px,190px));padding-left:84px;}
 }
 .rc-qf-wide{grid-column:span 2;}
 .rc-qf{display:flex;flex-direction:column;gap:3px;min-width:0;}
@@ -611,8 +640,9 @@ body{
 .rc-detail{display:none;border-top:1px solid var(--border);padding:16px;background:var(--surface-alt);}
 .rowcard.expanded .rc-detail{display:block;}
 .rc-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
   gap:12px 16px;margin-bottom:14px;
+  max-width:1200px;
 }
 .rc-field .rc-f-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
 .rc-field .rc-f-value{font-size:13px;color:var(--ink);font-weight:500;}
@@ -683,9 +713,9 @@ select.ustat-select{
   cursor:pointer;
 }
 select.ustat-confirmed{background:var(--good-bg);color:var(--good);border-color:var(--good-bd);}
-select.ustat-good{background:#E9EEF5;color:#1C3A5C;border-color:#CDD5E0;}
+select.ustat-good{background:#E3EAF4;color:#123253;border-color:#B9C4D3;}
 select.ustat-missing{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);font-weight:700;}
-select.ustat-impound{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+select.ustat-impound{background:#FAE7D5;color:#9C5314;border-color:#E7BC88;}
 select.ustat-wreck{background:#F5E1E1;color:#8A2B2B;border-color:#E9C1C1;font-weight:700;}
 select.ustat-tracing{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.ustat-notconfirmed{background:var(--neutral-bg);color:var(--neutral);border-color:var(--neutral-bd);}
@@ -703,23 +733,10 @@ select.pmode-select{
   border:1px solid transparent;
   cursor:pointer;
 }
-select.pmode-branch{background:#E9EEF5;color:#1C3A5C;border-color:#CDD5E0;}
-select.pmode-field{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
+select.pmode-branch{background:#E3EAF4;color:#123253;border-color:#B9C4D3;}
+select.pmode-field{background:#FAE7D5;color:#9C5314;border-color:#E7BC88;}
 select.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
-
-/* Mode of Payment toggle pills (multi-select — see parsePaymentModes) */
-.pmode-group{display:flex;flex-wrap:wrap;gap:6px;}
-.pmode-toggle{
-  font-family:inherit;font-size:11.5px;font-weight:600;
-  padding:5px 10px;border-radius:20px;cursor:pointer;
-  border:1px solid var(--border-strong);background:#fff;color:var(--ink-soft);
-  transition:background .12s ease,color .12s ease,border-color .12s ease;
-}
-.pmode-toggle:hover{border-color:var(--accent);}
-.pmode-toggle.pmode-branch.active{background:#E9EEF5;color:#1C3A5C;border-color:#CDD5E0;}
-.pmode-toggle.pmode-field.active{background:#FDECD9;color:#B0630F;border-color:#F4D3AA;}
-.pmode-toggle.pmode-online.active{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 
 /* ---------- Calendar date picker (SI Date / Date of Audit) ---------- */
 .date-field{position:relative;width:100%;}
@@ -782,6 +799,8 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   border-radius:12px;
   padding:22px 24px 20px;
   width:100%;max-width:660px;
+  max-height:calc(100vh - 80px);
+  overflow-y:auto;
   box-shadow:0 12px 36px rgba(20,26,38,0.28);
 }
 .modal h2{font-size:16.5px;font-weight:700;margin:0 0 12px;color:var(--ink);}
@@ -811,8 +830,10 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
 .settings-actions .btn{width:100%;}
 .import-btn-wrap{position:relative;}
 .import-btn-wrap .btn{width:100%;}
+.toolbar .import-btn-wrap .btn:not(.icon-btn){width:auto;}
+.toolbar .import-menu{min-width:170px;}
 .import-menu{
-  display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:20;
+  display:none;position:fixed;z-index:55;
   background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;
   box-shadow:var(--shadow-md, 0 8px 24px rgba(0,0,0,.12));overflow:hidden;
 }
@@ -859,7 +880,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .logo-badge img{width:52px;height:52px;}
   .appbar .sub{font-size:11px;}
   .appbar-right{width:100%;justify-content:flex-start !important;flex-wrap:wrap;gap:8px !important;}
-  .appbar .sync-status, .appbar .health{font-size:11.5px;padding:6px 10px;}
+  .appbar .sync-status, .appbar .health{font-size:10.5px;padding:2px 4px;}
   .refresh-btn{width:32px;height:32px;}
 
   .branch-tabs{gap:6px;}
@@ -870,7 +891,8 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .kpi .k-label{font-size:10.5px;margin-bottom:4px;}
   .kpi .k-value{font-size:16px;}
 
-  .status-breakdown, .unit-breakdown{padding:6px 10px;}
+  .ub-icon-btn, .sb-icon-btn{height:32px;padding:0 8px;}
+  .ub-icon-btn .btn-label, .sb-icon-btn .btn-label{font-size:9.5px;}
   .sb-chip, .ub-chip{font-size:10.5px;padding:4px 8px;}
 
 
@@ -906,8 +928,11 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
     max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
   }
   .branch-picker-item, .ms-item{
-    white-space:normal;padding:12px 14px;font-size:13.5px;
+    white-space:normal;padding:14px 16px;font-size:15px;min-height:44px;
+    display:flex;align-items:center;border-bottom:1px solid var(--border);
   }
+  .branch-picker-item:last-child, .ms-item:last-child{border-bottom:none;}
+  .branch-picker-item:active, .ms-item:active{background:var(--surface-alt);}
   .picker-panel-title{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:6px 8px 10px;margin-bottom:6px;border-bottom:1px solid var(--border);
@@ -928,7 +953,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .rc-chevron{order:2;}
   .rc-quickfields{padding:11px 12px 12px;}
   .rc-detail{padding:12px;}
-  .rc-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px 12px;}
+  .rc-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px 12px;max-width:none;}
   .rc-remarks{grid-template-columns:1fr;}
   .rc-actions{gap:8px;}
 
@@ -969,6 +994,23 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .rc-name{font-size:13px;}
   .appbar-brand h1{font-size:15px;}
 }
+/* These toolbar controls only make sense once you're focused on a single
+   branch (filtering/sorting/saving that branch's own accounts) — hidden
+   while viewing "All Branches", shown once a specific branch is open. */
+#statusFilterWrap, #unitFilterWrap, #remarksFilterSelect, #sortSelect, #saveAllBtn{
+  display:none !important;
+}
+body.branch-focused #statusFilterWrap,
+body.branch-focused #unitFilterWrap,
+body.branch-focused #remarksFilterSelect,
+body.branch-focused #sortSelect,
+body.branch-focused #saveAllBtn{
+  display:inline-flex !important;
+}
+body.branch-focused select#remarksFilterSelect,
+body.branch-focused select#sortSelect{
+  display:inline-block !important;
+}
 </style>
 </head>
 <body>
@@ -985,75 +1027,57 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
       </div>
     </div>
     <div class="appbar-right" style="display:flex;align-items:center;gap:10px;">
-      <div class="more-wrap" id="moreWrap" style="position:relative;">
-        <button type="button" class="refresh-btn" id="moreBtn" title="More">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18.5" r="1.6"/></svg>
-        </button>
-        <div class="more-panel" id="morePanel">
-          <button type="button" class="more-item" id="settingsBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-            <span>Settings</span>
-          </button>
-          <button type="button" class="more-item" id="historyBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <polyline points="12 7 12 12 15.5 14"/>
-            </svg>
-            <span>History</span>
-          </button>
-          <button type="button" class="more-item" id="fullscreenBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="fullscreenIconEnter">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
-              <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
-              <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
-              <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
-            </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="fullscreenIconExit" style="display:none;">
-              <path d="M8 3v3a2 2 0 0 1-2 2H3"/>
-              <path d="M21 8h-3a2 2 0 0 1-2-2V3"/>
-              <path d="M3 16h3a2 2 0 0 1 2 2v3"/>
-              <path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
-            </svg>
-            <span id="fullscreenBtnLabel">Full Screen</span>
-          </button>
+      <div class="icon-toolbar">
+        <div class="search-bar-sticky collapsed" id="searchBarSticky" title="Search">
+          <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search" class="search-bar-input" placeholder="Search customer, model, engine no, branch, remarks...">
         </div>
-      </div>
-      <div class="bell-wrap" id="bellWrap" style="position:relative;">
-        <button type="button" class="refresh-btn" id="notifBellBtn" title="Pending upload">
+        <button type="button" class="refresh-btn" id="settingsBtn" title="Settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
-          <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
         </button>
-        <div class="notif-panel" id="notifPanel"></div>
+        <button type="button" class="refresh-btn" id="historyBtn" title="History">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <polyline points="12 7 12 12 15.5 14"/>
+          </svg>
+        </button>
+        <div class="bell-wrap" id="bellWrap" style="position:relative;">
+          <button type="button" class="refresh-btn" id="notifBellBtn" title="Pending upload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+          </button>
+          <div class="notif-panel" id="notifPanel"></div>
+        </div>
+        <button type="button" class="refresh-btn" id="refreshBtn" title="Refresh — reload the latest saved data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+            <polyline points="21 3 21 9 15 9"/>
+          </svg>
+        </button>
+        <button type="button" class="refresh-btn" id="undoBtn" title="Undo — nothing to undo" disabled style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 14 4 9l5-5"/>
+            <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+          </svg>
+        </button>
+        <button type="button" class="refresh-btn" id="redoBtn" title="Redo — nothing to redo" disabled style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 14l5-5-5-5"/>
+            <path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>
+          </svg>
+        </button>
       </div>
-      <button type="button" class="refresh-btn" id="refreshBtn" title="Refresh — reload the latest saved data">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
-          <polyline points="21 3 21 9 15 9"/>
-        </svg>
-      </button>
-      <button type="button" class="refresh-btn" id="undoBtn" title="Undo — nothing to undo" disabled style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 14 4 9l5-5"/>
-          <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
-        </svg>
-      </button>
-      <button type="button" class="refresh-btn" id="redoBtn" title="Redo — nothing to redo" disabled style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 14l5-5-5-5"/>
-          <path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>
-        </svg>
-      </button>
       <div class="sync-health-stack" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
         <div class="sync-status" id="statusCombo">
           <span class="dot"></span><span id="syncStatusText">—</span>
         </div>
-        <div class="health" id="healthChipText">
+        <div class="health" id="healthChipText" style="display:none;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7v6c0 5 4 9 10 11 6-2 10-6 10-11V7z"/></svg>
           <span id="healthChipTextVal">—</span>
         </div>
@@ -1061,21 +1085,13 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
     </div>
   </div>
 
-  <div class="search-bar-sticky" id="searchBarSticky">
-    <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <input type="text" id="search" class="search-bar-input" placeholder="Search customer, model, engine no, branch, remarks...">
-  </div>
-
   <div class="conn-banner" id="connBanner"></div>
   <div class="toast" id="toast"></div>
 
-  <div class="top-row-flex">
+  <div class="toolbar">
     <div class="branch-tabs" id="branchTabs"></div>
     <div class="status-breakdown" id="statusBreakdown"></div>
     <div class="unit-breakdown" id="unitBreakdown"></div>
-  </div>
-
-  <div class="toolbar">
     <div class="branch-picker-wrap" id="statusFilterWrap">
       <button type="button" class="branch-picker-btn" id="statusFilterBtn">All status <span class="caret">▾</span></button>
       <div class="branch-picker-panel" id="statusFilterPanel"></div>
@@ -1098,10 +1114,29 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
       <option value="outstandingBalance:-1">Sort: Outstanding (High–Low)</option>
       <option value="dateOfAudit:-1">Sort: Date of Audit (Newest)</option>
     </select>
+    <div class="import-btn-wrap" id="toolbarImportWrap">
+      <button class="btn btn-compact" id="importMenuBtn" title="Import Ledger or Update Remarks">Import ▾</button>
+      <div class="import-menu" id="importMenu">
+        <button type="button" class="import-menu-item" id="importLedgerOption">📋 Import Ledger</button>
+        <button type="button" class="import-menu-item" id="importRemarksOption">📝 Update Remarks</button>
+      </div>
+    </div>
+    <button class="btn icon-btn" id="exportBtn" title="Export CSV">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    </button>
+    <div class="import-btn-wrap" id="toolbarPrintWrap">
+      <button class="btn icon-btn" id="printMenuBtn" title="Print">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      </button>
+      <div class="import-menu" id="printMenu">
+        <button type="button" class="import-menu-item" id="printSummaryOption">🖨 Print audit summary</button>
+        <button type="button" class="import-menu-item" id="printListOption">🖨 Print list (Customer–MA)</button>
+      </div>
+    </div>
     <span class="spacer"></span>
     <span class="count-note" id="rowCount"></span>
-    <button class="btn" id="saveAllBtn" title="Save any pending changes, across all branches — a branch with nothing to save is left untouched.">💾 Save All</button>
-    <button class="btn primary" id="addBtn">+ Add customer</button>
+    <button class="btn btn-compact" id="saveAllBtn" title="Save any pending changes, across all branches — a branch with nothing to save is left untouched.">💾 Save All</button>
+    <button class="btn primary btn-compact" id="addBtn" title="Add customer">+ Customer</button>
   </div>
 
 
@@ -1125,27 +1160,6 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
       <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
         <button class="btn primary" id="settingsUrlSave">Save &amp; Connect</button>
         <span class="sync-status" id="settingsSyncStatus" style="padding:0;background:none;border:none;"><span class="dot"></span><span id="settingsSyncStatusText">—</span></span>
-      </div>
-    </div>
-
-    <div class="settings-section">
-      <div class="settings-section-title">Data</div>
-      <div class="settings-actions">
-        <div class="import-btn-wrap">
-          <button class="btn" id="importMenuBtn">Import ▾</button>
-          <div class="import-menu" id="importMenu">
-            <button type="button" class="import-menu-item" id="importLedgerOption">📋 Import Ledger</button>
-            <button type="button" class="import-menu-item" id="importRemarksOption">📝 Update Remarks</button>
-          </div>
-        </div>
-        <button class="btn" id="exportBtn">Export CSV</button>
-        <div class="import-btn-wrap">
-          <button class="btn secondary" id="printMenuBtn">🖨 Print ▾</button>
-          <div class="import-menu" id="printMenu">
-            <button type="button" class="import-menu-item" id="printSummaryOption">🖨 Print audit summary</button>
-            <button type="button" class="import-menu-item" id="printListOption">🖨 Print list (Customer–MA)</button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1691,6 +1705,8 @@ const UNIT_STATUS_ORDER = ['CONFIRMED','GOOD CONDITION','MISSING','IMPOUND','TOT
 let unitBreakdownCollapsed = true;
 function renderUnitBreakdown(){
   const wrap = document.getElementById('unitBreakdown');
+  if(currentBranch===null){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+  wrap.style.display='';
   const counts = {};
   UNIT_STATUS_ORDER.forEach(o=>counts[o]=0);
   let noLabel = 0;
@@ -1699,10 +1715,10 @@ function renderUnitBreakdown(){
     if(v && counts.hasOwnProperty(v)) counts[v]++;
     else noLabel++;
   });
-  let html = `<div class="ub-title-row" id="ubTitleRow">
-      <div class="ub-title">Unit Status Breakdown</div>
-      <button type="button" class="ub-toggle${unitBreakdownCollapsed?' collapsed':''}" id="ubToggleBtn" title="${unitBreakdownCollapsed?'Show':'Hide'} breakdown">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  let html = `<div class="ub-title-row" id="ubTitleRow" title="Unit Status Breakdown">
+      <button type="button" class="ub-icon-btn${unitBreakdownCollapsed?'':' active'}" id="ubToggleBtn" aria-label="${unitBreakdownCollapsed?'Show':'Hide'} Unit Status Breakdown">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span class="btn-label">Unit Status</span>
       </button>
     </div><div class="ub-chips branch-picker-panel${unitBreakdownCollapsed?'':' open'}" id="ubChipsPanel">`;
   UNIT_STATUS_ORDER.forEach(o=>{
@@ -1729,6 +1745,17 @@ function renderUnitBreakdown(){
     }
   };
   document.getElementById('ubTitleRow').addEventListener('click', toggleUb);
+  // Same overflow-clipping bug as Import/Print/the filter dropdowns —
+  // .ub-chips.branch-picker-panel is still position:absolute by default
+  // and this row sits inside .toolbar (overflow-y:hidden), so give it
+  // real fixed coordinates whenever it's open (including right after this
+  // render, since toggling happens via a full re-render rather than just
+  // a class flip).
+  if(!unitBreakdownCollapsed){
+    const ubBtn = document.getElementById('ubToggleBtn');
+    const ubPanel = document.getElementById('ubChipsPanel');
+    if(ubBtn && ubPanel) positionFixedDropdown(ubBtn, ubPanel, {width:280});
+  }
   wrap.querySelectorAll('.ub-chip').forEach(chip=>{
     chip.addEventListener('click', (e)=>{
       e.stopPropagation();
@@ -1752,6 +1779,7 @@ const CUSTOMER_STATUS_ORDER = ['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL'
 let statusBreakdownCollapsed = true;
 function renderStatusBreakdown(){
   const wrap = document.getElementById('statusBreakdown');
+  if(currentBranch===null){ wrap.style.display='none'; wrap.innerHTML=''; return; }
   wrap.style.display = '';
   const scope = recordsInScope();
   const totalAccounts = scope.length;
@@ -1764,10 +1792,10 @@ function renderStatusBreakdown(){
     else if(v) counts[v] = (counts[v]||0)+1;
     else noLabel++;
   });
-  let html = `<div class="sb-title-row" id="sbTitleRow">
-      <div class="sb-title">Customer Status Breakdown</div>
-      <button type="button" class="sb-toggle${statusBreakdownCollapsed?' collapsed':''}" id="sbToggleBtn" title="${statusBreakdownCollapsed?'Show':'Hide'} breakdown">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  let html = `<div class="sb-title-row" id="sbTitleRow" title="Customer Status Breakdown">
+      <button type="button" class="sb-icon-btn${statusBreakdownCollapsed?'':' active'}" id="sbToggleBtn" aria-label="${statusBreakdownCollapsed?'Show':'Hide'} Customer Status Breakdown">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        <span class="btn-label">Customer Status</span>
       </button>
     </div><div class="sb-chips branch-picker-panel${statusBreakdownCollapsed?'':' open'}" id="sbChipsPanel">
     <span class="sb-chip total"><span class="ub-dot"></span><span class="chip-label">Total Accounts</span><span class="sb-count">${totalAccounts}</span></span>`;
@@ -1799,6 +1827,14 @@ function renderStatusBreakdown(){
     }
   };
   document.getElementById('sbTitleRow').addEventListener('click', toggleSb);
+  // Same fix as the Unit Status breakdown above — give the panel real
+  // fixed coordinates whenever it's open so it floats above the toolbar
+  // instead of being clipped by it.
+  if(!statusBreakdownCollapsed){
+    const sbBtn = document.getElementById('sbToggleBtn');
+    const sbPanel = document.getElementById('sbChipsPanel');
+    if(sbBtn && sbPanel) positionFixedDropdown(sbBtn, sbPanel, {width:280});
+  }
   wrap.querySelectorAll('.sb-chip[data-status]').forEach(chip=>{
     chip.addEventListener('click', (e)=>{
       e.stopPropagation();
@@ -2231,6 +2267,73 @@ function updateNotifBell(pendingList){
   }
   panel.innerHTML = html;
 }
+/* Generic fixed-position dropdown placement — same technique as
+   positionNotifPanel below, reused for the Mode of Payment checkbox
+   dropdown. Needed because that dropdown lives inside a .rowcard, and
+   .rowcard has overflow:hidden (for its rounded corners), which would clip
+   a plain position:absolute panel. position:fixed + JS placement escapes
+   that clipping since fixed elements aren't confined by an ancestor's
+   overflow (unless that ancestor has a transform, which .rowcard doesn't). */
+function positionFixedDropdown(btn, panel, opts){
+  opts = opts || {};
+  // On mobile, dropdown/filter panels that share the .branch-picker-panel
+  // class (branch picker, status filter, unit filter, unit/customer
+  // status breakdown, mode-of-payment) already get a fully centered,
+  // full-width "sheet" treatment straight from CSS alone (see the
+  // max-width:720px media query) — the same reliable, big-target style
+  // as the native Remarks/Sort dropdowns. Stamping fixed button-anchored
+  // coordinates AND a low z-index (55) on top of that, the way we do for
+  // desktop, fights that CSS: it drags the sheet back up near the button,
+  // off-center and often partly cut off — and worse, it puts the panel
+  // BELOW the dimmed .picker-backdrop (which the mobile CSS sets to
+  // z-index:200 for it. So skip all inline placement here for these
+  // panels on mobile and let the CSS sheet take over untouched.
+  if(isMobileViewport() && panel.classList.contains('branch-picker-panel')){
+    panel.style.position = '';
+    panel.style.left = '';
+    panel.style.top = '';
+    panel.style.width = '';
+    panel.style.maxHeight = '';
+    panel.style.zIndex = '';
+    return;
+  }
+  const margin = 12;
+  // visualViewport reflects what's ACTUALLY visible on a phone screen —
+  // window.innerWidth/innerHeight can lag or disagree with it once the
+  // Android on-screen keyboard or the browser's collapsing URL bar has
+  // changed how much screen is really showing. Prefer it when available
+  // so the panel is positioned against real visible space, not a stale one.
+  const vv = window.visualViewport;
+  const vw = vv ? vv.width : window.innerWidth;
+  const vh = vv ? vv.height : window.innerHeight;
+  const vLeft = vv ? vv.offsetLeft : 0;
+  const vTop = vv ? vv.offsetTop : 0;
+  const btnRect = btn.getBoundingClientRect();
+  const panelWidth = Math.min(opts.width || 210, vw - margin*2);
+  let left = btnRect.left;
+  left = Math.max(vLeft + margin, Math.min(left, vLeft + vw - panelWidth - margin));
+  // Use the panel's real rendered height (call this AFTER it's visible,
+  // i.e. after toggling the .open class) instead of a guessed number —
+  // on short phone screens a guess is easy to get wrong and pushes part
+  // of the panel off the bottom edge where it can't be seen or tapped.
+  const panelHeight = panel.offsetHeight || 200;
+  let top = btnRect.bottom + 6;
+  const spaceBelow = (vTop + vh) - top - margin;
+  if(spaceBelow < panelHeight){
+    const spaceAbove = btnRect.top - vTop - margin;
+    if(spaceAbove > spaceBelow) top = Math.max(vTop + margin, btnRect.top - 6 - panelHeight); // flip above if there's more room there
+  }
+  // Belt-and-suspenders clamp: whichever side it landed on, never let the
+  // panel run past the top or bottom of the actually-visible screen area.
+  const maxPanelHeight = Math.max(120, vh - margin*2);
+  top = Math.max(vTop + margin, Math.min(top, vTop + vh - margin - Math.min(panelHeight, maxPanelHeight)));
+  panel.style.position = 'fixed';
+  panel.style.left = left + 'px';
+  panel.style.top = top + 'px';
+  panel.style.width = panelWidth + 'px';
+  panel.style.maxHeight = maxPanelHeight + 'px';
+  panel.style.zIndex = '55'; // above modal-bg (z-index:50) since this panel may open from inside a modal
+}
 /* Since the panel is position:fixed, we place it ourselves in JS (instead of
    plain CSS "right:0") so it's always clamped inside the viewport — this is
    what fixes it getting cut off / pushed off-screen on narrow phone widths. */
@@ -2263,36 +2366,6 @@ document.addEventListener('click', (e)=>{
 window.addEventListener('resize', ()=>{
   const panel = document.getElementById('notifPanel');
   if(panel && panel.classList.contains('open')) positionNotifPanel();
-});
-
-/* ---------- "More" menu (Settings + History) ---------- */
-function positionMorePanel(){
-  const btn = document.getElementById('moreBtn');
-  const panel = document.getElementById('morePanel');
-  if(!btn || !panel) return;
-  const margin = 12;
-  const btnRect = btn.getBoundingClientRect();
-  const panelWidth = Math.min(180, window.innerWidth - margin*2);
-  let left = btnRect.left;
-  left = Math.max(margin, Math.min(left, window.innerWidth - panelWidth - margin));
-  let top = btnRect.bottom + 8;
-  panel.style.left = left + 'px';
-  panel.style.top = top + 'px';
-}
-document.getElementById('moreBtn').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  const panel = document.getElementById('morePanel');
-  const willOpen = !panel.classList.contains('open');
-  if(willOpen) positionMorePanel();
-  panel.classList.toggle('open');
-});
-document.addEventListener('click', (e)=>{
-  const wrap = document.getElementById('moreWrap');
-  if(wrap && !wrap.contains(e.target)) document.getElementById('morePanel').classList.remove('open');
-});
-window.addEventListener('resize', ()=>{
-  const panel = document.getElementById('morePanel');
-  if(panel && panel.classList.contains('open')) positionMorePanel();
 });
 
 document.getElementById('undoBtn').addEventListener('click', performUndo);
@@ -2349,36 +2422,9 @@ function navigateToHistoryRecord(branch, recordId){
   });
 }
 document.getElementById('historyBtn').addEventListener('click', ()=>{
-  document.getElementById('morePanel').classList.remove('open');
   historyModalBg.classList.add('open');
   loadHistory();
 });
-
-/* Full Screen toggle (desktop-friendly): uses the browser Fullscreen API to
-   hide the browser chrome (tabs/address bar) so the dashboard fills the
-   whole screen. Requires a user gesture to trigger, which the menu click
-   provides. Falls back silently if the browser/OS refuses (e.g. some
-   embedded/iframe contexts don't allow it). The icon + label update to
-   reflect actual fullscreen state, and also react if the user exits via
-   Esc or F11 instead of this button. */
-function updateFullscreenUI(){
-  const isFs = !!document.fullscreenElement;
-  const enterIcon = document.getElementById('fullscreenIconEnter');
-  const exitIcon = document.getElementById('fullscreenIconExit');
-  const label = document.getElementById('fullscreenBtnLabel');
-  if(enterIcon) enterIcon.style.display = isFs ? 'none' : '';
-  if(exitIcon) exitIcon.style.display = isFs ? '' : 'none';
-  if(label) label.textContent = isFs ? 'Exit Full Screen' : 'Full Screen';
-}
-document.getElementById('fullscreenBtn').addEventListener('click', ()=>{
-  document.getElementById('morePanel').classList.remove('open');
-  if(!document.fullscreenElement){
-    (document.documentElement.requestFullscreen ? document.documentElement.requestFullscreen() : Promise.reject()).catch(()=>{});
-  } else {
-    (document.exitFullscreen ? document.exitFullscreen() : Promise.reject()).catch(()=>{});
-  }
-});
-document.addEventListener('fullscreenchange', updateFullscreenUI);
 
 /* Esc key closes whichever modal is currently open — a safety net so the
    Add/Edit customer modal (and any other) can always be dismissed even if
@@ -2567,7 +2613,7 @@ function updateSaveBtnLabel(){
     btn.title = 'Save any pending changes, across all branches — a branch with nothing to save is left untouched.';
   } else {
     const n = computePendingRecordsForBranch(currentBranch).length;
-    btn.textContent = `💾 Save ${currentBranch}`;
+    btn.textContent = `💾 Save`;
     btn.title = n>0
       ? `Save ${n} pending change${n===1?'':'s'} in ${currentBranch}. Only this branch's data is touched — every other branch is left exactly as-is.`
       : `No pending changes in ${currentBranch}.`;
@@ -2644,6 +2690,14 @@ function isAnyModalOpen(){
   // or mode of payment could seem to do nothing and need a 2nd try.
   const ae = document.activeElement;
   if(ae && (ae.tagName==='TEXTAREA' || ae.tagName==='INPUT' || ae.tagName==='SELECT' || ae.isContentEditable)) return true;
+  // The Mode of Payment checkbox dropdown is a custom button+panel, not a
+  // native <select>, so while it's open the "focused" element is just a
+  // <button> — not caught by the check above. Without this, a quiet
+  // background refresh could fire while someone is mid-way through
+  // ticking BRANCH/FIELD/ONLINE boxes, re-render the row, and silently
+  // drop the panel/selection — same "first click seems to do nothing"
+  // symptom the Unit status <select> used to have before it was guarded.
+  if(document.querySelector('.pmode-panel.open')) return true;
   return false;
 }
 
@@ -2693,7 +2747,6 @@ function showToast(message, type){
 const settingsModalBg = document.getElementById('settingsModalBg');
 const settingsUrlInput = document.getElementById('settingsUrlInput');
 document.getElementById('settingsBtn').addEventListener('click', ()=>{
-  document.getElementById('morePanel').classList.remove('open');
   settingsUrlInput.value = APPS_SCRIPT_URL;
   updateSyncStatus();
   settingsModalBg.classList.add('open');
@@ -2717,9 +2770,18 @@ document.getElementById('settingsUrlSave').addEventListener('click', async ()=>{
 /* data-action buttons live inside the settings modal — close it once the
    action has kicked off so it doesn't sit on top of a nested modal or
    file picker. */
-document.querySelector('.settings-actions').addEventListener('click', (e)=>{
-  if(e.target.closest('button')) settingsModalBg.classList.remove('open');
-});
+/* Guarded: an earlier edit removed the .settings-actions wrapper from the
+   settings modal markup, so this querySelector was returning null and
+   throwing on every page load — since this is one big top-level <script>,
+   that crash silently killed every addEventListener AFTER this line,
+   which is why only a handful of early buttons/icons still worked and
+   loadRecords() (called at the very bottom of the script) never ran. */
+const settingsActionsEl = document.querySelector('.settings-actions');
+if(settingsActionsEl){
+  settingsActionsEl.addEventListener('click', (e)=>{
+    if(e.target.closest('button')) settingsModalBg.classList.remove('open');
+  });
+}
 
 function filterBtnLabel(baseLabel, selectedSet){
   if(selectedSet.size===0) return baseLabel;
@@ -2800,7 +2862,15 @@ if(!window.__filterDropdownsBound){
     document.getElementById('unitFilterPanel').classList.remove('open');
     closeBreakdownPanels();
     const p = document.getElementById('statusFilterPanel');
+    // These filter panels live inside .toolbar, which clips overflow —
+    // being position:fixed normally escapes that, but only once JS gives
+    // it real fixed coordinates. Without this call it just sits at its
+    // default in-flow position and gets cut off by the toolbar, which is
+    // exactly why the dropdown was invisible. Toggle visible FIRST (so
+    // positionFixedDropdown can read its real rendered height), then
+    // position it.
     p.classList.toggle('open');
+    if(p.classList.contains('open')) positionFixedDropdown(document.getElementById('statusFilterBtn'), p, {width:220});
     showPickerBackdrop(p.classList.contains('open'));
   });
   document.getElementById('unitFilterBtn').addEventListener('click', (e)=>{
@@ -2809,6 +2879,7 @@ if(!window.__filterDropdownsBound){
     closeBreakdownPanels();
     const p = document.getElementById('unitFilterPanel');
     p.classList.toggle('open');
+    if(p.classList.contains('open')) positionFixedDropdown(document.getElementById('unitFilterBtn'), p, {width:220});
     showPickerBackdrop(p.classList.contains('open'));
   });
   document.addEventListener('click', (e)=>{
@@ -3001,10 +3072,10 @@ function renderCards(){
        original mobile layout) or 6 columns on desktop/tablet, based on the
        @media rule above — "wide" items just span 2 columns wherever they land. */
     const QUICK_FIELDS = [
-      {key:'siDate'}, {key:'model', wide:true},
+      {key:'siDate'}, {key:'model'},
       {key:'engineNo'}, {key:'dueDay'}, {key:'terms'},
-      {key:'ma'}, {key:'lastPayment', wide:true},
-      {key:'outstandingBalance'}, {key:'amountPaid', wide:true}
+      {key:'ma'}, {key:'lastPayment'},
+      {key:'outstandingBalance'}, {key:'amountPaid'}
     ];
     QUICK_FIELDS.forEach(item=>{
       const c = COL_BY_KEY[item.key];
@@ -3109,30 +3180,85 @@ function renderCards(){
     paymentField.innerHTML = `<label>Mode of Payment</label>`;
     // Multiple payment channels can apply to the same account over time
     // (e.g. paid online once, paid via branch/field another time), so this
-    // is a set of independently-toggleable pills instead of a single-choice
-    // dropdown. Stored as a comma-separated string, e.g. "BRANCH, ONLINE".
-    const pmodeGroup = document.createElement('div');
-    pmodeGroup.className = 'pmode-group';
+    // is a checkbox multi-select — a dropdown button that opens a small
+    // panel of checkboxes, same look as the "All status"/"All unit status"
+    // filter dropdowns. Stored as a comma-separated string, e.g. "BRANCH, ONLINE".
+    const pmodeWrap = document.createElement('div');
+    pmodeWrap.style.position = 'relative';
+    const pmodeBtn = document.createElement('button');
+    pmodeBtn.type = 'button';
+    pmodeBtn.className = 'branch-picker-btn pmode-picker-btn';
+    const pmodePanel = document.createElement('div');
+    pmodePanel.className = 'branch-picker-panel pmode-panel';
     const selectedModes = new Set(parsePaymentModes(r.paymentMode));
+    function updatePmodeBtnLabel(){
+      pmodeBtn.innerHTML = (selectedModes.size ? [...selectedModes].join(', ') : 'Select mode') + ' <span class="caret">▾</span>';
+    }
+    updatePmodeBtnLabel();
     COL_BY_KEY.paymentMode.options.forEach(opt=>{
-      const pill = document.createElement('button');
-      pill.type = 'button';
-      pill.className = 'pmode-toggle ' + paymentModeClass(opt) + (selectedModes.has(opt) ? ' active' : '');
-      pill.textContent = opt;
-      pill.addEventListener('click', e=>{
+      const label = document.createElement('label');
+      label.className = 'ms-item';
+      label.innerHTML = `<input type="checkbox" value="${opt}"${selectedModes.has(opt) ? ' checked' : ''}><span>${opt}</span>`;
+      label.querySelector('input').addEventListener('change', e=>{
         e.stopPropagation();
-        if(selectedModes.has(opt)) selectedModes.delete(opt); else selectedModes.add(opt);
+        if(e.target.checked) selectedModes.add(opt); else selectedModes.delete(opt);
         const newVal = COL_BY_KEY.paymentMode.options.filter(o=>selectedModes.has(o)).join(', ');
         if(newVal === (r.paymentMode||'')) return;
         pushUndo(`Set Mode of Payment for "${r.customerName||'(no name)'}"`);
         r.paymentMode = newVal;
-        pill.classList.toggle('active', selectedModes.has(opt));
+        updatePmodeBtnLabel();
         logActivity(`Set Mode of Payment for "${r.customerName||'(no name)'}" to ${r.paymentMode||'(blank)'}`, {recordId: r.id, branch: branchOf(r)});
         saveRecords();
       });
-      pmodeGroup.appendChild(pill);
+      label.addEventListener('click', e=>e.stopPropagation());
+      pmodePanel.appendChild(label);
     });
-    paymentField.appendChild(pmodeGroup);
+    // positionFixedDropdown() only computes left/top once, at the moment
+    // the panel opens — fine for a click-and-release picker, but this one
+    // can be left open while ticking several boxes, so if the page scrolls
+    // in the meantime the button moves (it's in normal page flow) while
+    // the position:fixed panel stays put in the viewport, and the two
+    // drift apart. Re-run it on every scroll/resize while open so the
+    // panel stays glued to the button, the way a native <select>'s
+    // dropdown always tracks its control.
+    function pmodeReposition(){ positionFixedDropdown(pmodeBtn, pmodePanel, {width:180}); }
+    function pmodeAddTrackers(){
+      window.addEventListener('scroll', pmodeReposition, true);
+      window.addEventListener('resize', pmodeReposition);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('scroll', pmodeReposition);
+        window.visualViewport.addEventListener('resize', pmodeReposition);
+      }
+    }
+    function pmodeRemoveTrackers(){
+      window.removeEventListener('scroll', pmodeReposition, true);
+      window.removeEventListener('resize', pmodeReposition);
+      if(window.visualViewport){
+        window.visualViewport.removeEventListener('scroll', pmodeReposition);
+        window.visualViewport.removeEventListener('resize', pmodeReposition);
+      }
+    }
+    pmodeBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.branch-picker-panel.open').forEach(p=>{ if(p!==pmodePanel) p.classList.remove('open'); });
+      const willOpen = !pmodePanel.classList.contains('open');
+      // Toggle visible FIRST, then measure/position — positionFixedDropdown
+      // reads the panel's real rendered height, which is 0 while it's
+      // still display:none. Both happen synchronously before the browser
+      // paints, so there's no visible flash at the wrong spot.
+      pmodePanel.classList.toggle('open');
+      if(willOpen){ pmodeReposition(); pmodeAddTrackers(); }
+      else pmodeRemoveTrackers();
+    });
+    document.addEventListener('click', e=>{
+      if(!pmodeWrap.contains(e.target) && !pmodePanel.contains(e.target)){
+        pmodePanel.classList.remove('open');
+        pmodeRemoveTrackers();
+      }
+    });
+    pmodeWrap.appendChild(pmodeBtn);
+    document.body.appendChild(pmodePanel);
+    paymentField.appendChild(pmodeWrap);
     actions.appendChild(paymentField);
 
     const spacer = document.createElement('div');
@@ -3230,7 +3356,12 @@ function renderBranchTabs(){
   const panel = document.getElementById('branchPickerPanel');
   document.getElementById('branchPickerBtn').addEventListener('click', (e)=>{
     e.stopPropagation();
+    // Same fix as the status/unit filter panels — this one also lives
+    // inside .toolbar (overflow-clipped) and never had its fixed
+    // position actually set, so it was rendering off in normal flow and
+    // getting cut off instead of floating over the page.
     panel.classList.toggle('open');
+    if(panel.classList.contains('open')) positionFixedDropdown(document.getElementById('branchPickerBtn'), panel, {width:240});
     showPickerBackdrop(panel.classList.contains('open'));
   });
   const closeBtn = document.getElementById('branchPickerCloseBtn');
@@ -3298,6 +3429,9 @@ function renderBranchOverview(){
 }
 
 function renderAll(){
+  // Toggles which "focused on one branch" toolbar controls are visible —
+  // see the body.branch-focused CSS rule.
+  document.body.classList.toggle('branch-focused', currentBranch!==null);
   renderBranchTabs();
   renderBranchOverview();
   populateFilterOptions();
@@ -3311,7 +3445,12 @@ const importMenuBtn = document.getElementById('importMenuBtn');
 const importMenu = document.getElementById('importMenu');
 importMenuBtn.addEventListener('click', (e)=>{
   e.stopPropagation();
+  // Same overflow-clipping issue as the branch/status/unit filter panels
+  // above — .import-menu is now position:fixed instead of the old
+  // position:absolute (which was clipped by .toolbar's overflow-y:hidden),
+  // so it needs its coordinates set by positionFixedDropdown() the same way.
   importMenu.classList.toggle('open');
+  if(importMenu.classList.contains('open')) positionFixedDropdown(importMenuBtn, importMenu, {width:190});
 });
 document.getElementById('importLedgerOption').addEventListener('click', ()=>{
   importMenu.classList.remove('open');
@@ -3331,6 +3470,7 @@ const printMenu = document.getElementById('printMenu');
 printMenuBtn.addEventListener('click', (e)=>{
   e.stopPropagation();
   printMenu.classList.toggle('open');
+  if(printMenu.classList.contains('open')) positionFixedDropdown(printMenuBtn, printMenu, {width:220});
 });
 document.addEventListener('click', (e)=>{
   if(!printMenu.contains(e.target) && e.target!==printMenuBtn) printMenu.classList.remove('open');
@@ -3670,28 +3810,72 @@ function buildRowForm(rec){
     wrap.appendChild(label);
     let input;
     if(c.key==='paymentMode'){
-      // Same multi-select toggle pills as the card view — Mode of Payment
-      // can hold more than one channel (e.g. "BRANCH, ONLINE").
+      // Same checkbox multi-select dropdown as the card view — Mode of
+      // Payment can hold more than one channel (e.g. "BRANCH, ONLINE").
       input = document.createElement('input');
       input.type = 'hidden';
       input.value = rec[c.key] || '';
-      const group = document.createElement('div');
-      group.className = 'pmode-group';
+      const pmodeWrap = document.createElement('div');
+      pmodeWrap.style.position = 'relative';
+      const pmodeBtn = document.createElement('button');
+      pmodeBtn.type = 'button';
+      pmodeBtn.className = 'branch-picker-btn pmode-picker-btn';
+      const pmodePanel = document.createElement('div');
+      pmodePanel.className = 'branch-picker-panel pmode-panel';
       const selectedModes = new Set(parsePaymentModes(rec[c.key]));
+      function updatePmodeBtnLabel(){
+        pmodeBtn.innerHTML = (selectedModes.size ? [...selectedModes].join(', ') : 'Select mode') + ' <span class="caret">▾</span>';
+      }
+      updatePmodeBtnLabel();
       c.options.forEach(opt=>{
-        const pill = document.createElement('button');
-        pill.type = 'button';
-        pill.className = 'pmode-toggle ' + paymentModeClass(opt) + (selectedModes.has(opt) ? ' active' : '');
-        pill.textContent = opt;
-        pill.addEventListener('click', e=>{
+        const optLabel = document.createElement('label');
+        optLabel.className = 'ms-item';
+        optLabel.innerHTML = `<input type="checkbox" value="${opt}"${selectedModes.has(opt) ? ' checked' : ''}><span>${opt}</span>`;
+        optLabel.querySelector('input').addEventListener('change', e=>{
           e.stopPropagation();
-          if(selectedModes.has(opt)) selectedModes.delete(opt); else selectedModes.add(opt);
-          pill.classList.toggle('active', selectedModes.has(opt));
+          if(e.target.checked) selectedModes.add(opt); else selectedModes.delete(opt);
           input.value = c.options.filter(o=>selectedModes.has(o)).join(', ');
+          updatePmodeBtnLabel();
         });
-        group.appendChild(pill);
+        optLabel.addEventListener('click', e=>e.stopPropagation());
+        pmodePanel.appendChild(optLabel);
       });
-      wrap.appendChild(group);
+      // Keep the panel glued to the button while scrolling — see the
+      // matching comment on the card-view Mode of Payment picker above.
+      function pmodeReposition(){ positionFixedDropdown(pmodeBtn, pmodePanel, {width:180}); }
+      function pmodeAddTrackers(){
+        window.addEventListener('scroll', pmodeReposition, true);
+        window.addEventListener('resize', pmodeReposition);
+        if(window.visualViewport){
+          window.visualViewport.addEventListener('scroll', pmodeReposition);
+          window.visualViewport.addEventListener('resize', pmodeReposition);
+        }
+      }
+      function pmodeRemoveTrackers(){
+        window.removeEventListener('scroll', pmodeReposition, true);
+        window.removeEventListener('resize', pmodeReposition);
+        if(window.visualViewport){
+          window.visualViewport.removeEventListener('scroll', pmodeReposition);
+          window.visualViewport.removeEventListener('resize', pmodeReposition);
+        }
+      }
+      pmodeBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        document.querySelectorAll('.branch-picker-panel.open').forEach(p=>{ if(p!==pmodePanel) p.classList.remove('open'); });
+        const willOpen = !pmodePanel.classList.contains('open');
+        pmodePanel.classList.toggle('open');
+        if(willOpen){ pmodeReposition(); pmodeAddTrackers(); }
+        else pmodeRemoveTrackers();
+      });
+      document.addEventListener('click', e=>{
+        if(!pmodeWrap.contains(e.target) && !pmodePanel.contains(e.target)){
+          pmodePanel.classList.remove('open');
+          pmodeRemoveTrackers();
+        }
+      });
+      pmodeWrap.appendChild(pmodeBtn);
+      document.body.appendChild(pmodePanel);
+      wrap.appendChild(pmodeWrap);
     } else if(c.type==='select'){
       input = document.createElement('select');
       input.innerHTML = '<option value=""></option>' + c.options.map(o=>`<option value="${o}">${o}</option>`).join('');
@@ -3764,6 +3948,19 @@ function deleteRow(id){
 }
 
 document.getElementById('search').addEventListener('input', renderCards);
+(function(){
+  const wrap = document.getElementById('searchBarSticky');
+  const input = document.getElementById('search');
+  wrap.addEventListener('click', ()=>{
+    if(wrap.classList.contains('collapsed')){
+      wrap.classList.remove('collapsed');
+      input.focus();
+    }
+  });
+  input.addEventListener('blur', ()=>{
+    if(!input.value) wrap.classList.add('collapsed');
+  });
+})();
 
 document.getElementById('sortSelect').addEventListener('change', (e)=>{
   const [key,dir] = e.target.value.split(':');
@@ -3844,18 +4041,18 @@ document.getElementById('printListOption').addEventListener('click', ()=>{
       return `<td>${v}</td>`;
     }).join('');
     return `<tr>${cells}</tr>`;
-  }).join('') || `<tr><td colspan="${printCols.length}" style="text-align:center;color:#8C99AB;">No data</td></tr>`;
+  }).join('') || `<tr><td colspan="${printCols.length}" style="text-align:center;color:#7C8CA0;">No data</td></tr>`;
   const scopeLabel = currentBranch===null ? 'All Branches' : currentBranch;
   const win = window.open('', '_blank');
   if(!win){ alert('Pop-up was blocked. Allow pop-ups to print the list.'); return; }
   win.document.write(`<!DOCTYPE html><html><head><title>GAA Customer List</title><meta charset="UTF-8">
     <style>
-      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
-      .brand h1{font-size:17px;margin:0 0 4px;color:#14283F;}
-      .meta{font-size:11.5px;color:#8C99AB;margin-bottom:18px;}
+      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#101826;}
+      .brand h1{font-size:17px;margin:0 0 4px;color:#0B1D33;}
+      .meta{font-size:11.5px;color:#7C8CA0;margin-bottom:18px;}
       table{width:100%;border-collapse:collapse;}
-      th,td{border:1px solid #CDD5E0;padding:6px 9px;font-size:11.5px;text-align:left;}
-      th{background:#E9EEF5;color:#14283F;}
+      th,td{border:1px solid #B9C4D3;padding:6px 9px;font-size:11.5px;text-align:left;}
+      th{background:#E3EAF4;color:#0B1D33;}
       tr:nth-child(even) td{background:#F7F9FB;}
       @media print{ body{padding:14px;} thead{display:table-header-group;} }
     </style></head><body>
@@ -3882,7 +4079,7 @@ document.getElementById('printSummaryOption').addEventListener('click', ()=>{
     const bOverdue = recs.filter(r=>statusSeverity(r.customerStatus)==='bad').length;
     const bBalance = recs.reduce((s,r)=>s+parseNum(r.remainingBalance),0);
     return `<tr><td>${b}</td><td>${bTotal}</td><td>${bOverdue}</td><td>${fmtCurrency(bBalance)}</td></tr>`;
-  }).join('') || '<tr><td colspan="4" style="text-align:center;color:#8C99AB;">No data</td></tr>';
+  }).join('') || '<tr><td colspan="4" style="text-align:center;color:#7C8CA0;">No data</td></tr>';
   const unitCounts = {};
   UNIT_STATUS_ORDER.forEach(o=>unitCounts[o]=0);
   records.forEach(r=>{
@@ -3894,23 +4091,23 @@ document.getElementById('printSummaryOption').addEventListener('click', ()=>{
   if(!win){ alert('Pop-up was blocked. Allow pop-ups to print the summary.'); return; }
   win.document.write(`<!DOCTYPE html><html><head><title>GAA Audit Summary</title><meta charset="UTF-8">
     <style>
-      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#1B2635;}
+      body{font-family:"Segoe UI",Arial,sans-serif;padding:32px;color:#101826;}
       .brand{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-      .brand h1{font-size:19px;margin:0;color:#14283F;}
-      .brand .sub{font-size:12px;color:#5B6B80;}
-      .meta{font-size:11.5px;color:#8C99AB;margin-bottom:22px;}
-      h3{font-size:13px;color:#14283F;text-transform:uppercase;letter-spacing:.04em;margin:22px 0 8px;}
+      .brand h1{font-size:19px;margin:0;color:#0B1D33;}
+      .brand .sub{font-size:12px;color:#48566B;}
+      .meta{font-size:11.5px;color:#7C8CA0;margin-bottom:22px;}
+      h3{font-size:13px;color:#0B1D33;text-transform:uppercase;letter-spacing:.04em;margin:22px 0 8px;}
       table{width:100%;border-collapse:collapse;}
-      th,td{border:1px solid #CDD5E0;padding:7px 10px;font-size:12px;text-align:left;}
-      th{background:#E9EEF5;color:#14283F;}
+      th,td{border:1px solid #B9C4D3;padding:7px 10px;font-size:12px;text-align:left;}
+      th{background:#E3EAF4;color:#0B1D33;}
       .kpis{display:flex;gap:14px;margin-top:6px;}
-      .kpi{border:1px solid #CDD5E0;border-radius:8px;padding:10px 14px;flex:1;}
-      .kpi .l{font-size:10.5px;color:#5B6B80;text-transform:uppercase;letter-spacing:.03em;}
-      .kpi .v{font-size:17px;font-weight:700;color:#14283F;}
+      .kpi{border:1px solid #B9C4D3;border-radius:8px;padding:10px 14px;flex:1;}
+      .kpi .l{font-size:10.5px;color:#48566B;text-transform:uppercase;letter-spacing:.03em;}
+      .kpi .v{font-size:17px;font-weight:700;color:#0B1D33;}
       @media print{ body{padding:14px;} }
     </style></head><body>
     <div class="brand">
-      <svg width="34" height="34" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20.5" fill="#14283F" stroke="#C9A54A" stroke-width="1.6"/><circle cx="22" cy="22" r="17.3" fill="none" stroke="#C9A54A" stroke-width="0.5" opacity="0.5"/><path d="M22 8 L23.1 10 L22 11.3 L20.9 10 Z" fill="#C9A54A" opacity="0.9"/><text x="22" y="25.8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="600" fill="#F1E1B0" letter-spacing="1.6">GAA</text><path d="M13 30 H31" stroke="#C9A54A" stroke-width="0.6" opacity="0.55"/></svg>
+      <svg width="34" height="34" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20.5" fill="#0B1D33" stroke="#C9A54A" stroke-width="1.6"/><circle cx="22" cy="22" r="17.3" fill="none" stroke="#C9A54A" stroke-width="0.5" opacity="0.5"/><path d="M22 8 L23.1 10 L22 11.3 L20.9 10 Z" fill="#C9A54A" opacity="0.9"/><text x="22" y="25.8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="600" fill="#F1E1B0" letter-spacing="1.6">GAA</text><path d="M13 30 H31" stroke="#C9A54A" stroke-width="0.6" opacity="0.55"/></svg>
       <div><h1>Genesis Audited Account — Audit Summary</h1><div class="sub">Customer ledger &amp; collections dashboard</div></div>
     </div>
     <div class="meta">Generated ${new Date().toLocaleString('en-PH')}</div>
