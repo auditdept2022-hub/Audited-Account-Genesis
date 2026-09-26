@@ -1582,7 +1582,7 @@ const COLUMNS = [
   {key:'remainingBalance', label:'Remaining Balance', sourceLabel:'Remaining Balance', type:'number'},
   {key:'customerStatus', label:'Customer Status', sourceLabel:'Customer Status', type:'select', options:['BNEW - ADV','BNEW - CU','BNEW - OD','BNEW - DEL','REPO - ADV','REPO - CU','REPO - OD','REPO - DEL','RSTR - OD','RSTR - DEL','OD - BN']},
   {key:'unitStatus', label:'Unit status', sourceLabel:'Unit status', type:'select', options:['CONFIRMED','MISSING','GOOD CONDITION','IMPOUND','TOTAL WRECK','FOR TRACING','NOT CONFIRMED','DAMAGE','CARNAP']},
-  {key:'paymentMode', label:'Mode of Payment', sourceLabel:'Mode of Payment', type:'select', options:['BRANCH','FIELD','ONLINE']},
+  {key:'paymentMode', label:'Mode of Payment', sourceLabel:'Mode of Payment', altLabels:['Payment Mode'], type:'select', options:['BRANCH','FIELD','ONLINE']},
   {key:'dateOfAudit', label:'Date of Audit', sourceLabel:'Date of Audit', type:'text'},
   {key:'auditorRemarks', label:'Auditor Remarks', sourceLabel:'Auditor Remarks', type:'text'},
   {key:'lastAuditRemarks', label:'Last Audit Remarks', sourceLabel:'Last Audit Remarks', type:'text'},
@@ -1665,7 +1665,7 @@ function looksLikeHeaderRow(cells){
   let matches = 0;
   COLUMNS.forEach((c,i)=>{
     const cell = normHeaderCell(cells[i]);
-    const candidates = [c.sourceLabel, c.label].filter(Boolean).map(normHeaderCell);
+    const candidates = [c.sourceLabel, c.label, ...(c.altLabels||[])].filter(Boolean).map(normHeaderCell);
     if(cell && candidates.includes(cell)) matches++;
   });
   return matches >= Math.ceil(COLUMNS.length/2);
@@ -1695,7 +1695,7 @@ function buildHeaderIndex(headerRow){
   const idx = {};
   const headerNorm = headerRow.map(normHeaderCell);
   COLUMNS.forEach(c=>{
-    const candidates = [c.sourceLabel, c.label].filter(Boolean).map(normHeaderCell);
+    const candidates = [c.sourceLabel, c.label, ...(c.altLabels||[])].filter(Boolean).map(normHeaderCell);
     const i = headerNorm.findIndex(h=>h && candidates.includes(h));
     if(i !== -1) idx[c.key] = i;
   });
@@ -1751,6 +1751,11 @@ function rawRowMapper(cells, currentStatus){
      - any existing record in that branch with NO matching row in the new
        file is removed — the branch's data is fully replaced by the import,
        not just merged on top of.
+     - if the SAME Customer Name + Engine No. appears more than once inside
+       the same file (e.g. a follow-up visit logged later in the same
+       cycle), those rows are merged into a single record instead of
+       becoming duplicate cards — their Auditor Remarks are appended
+       together (in file order) so both remarks are kept, not overwritten.
    branchHint (optional) is the Excel tab name / uploaded filename the rows
    came from — used to fill in each record's Branch whenever the row itself
    doesn't already carry a Branch value (e.g. a raw system export, or a
@@ -1792,11 +1797,47 @@ function runImportFromRows(rows, branchHint){
     }
   });
 
+  // Some source sheets log the SAME account (same Customer Name + Engine No,
+  // in the same branch) more than once in one file — e.g. a second visit
+  // logged later in the same audit cycle, with its own fresh remark. Left
+  // alone, that second row would slip past the "no existing match yet
+  // inside this batch" check below and land on the dashboard as a second,
+  // duplicate card for the same unit — quietly burying the first row's
+  // remark under a second card. Instead, merge every row for that account
+  // into one: later rows' non-blank fields win (they're the more recent
+  // visit), but Auditor Remarks is APPENDED rather than replaced, so every
+  // remark from every occurrence of that account in the file is kept.
+  let mergedDuplicateRows = 0;
+  const dedupKeyToRec = new Map();
+  const dedupedRecs = [];
+  parsedRecs.forEach(rec=>{
+    const nameKey = normName(rec.customerName);
+    const engineKey = normName(rec.engineNo);
+    // Same safety rule as the existing-record matcher below: a blank Engine
+    // No. on either side never counts as a match, so rows without one are
+    // never merged together here — just kept as separate rows as before.
+    const key = (nameKey && engineKey) ? (branchOf(rec)+'|'+nameKey+'|'+engineKey) : null;
+    if(!key){ dedupedRecs.push(rec); return; }
+    const existing = dedupKeyToRec.get(key);
+    if(!existing){ dedupKeyToRec.set(key, rec); dedupedRecs.push(rec); return; }
+    COLUMNS.forEach(c=>{
+      if(c.key==='auditorRemarks') return; // remarks are appended, not overwritten — handled below
+      const v = rec[c.key];
+      if(v!==undefined && v!==null && String(v).trim()!==''){ existing[c.key] = v; }
+    });
+    const prevRemark = (existing.auditorRemarks||'').trim();
+    const nextRemark = (rec.auditorRemarks||'').trim();
+    if(nextRemark && nextRemark!==prevRemark){
+      existing.auditorRemarks = prevRemark ? (prevRemark + '\n\n' + nextRemark) : nextRemark;
+    }
+    mergedDuplicateRows++;
+  });
+
   // Group the newly-parsed rows by the branch they resolve to, so each
   // affected branch's existing data can be replaced independently — a
   // branch that doesn't appear in this file is never touched.
   const groups = new Map();
-  parsedRecs.forEach(rec=>{
+  dedupedRecs.forEach(rec=>{
     const key = branchOf(rec);
     if(!groups.has(key)) groups.set(key, []);
     groups.get(key).push(rec);
@@ -1842,7 +1883,7 @@ function runImportFromRows(rows, branchHint){
     });
   });
 
-  return {added, attempted, updated, removed};
+  return {added, attempted, updated, removed, merged: mergedDuplicateRows};
 }
 
 /* Some imported sheets carry leftover "Grand Total" / "Sub Total" summary rows
@@ -1856,7 +1897,10 @@ function isSummaryRow(r){
 /* Remarks-only import: finds "Customer Name" and "Last Audit Remarks" columns in the
    uploaded file (any other columns are ignored), matches each row to an existing record
    by normalized customer name (and Engine No too, if that column is present, for a more
-   precise match), and overwrites just that record's Last Audit Remarks. */
+   precise match), and sets that record's Last Audit Remarks. If the same customer
+   appears on more than one row (e.g. two visits, two different remarks), every one of
+   those remarks is kept — combined together — rather than the last row silently
+   overwriting the ones before it. */
 function runRemarksImportFromRows(rows){
   rows = rows.filter(r => r.some(c => (c===undefined||c===null?'':String(c)).trim() !== ''));
   if(rows.length===0) return {updated:0, unmatched:[]};
@@ -1879,13 +1923,19 @@ function runRemarksImportFromRows(rows){
     byName[key].push(r);
   });
 
-  let updated = 0;
+  // A customer name can appear more than once in the pasted/uploaded rows
+  // (e.g. two audit visits logged for the same account, each with its own
+  // remark). Collecting every row's remark per matched record — instead of
+  // each row overwriting the last one's value — means none of them get
+  // silently dropped; they're combined into one Last Audit Remarks field,
+  // in the order the rows appear.
+  const remarksByRecordId = new Map();
   const unmatched = [];
   dataRows.forEach(cellsRaw=>{
     const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
     if(cells.every(c=>c==='')) return;
     const name = cells[nIdx]||'';
-    const remark = cells[rIdx]||'';
+    const remark = (cells[rIdx]||'').trim();
     if(!name) return;
     let matches = byName[normName(name)];
     if(matches && engineIdx!==-1 && cells[engineIdx]){
@@ -1893,11 +1943,22 @@ function runRemarksImportFromRows(rows){
       if(narrowed.length) matches = narrowed;
     }
     if(matches && matches.length){
-      matches.forEach(m=>{ m.lastAuditRemarks = remark; });
-      updated += matches.length;
+      matches.forEach(m=>{
+        if(!remarksByRecordId.has(m.id)) remarksByRecordId.set(m.id, []);
+        const parts = remarksByRecordId.get(m.id);
+        if(remark && !parts.includes(remark)) parts.push(remark);
+      });
     } else {
       unmatched.push(name);
     }
+  });
+
+  let updated = 0;
+  remarksByRecordId.forEach((parts, id)=>{
+    const rec = records.find(r=>r.id===id);
+    if(!rec) return;
+    rec.lastAuditRemarks = parts.join('\n\n');
+    updated++;
   });
   return {updated, unmatched};
 }
@@ -4219,14 +4280,14 @@ function processImportFile(file){
       reader.onload = (evt)=>{
         try{
           const wb = XLSX.read(evt.target.result, {type:'array', cellDates:true});
-          let totalAdded=0, totalAttempted=0, totalUpdated=0, totalRemoved=0;
+          let totalAdded=0, totalAttempted=0, totalUpdated=0, totalRemoved=0, totalMerged=0;
           wb.SheetNames.forEach(name=>{
             const sheet = wb.Sheets[name];
             const rows2D = XLSX.utils.sheet_to_json(sheet, {header:1, blankrows:false, defval:'', raw:false, dateNF:'mm/dd/yyyy'});
-            const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
-            totalAdded += added; totalAttempted += attempted; totalUpdated += updated; totalRemoved += removed;
+            const {added, attempted, updated, removed, merged} = runImportFromRows(rows2D, branchHint);
+            totalAdded += added; totalAttempted += attempted; totalUpdated += updated; totalRemoved += removed; totalMerged += (merged||0);
           });
-          resolve({added: totalAdded, attempted: totalAttempted, updated: totalUpdated, removed: totalRemoved});
+          resolve({added: totalAdded, attempted: totalAttempted, updated: totalUpdated, removed: totalRemoved, merged: totalMerged});
         }catch(err){ reject(err); }
       };
       reader.onerror = ()=>reject(new Error('read-error'));
@@ -4235,8 +4296,8 @@ function processImportFile(file){
       const reader = new FileReader();
       reader.onload = (evt)=>{
         const rows2D = parseDelimitedRows(evt.target.result);
-        const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
-        resolve({added, attempted, updated, removed});
+        const {added, attempted, updated, removed, merged} = runImportFromRows(rows2D, branchHint);
+        resolve({added, attempted, updated, removed, merged});
       };
       reader.onerror = ()=>reject(new Error('read-error'));
       reader.readAsText(file);
@@ -4252,12 +4313,12 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
   pushUndo(`Imported from ${files.length} file${files.length===1?'':'s'}`);
   autoBackupBeforeImport('pre-ledger-import');
 
-  let totalAdded = 0, totalAttempted = 0, totalUpdated = 0, totalRemoved = 0;
+  let totalAdded = 0, totalAttempted = 0, totalUpdated = 0, totalRemoved = 0, totalMerged = 0;
   const failedFiles = [];
   for(const file of files){
     try{
-      const {added, attempted, updated, removed} = await processImportFile(file);
-      totalAdded += added; totalAttempted += attempted; totalUpdated += (updated||0); totalRemoved += (removed||0);
+      const {added, attempted, updated, removed, merged} = await processImportFile(file);
+      totalAdded += added; totalAttempted += attempted; totalUpdated += (updated||0); totalRemoved += (removed||0); totalMerged += (merged||0);
     }catch(err){
       failedFiles.push(file.name);
     }
@@ -4273,6 +4334,7 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
     if(totalAdded>0) parts.push(`${totalAdded} new account${totalAdded===1?'':'s'}`);
     if(totalUpdated>0) parts.push(`${totalUpdated} existing account${totalUpdated===1?'':'s'} updated (matched by name + engine no.)`);
     if(totalRemoved>0) parts.push(`${totalRemoved} account${totalRemoved===1?'':'s'} removed (not in the new file)`);
+    if(totalMerged>0) parts.push(`${totalMerged} duplicate row${totalMerged===1?'':'s'} for the same customer+engine merged (remarks combined, not lost)`);
     logActivity(`Imported from ${files.length} file${files.length===1?'':'s'}: ${parts.join(', ')}`);
     saveRecords(); renderAll();
   }
@@ -4283,7 +4345,7 @@ document.getElementById('importConfirm').addEventListener('click', ()=>{
   const branchHint = document.getElementById('pasteBranchName').value.trim();
   if(raw.trim()){ pushUndo('Imported pasted rows'); autoBackupBeforeImport('pre-ledger-import'); }
   const rows2D = parseDelimitedRows(raw);
-  const {added, attempted, updated, removed} = runImportFromRows(rows2D, branchHint);
+  const {added, attempted, updated, removed, merged} = runImportFromRows(rows2D, branchHint);
   document.getElementById('pasteArea').value='';
   document.getElementById('pasteBranchName').value='';
   document.getElementById('importFile').value='';
@@ -4294,6 +4356,7 @@ document.getElementById('importConfirm').addEventListener('click', ()=>{
     if(added>0) parts.push(`${added} new account${added===1?'':'s'}`);
     if(updated>0) parts.push(`${updated} existing account${updated===1?'':'s'} updated (matched by name + engine no.)`);
     if(removed>0) parts.push(`${removed} account${removed===1?'':'s'} removed (not in the new file)`);
+    if(merged>0) parts.push(`${merged} duplicate row${merged===1?'':'s'} for the same customer+engine merged (remarks combined, not lost)`);
     logActivity(`Imported${branchHint?` into ${branchHint}`:''} (pasted): ${parts.join(', ')}`);
     saveRecords(); renderAll();
   } else if(attempted>0){ alert('No valid rows found — make sure "Customer Name" is filled in for each row.'); }
