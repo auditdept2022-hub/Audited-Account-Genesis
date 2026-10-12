@@ -1494,7 +1494,7 @@ body.branch-focused #unitFilterWrap{
   <div class="modal">
     <h2>Update Last Audit Remarks</h2>
     <div class="hint">
-      Upload the new audit file (for example: a sheet with Customer Name and Last Audit Remarks columns). <b>Only the "Last Audit Remarks" column is used</b> — every other column in this file is ignored. Each row is matched to an existing customer using <b>Customer Name</b> (and Engine No if available, for a more accurate match), and only their "Last Audit Remarks" is replaced — the rest of the customer's data stays unchanged.<br>
+      Upload the new audit file (for example: a sheet with Customer Name and Last Audit Remarks columns). <b>The "Last Audit Remarks" column is used</b> (if it is blank, the "Auditor Remarks" column is used instead) — every other column in this file is ignored. Each row is matched to an existing customer using <b>Customer Name</b> (and Engine No if available, for a more accurate match), and only their "Last Audit Remarks" is replaced — the rest of the customer's data stays unchanged.<br>
       If a customer in the file has no matching record on the dashboard, they'll be added to the "unmatched" list after importing.
     </div>
     <div class="file-drop" id="remarksFileDrop">
@@ -1909,6 +1909,10 @@ function runRemarksImportFromRows(rows){
   const nameIdx = header.findIndex(h=>h.includes('customer name') || h==='name');
   const remarksIdx = header.findIndex(h=>h.includes('last audit remarks'));
   const fallbackRemarksIdx = remarksIdx!==-1 ? remarksIdx : header.findIndex(h=>h.includes('remarks') && !h.includes('auditor'));
+  // Some files (e.g. a branch's audited ledger) keep the remarks under the
+  // "Auditor Remarks" column and leave "Last Audit Remarks" blank. That column
+  // is used as a fallback per row, so those remarks are no longer ignored.
+  const auditorRemarksIdx = header.findIndex(h=>h.includes('auditor remarks'));
   const engineIdx = header.findIndex(h=>h.includes('engine'));
   const hasHeader = nameIdx!==-1 || fallbackRemarksIdx!==-1;
   const dataRows = hasHeader ? rows.slice(1) : rows;
@@ -1935,7 +1939,8 @@ function runRemarksImportFromRows(rows){
     const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
     if(cells.every(c=>c==='')) return;
     const name = cells[nIdx]||'';
-    const remark = (cells[rIdx]||'').trim();
+    let remark = (cells[rIdx]||'').trim();
+    if(!remark && auditorRemarksIdx!==-1) remark = (cells[auditorRemarksIdx]||'').trim();
     if(!name) return;
     let matches = byName[normName(name)];
     if(matches && engineIdx!==-1 && cells[engineIdx]){
