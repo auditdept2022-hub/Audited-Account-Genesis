@@ -1292,7 +1292,7 @@ body.branch-focused #unitFilterWrap{
       <div class="icon-toolbar">
         <div class="search-bar-sticky collapsed" id="searchBarSticky" title="Search">
           <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="search" class="search-bar-input" placeholder="Search customer, model, engine no, branch, remarks...">
+          <input type="text" id="search" class="search-bar-input" placeholder="Search last name (e.g. A, AB, Catan, F)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
         </div>
         <button type="button" class="refresh-btn" id="settingsBtn" title="Settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -3350,11 +3350,16 @@ function getFiltered(){
     if(remarksFilterMode==='has' && !(r.auditorRemarks && r.auditorRemarks.trim())) return false;
     if(remarksFilterMode==='none' && (r.auditorRemarks && r.auditorRemarks.trim())) return false;
     if(q){
-      const hay = (
-        r.customerName+' '+r.model+' '+r.engineNo+' '+branchOf(r)+' '+
-        (r.auditorRemarks||'')+' '+(r.lastAuditRemarks||'')
-      ).toLowerCase();
-      if(!hay.includes(q)) return false;
+      // Names are stored as "LAST, FIRST MIDDLE". Search matches the START of
+      // the name only (i.e. the first letters of the LAST NAME), so "ab" shows
+      // only ABELLA / ABENILLA, and "catan, f" shows last name CATAN... with a
+      // first name starting with F. Commas/extra spaces are ignored.
+      const norm = x=>String(x||'').toLowerCase().replace(/[,\s]+/g,' ').trim();
+      const nq = norm(q);
+      const nameOk = (norm(r.customerName)+' ').startsWith(nq);
+      // Typing digits (e.g. an engine number) still searches the engine no.
+      const engineOk = /\d/.test(q) && String(r.engineNo||'').toLowerCase().includes(q);
+      if(!nameOk && !engineOk) return false;
     }
     return true;
   });
