@@ -2274,6 +2274,16 @@ const COL_BY_KEY = Object.fromEntries(COLUMNS.map(c=>[c.key,c]));
 function fieldDisplay(key, rec){
   const c = COL_BY_KEY[key];
   const v = rec[key];
+  /* Outstanding Balance can hold text like "1,920.00+Oct" or "8,702.00+AUG"
+     (amount + the month it is due). Previously parseNum() stripped the "+Oct"
+     part and only the bare amount was shown. When the value contains a "+"
+     (or any text besides a plain amount), show exactly what the file says. */
+  if(key==='outstandingBalance' && v!==undefined && v!==null){
+    const raw = String(v).trim();
+    if(raw && /[+A-Za-z]/.test(raw)){
+      return escHtml(/^[0-9]/.test(raw) ? '\u20B1' + raw : raw);
+    }
+  }
   if(c.type==='number') return fmtCurrency(parseNum(v));
   return v || '—';
 }
