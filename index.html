@@ -894,6 +894,35 @@ select.pmode-field{background:#FAE7D5;color:#9C5314;border-color:#E7BC88;}
 select.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
 select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
 
+
+/* Mode of Payment picker — same look as the Unit status pill + dropdown:
+   a colored pill button, and a panel of dot + label rows with a check mark. */
+.pmode-picker-btn{
+  font-size:12px;font-weight:600;padding:5px 9px;border-radius:20px;
+  border:1px solid var(--border-strong);max-width:none;
+}
+.pmode-picker-btn.pmode-branch{background:#E3EAF4;color:#123253;border-color:#B9C4D3;}
+.pmode-picker-btn.pmode-field{background:#FAE7D5;color:#9C5314;border-color:#E7BC88;}
+.pmode-picker-btn.pmode-online{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+.pmode-picker-btn.pmode-multi{background:var(--accent-bg);color:var(--accent-dark);border-color:var(--border-strong);}
+.pmode-picker-btn.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--border-strong);}
+.pmode-panel{min-width:160px;padding:6px;}
+.pmode-panel .ms-item{
+  gap:9px;padding:8px 10px;font-size:12.5px;font-weight:600;border-radius:7px;
+  position:relative;
+}
+.pmode-panel .ms-item input[type=checkbox]{display:none;}
+.pmode-panel .ms-item::before{
+  content:"";width:8px;height:8px;border-radius:50%;flex:0 0 auto;
+  background:var(--dot,var(--ink-faint));
+}
+.pmode-panel .ms-item.pm-branch{--dot:#123253;}
+.pmode-panel .ms-item.pm-field{--dot:#9C5314;}
+.pmode-panel .ms-item.pm-online{--dot:var(--purple);}
+.pmode-panel .ms-item span{flex:1;}
+.pmode-panel .ms-item.ms-on{background:var(--accent-bg);color:var(--accent-dark);}
+.pmode-panel .ms-item.ms-on::after{content:"\2713";font-size:12px;font-weight:800;color:var(--accent-dark);margin-left:auto;}
+
 /* ---------- Calendar date picker (SI Date / Date of Audit) ---------- */
 .date-field{position:relative;width:100%;}
 .date-field-input{
@@ -1780,6 +1809,7 @@ function runImportFromRows(rows, branchHint){
   }
 
   let attempted = 0, currentStatus = '';
+  const skippedStray = [];
   const parsedRecs = [];
   dataRows.forEach(cellsRaw=>{
     const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
@@ -1792,10 +1822,21 @@ function runImportFromRows(rows, branchHint){
     attempted++;
     const rec = mapper(cells, currentStatus);
     if(rec && rec.customerName && !isSummaryRow(rec)){
+      // Stray-row guard: a real account always has at least one of these
+      // (model, engine no., dates, balances, statuses). A row that has ONLY a
+      // name/remark-like text plus a branch/number (e.g. leftover cells from
+      // a copy-paste) would otherwise become a fake account, and its number
+      // would even become a fake "branch" (2500, 3800...). Skip and report.
+      const coreKeys = ['siDate','model','engineNo','dueDay','terms','ma','lastPayment','outstandingBalance','remainingBalance','customerStatus','unitStatus','paymentMode','dateOfAudit'];
+      const hasCore = coreKeys.some(k=>String(rec[k]===undefined||rec[k]===null?'':rec[k]).trim()!=='');
+      if(!hasCore && mapper!==rawRowMapper){ skippedStray.push(String(rec.customerName).slice(0,60)); return; }
       if(!rec.branch && branchHint) rec.branch = branchHint;
       parsedRecs.push(rec);
     }
   });
+  if(skippedStray.length){
+    setTimeout(()=>alert(`${skippedStray.length} row(s) in the file were skipped because they look like stray/incomplete rows (no model, engine no., dates, or balances):\n\n- ${skippedStray.slice(0,10).join('\n- ')}${skippedStray.length>10?'\n...and more':''}\n\nCheck those rows in your file.`), 300);
+  }
 
   // Some source sheets log the SAME account (same Customer Name + Engine No,
   // in the same branch) more than once in one file — e.g. a second visit
@@ -3803,16 +3844,18 @@ function renderCards(){
     pmodePanel.className = 'branch-picker-panel pmode-panel';
     const selectedModes = new Set(parsePaymentModes(r.paymentMode));
     function updatePmodeBtnLabel(){
+      pmodeBtn.className = 'branch-picker-btn pmode-picker-btn ' + (selectedModes.size===0 ? 'pmode-blank' : selectedModes.size===1 ? paymentModeClass([...selectedModes][0]) : 'pmode-multi');
       pmodeBtn.innerHTML = (selectedModes.size ? [...selectedModes].join(', ') : 'Select mode') + ' <span class="caret">▾</span>';
     }
     updatePmodeBtnLabel();
     COL_BY_KEY.paymentMode.options.forEach(opt=>{
       const label = document.createElement('label');
-      label.className = 'ms-item';
+      label.className = 'ms-item pm-'+opt.toLowerCase()+(selectedModes.has(opt)?' ms-on':'');
       label.innerHTML = `<input type="checkbox" value="${opt}"${selectedModes.has(opt) ? ' checked' : ''}><span>${opt}</span>`;
       label.querySelector('input').addEventListener('change', e=>{
         e.stopPropagation();
         if(e.target.checked) selectedModes.add(opt); else selectedModes.delete(opt);
+        label.classList.toggle('ms-on', e.target.checked);
         const newVal = COL_BY_KEY.paymentMode.options.filter(o=>selectedModes.has(o)).join(', ');
         if(newVal === (r.paymentMode||'')) return;
         pushUndo(`Set Mode of Payment for "${r.customerName||'(no name)'}"`);
@@ -3833,19 +3876,29 @@ function renderCards(){
     // panel stays glued to the button, the way a native <select>'s
     // dropdown always tracks its control.
     function pmodeReposition(){ positionFixedDropdown(pmodeBtn, pmodePanel, {width:180}); }
+    function pmodeOnScroll(e){
+          // Like a native <select>: scrolling the page closes the dropdown instead
+          // of dragging it along. Scrolling inside the panel itself is ignored,
+          // and on mobile the panel is a centered sheet so it stays put.
+          if(isMobileViewport()) return;
+          if(e && e.target && e.target.nodeType===1 && pmodePanel.contains(e.target)) return;
+          pmodePanel.classList.remove('open');
+          pmodeRemoveTrackers();
+        }
+
     function pmodeAddTrackers(){
-      window.addEventListener('scroll', pmodeReposition, true);
+      window.addEventListener('scroll', pmodeOnScroll, true);
       window.addEventListener('resize', pmodeReposition);
       if(window.visualViewport){
-        window.visualViewport.addEventListener('scroll', pmodeReposition);
+        window.visualViewport.addEventListener('scroll', pmodeOnScroll);
         window.visualViewport.addEventListener('resize', pmodeReposition);
       }
     }
     function pmodeRemoveTrackers(){
-      window.removeEventListener('scroll', pmodeReposition, true);
+      window.removeEventListener('scroll', pmodeOnScroll, true);
       window.removeEventListener('resize', pmodeReposition);
       if(window.visualViewport){
-        window.visualViewport.removeEventListener('scroll', pmodeReposition);
+        window.visualViewport.removeEventListener('scroll', pmodeOnScroll);
         window.visualViewport.removeEventListener('resize', pmodeReposition);
       }
     }
@@ -4635,16 +4688,18 @@ function buildRowForm(rec){
       pmodePanel.className = 'branch-picker-panel pmode-panel';
       const selectedModes = new Set(parsePaymentModes(rec[c.key]));
       function updatePmodeBtnLabel(){
+        pmodeBtn.className = 'branch-picker-btn pmode-picker-btn ' + (selectedModes.size===0 ? 'pmode-blank' : selectedModes.size===1 ? paymentModeClass([...selectedModes][0]) : 'pmode-multi');
         pmodeBtn.innerHTML = (selectedModes.size ? [...selectedModes].join(', ') : 'Select mode') + ' <span class="caret">▾</span>';
       }
       updatePmodeBtnLabel();
       c.options.forEach(opt=>{
         const optLabel = document.createElement('label');
-        optLabel.className = 'ms-item';
+        optLabel.className = 'ms-item pm-'+opt.toLowerCase()+(selectedModes.has(opt)?' ms-on':'');
         optLabel.innerHTML = `<input type="checkbox" value="${opt}"${selectedModes.has(opt) ? ' checked' : ''}><span>${opt}</span>`;
         optLabel.querySelector('input').addEventListener('change', e=>{
           e.stopPropagation();
           if(e.target.checked) selectedModes.add(opt); else selectedModes.delete(opt);
+          optLabel.classList.toggle('ms-on', e.target.checked);
           input.value = c.options.filter(o=>selectedModes.has(o)).join(', ');
           updatePmodeBtnLabel();
         });
@@ -4654,19 +4709,29 @@ function buildRowForm(rec){
       // Keep the panel glued to the button while scrolling — see the
       // matching comment on the card-view Mode of Payment picker above.
       function pmodeReposition(){ positionFixedDropdown(pmodeBtn, pmodePanel, {width:180}); }
+      function pmodeOnScroll(e){
+            // Like a native <select>: scrolling the page closes the dropdown instead
+            // of dragging it along. Scrolling inside the panel itself is ignored,
+            // and on mobile the panel is a centered sheet so it stays put.
+            if(isMobileViewport()) return;
+            if(e && e.target && e.target.nodeType===1 && pmodePanel.contains(e.target)) return;
+            pmodePanel.classList.remove('open');
+            pmodeRemoveTrackers();
+          }
+
       function pmodeAddTrackers(){
-        window.addEventListener('scroll', pmodeReposition, true);
+        window.addEventListener('scroll', pmodeOnScroll, true);
         window.addEventListener('resize', pmodeReposition);
         if(window.visualViewport){
-          window.visualViewport.addEventListener('scroll', pmodeReposition);
+          window.visualViewport.addEventListener('scroll', pmodeOnScroll);
           window.visualViewport.addEventListener('resize', pmodeReposition);
         }
       }
       function pmodeRemoveTrackers(){
-        window.removeEventListener('scroll', pmodeReposition, true);
+        window.removeEventListener('scroll', pmodeOnScroll, true);
         window.removeEventListener('resize', pmodeReposition);
         if(window.visualViewport){
-          window.visualViewport.removeEventListener('scroll', pmodeReposition);
+          window.visualViewport.removeEventListener('scroll', pmodeOnScroll);
           window.visualViewport.removeEventListener('resize', pmodeReposition);
         }
       }
