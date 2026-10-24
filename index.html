@@ -4231,7 +4231,7 @@ function renderBranchOverview(){
       e.stopPropagation();
       const b = btn.dataset.branch;
       const count = records.filter(r=>branchOf(r)===b).length;
-      if(!confirm(`Delete "${b}" (${count} account${count===1?'':'s'})? This cannot be undone.`)) return;
+      if(!confirm(`Delete branch "${b}" and its ${count} account${count===1?'':'s'}?`)) return;
       clearBranchRecords(b);
     });
   });
