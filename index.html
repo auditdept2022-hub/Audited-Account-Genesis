@@ -802,10 +802,13 @@ body{
 }
 .rc-field .rc-f-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;}
 .rc-field .rc-f-value{font-size:13px;color:var(--ink);font-weight:500;}
-.rc-remarks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.rc-remark-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:background .15s ease,border-color .15s ease;}
+/* minmax(0,1fr): a plain 1fr column can never shrink below its content, so one
+   long unbroken remark (e.g. "AAAAAAAA...") used to stretch the whole card past
+   the screen edge on phones and push the other box off-screen. */
+.rc-remarks{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:14px;min-width:0;}
+.rc-remark-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:background .15s ease,border-color .15s ease;min-width:0;max-width:100%;box-sizing:border-box;}
 .rc-remark-label{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;font-weight:600;}
-.rc-remark-text{font-size:12.5px;color:var(--ink);line-height:1.5;white-space:pre-wrap;}
+.rc-remark-text{font-size:12.5px;color:var(--ink);line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;max-width:100%;}
 .rc-remark-text:empty::before{content:"—";color:var(--ink-faint);}
 .rc-remark-block.highlight{border-color:#CBDBFC;background:var(--accent-bg);}
 /* Auditor Remarks is directly editable — starts neutral, turns green automatically
@@ -814,6 +817,7 @@ body{
   width:100%;min-height:60px;border:1px solid transparent;border-radius:6px;
   background:transparent;font-family:inherit;font-size:12.5px;color:var(--ink);
   line-height:1.5;padding:4px 3px;resize:vertical;display:block;
+  box-sizing:border-box;max-width:100%;overflow-wrap:anywhere;word-break:break-word;white-space:pre-wrap;
 }
 .rc-remark-input:focus{outline:none;border-color:var(--accent);background:#fff;padding:6px 8px;}
 .rc-remark-input::placeholder{color:var(--ink-faint);}
@@ -1236,7 +1240,7 @@ select.pmode-blank{background:#fff;color:var(--ink-soft);border-color:var(--bord
   .rc-quickfields{padding:11px 12px 12px;}
   .rc-detail{padding:12px;}
   .rc-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px 12px;max-width:none;}
-  .rc-remarks{grid-template-columns:1fr;}
+  .rc-remarks{grid-template-columns:minmax(0,1fr);}
   .rc-actions{gap:8px;}
 
   .modal-bg{padding:14px 10px;align-items:center;}
@@ -1302,6 +1306,10 @@ body.branch-focused select#sortSelect{
 body.branch-focused #unitFilterWrap{
   display:none !important;
 }
+
+/* Let the expanded card shrink to the screen so long text wraps instead of overflowing */
+.rowcard,.rc-detail,.rc-quickfields{min-width:0;max-width:100%;}
+.rc-detail{overflow-wrap:anywhere;}
 </style>
 </head>
 <body>
@@ -1883,6 +1891,27 @@ function runImportFromRows(rows, branchHint){
     if(!groups.has(key)) groups.set(key, []);
     groups.get(key).push(rec);
   });
+
+  // Safety check BEFORE anything changes: importing a file into a branch
+  // REPLACES that branch, so every existing account that isn't in the file
+  // gets removed. Count them first and ask, so a partial or wrong file can't
+  // silently wipe a branch.
+  const wouldRemove = [];
+  groups.forEach((recs, branchKey)=>{
+    const existingInBranch = records.filter(r=>branchOf(r)===branchKey);
+    const used = new Set();
+    recs.forEach(rec=>{
+      const nk = normName(rec.customerName), ek = normName(rec.engineNo);
+      const m = (nk && ek) ? existingInBranch.find(r=>!used.has(r.id) && normName(r.customerName)===nk && normName(r.engineNo)===ek) : undefined;
+      if(m) used.add(m.id);
+    });
+    const gone = existingInBranch.length - used.size;
+    if(gone>0) wouldRemove.push(`${branchKey}: ${gone} of ${existingInBranch.length} existing account${existingInBranch.length===1?'':'s'} would be REMOVED (file has ${recs.length})`);
+  });
+  if(wouldRemove.length){
+    const ok = confirm(`Warning: this import will replace the branch and remove accounts that are not in the file.\n\n${wouldRemove.join('\n')}\n\nPress OK to continue, or Cancel to keep everything as it is.`);
+    if(!ok) return {added:0, attempted:0, updated:0, removed:0, merged:0};
+  }
 
   let added = 0, updated = 0, removed = 0;
   groups.forEach((recs, branchKey)=>{
@@ -3005,7 +3034,19 @@ async function trySync(){
   updateSyncStatus();
   try{
     const recordsToSync = records.filter(r=>branchesToSync.includes(branchOf(r)));
-    await gsRun('saveAllRecords', recordsToSync, branchesToSync);
+    const saveRes = await gsRun('saveAllRecords', recordsToSync, branchesToSync);
+    // Verify the Google Sheet really holds what we sent. An old/mismatched
+    // Code.gs (no `version`) or a tab with fewer rows than sent is reported
+    // loudly instead of silently showing "Synced".
+    try{
+      if(saveRes && !saveRes.version){
+        showToast('⚠ Your deployed Google Apps Script is an OLD version. Paste the new Code.gs and use Deploy > Manage deployments > Edit > New version.', 'error');
+      } else if(saveRes && saveRes.stored){
+        const sent = {}; recordsToSync.forEach(r=>{ const b = branchOf(r); sent[b]=(sent[b]||0)+1; });
+        const bad = branchesToSync.filter(b=> (sent[b]||0) !== (saveRes.stored[b]||0));
+        if(bad.length) showToast(`⚠ Google Sheet mismatch: ${bad.map(b=>`${b} sent ${sent[b]||0}, Sheet has ${saveRes.stored[b]||0}`).join('; ')} | debug: ${JSON.stringify(saveRes.debug||{})}`, 'error');
+      }
+    }catch(_){}
     noBackendLink = false;
     syncErrorType = null;
     lastSyncErrorMessage = '';
@@ -3106,6 +3147,20 @@ function updateSaveBtnLabel(){
   }
 }
 
+/* Safety net: never let a server copy that has suddenly lost most of a
+   branch's accounts silently replace what this device has. If, for any
+   branch with 10+ accounts here, the server returned fewer than half, the
+   server copy is treated as suspect and is NOT applied. */
+function serverLooksTruncated(serverRecords){
+  const count = (arr)=>{ const m = {}; arr.forEach(r=>{ const b = branchOf(r); m[b] = (m[b]||0)+1; }); return m; };
+  const local = count(records), remote = count(serverRecords||[]);
+  const bad = Object.keys(local).filter(b=> local[b]>=10 && (remote[b]||0) < local[b]/2);
+  if(bad.length===0) return false;
+  console.warn('Server copy looks truncated, not applying:', bad.map(b=>`${b}: ${local[b]} here vs ${remote[b]||0} on server`));
+  try{ showToast(`⚠ Google Sheet copy of ${bad.join(', ')} has far fewer accounts (${bad.map(b=>remote[b]||0).join(', ')} vs ${bad.map(b=>local[b]).join(', ')} here). Not replaced. Check the Sheet's version history.`, 'error'); }catch(e){}
+  return true;
+}
+
 async function refreshFromServer(){
   const btn = document.getElementById('refreshBtn');
   if(btn) btn.classList.add('spinning');
@@ -3116,6 +3171,7 @@ async function refreshFromServer(){
       await trySync();
     } else if(navigator.onLine){
       const serverRecords = await gsRun('getRecords');
+      if(serverLooksTruncated(serverRecords)){ updateSyncStatus(); return; }
       records = serverRecords;
       writeLocalCache(records);
       noBackendLink = false;
@@ -3194,6 +3250,7 @@ async function autoRefreshTick(){
   if(isAnyModalOpen()) return;
   try{
     const serverRecords = await gsRun('getRecords');
+    if(serverLooksTruncated(serverRecords)){ updateSyncStatus(); return; }
     records = serverRecords;
     writeLocalCache(records);
     noBackendLink = false;
