@@ -1310,6 +1310,23 @@ body.branch-focused #unitFilterWrap{
 /* Let the expanded card shrink to the screen so long text wraps instead of overflowing */
 .rowcard,.rc-detail,.rc-quickfields{min-width:0;max-width:100%;}
 .rc-detail{overflow-wrap:anywhere;}
+
+/* ---- Sticky header: the logo/title bar stays at the top while scrolling.
+   Once you scroll a little it shrinks to a compact bar (smaller logo, no
+   subtitle) so it doesn't eat the screen. z-index 40 keeps it above the cards
+   but below modals (50) and dropdown panels. ---- */
+html,body{overflow-anchor:none;}
+.appbar{position:sticky;top:0;z-index:40;}
+body.scrolled .appbar{padding-top:8px;padding-bottom:8px;border-top-left-radius:0;border-top-right-radius:0;}
+body.scrolled .appbar .sub{display:none;}
+body.scrolled .appbar h1{font-size:15px;}
+body.scrolled .logo-badge img{width:36px;height:36px;}
+@media (max-width:720px){
+  body.scrolled .appbar{flex-wrap:nowrap;padding-top:6px;padding-bottom:6px;}
+  body.scrolled .appbar-right{width:auto;}
+  body.scrolled .appbar-right .icon-toolbar > *:not(.search-bar-sticky),
+  body.scrolled .appbar-right .sync-health-stack{display:none !important;}
+}
 </style>
 </head>
 <body>
@@ -5105,6 +5122,27 @@ if('serviceWorker' in navigator){
       });
   });
 }
+
+/* Compact the sticky header once the page is scrolled down a bit */
+(function(){
+  let ticking=false;
+  // Hysteresis: the header changes height when it compacts, which shifts the
+  // content and therefore scrollY. With a single threshold that made it flip
+  // back and forth near the top (flicker / "stuck" scrolling). So: compact only
+  // after scrolling well down (> 160px), expand again only at the very top
+  // (< 20px), and ignore scroll events for a moment after each switch.
+  let lockedUntil = 0;
+  function update(){
+    ticking=false;
+    const y = window.scrollY||document.documentElement.scrollTop||0;
+    const on = document.body.classList.contains('scrolled');
+    if(performance.now() < lockedUntil) return;
+    if(!on && y > 160){ document.body.classList.add('scrolled'); lockedUntil = performance.now()+300; }
+    else if(on && y < 20){ document.body.classList.remove('scrolled'); lockedUntil = performance.now()+300; }
+  }
+  window.addEventListener('scroll', ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } clearTimeout(window.__hdrT); window.__hdrT=setTimeout(update, 350); }, {passive:true});
+  update();
+})();
 </script>
 </body>
 </html>
