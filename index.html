@@ -1791,6 +1791,12 @@ function rawRowMapper(cells, currentStatus){
   };
 }
 
+/* True for a status-group header such as "BNEW - OD", "REPO - DEL", "RSTR - OD",
+   "OD - BN": letters, a dash, letters, nothing else. */
+function looksLikeStatusGroup(text){
+  return /^[A-Za-z]{2,6}\s*-\s*[A-Za-z]{1,6}$/.test(String(text||'').trim());
+}
+
 /* Core import engine for the full ledger import. Refreshes the dashboard to
    exactly match the imported file FOR WHICHEVER BRANCH(ES) APPEAR IN IT —
    branches not present in the file are left completely untouched:
@@ -1839,13 +1845,22 @@ function runImportFromRows(rows, branchHint){
   dataRows.forEach(cellsRaw=>{
     const cells = cellsRaw.map(c=>(c===undefined||c===null)?'':String(c).trim());
     const nonEmpty = cells.filter(c=>c!=='');
-    if(mapper===rawRowMapper && nonEmpty.length===1 && cells[0] && cells[0].includes('-')){
-      currentStatus = cells[0];
+    // Group-header row: a row with ONLY the first cell filled, holding a status
+    // code like "BNEW - OD" / "BNEW - DEL" / "REPO - DEL". Every customer row
+    // under it belongs to that Customer Status until the next group row, so the
+    // file doesn't need a Customer Status column at all. Works for the raw
+    // system export AND for clean files with a "Customer Name" header row.
+    if(nonEmpty.length===1 && cells[0] &&
+       ((mapper===rawRowMapper && cells[0].includes('-')) || looksLikeStatusGroup(cells[0]))){
+      currentStatus = cells[0].replace(/\s*-\s*/g,' - ').replace(/\s+/g,' ').trim().toUpperCase();
       return;
     }
     if(nonEmpty.length===0) return;
     attempted++;
     const rec = mapper(cells, currentStatus);
+    // The group a customer sits under decides the status; a Customer Status
+    // column (if the file has one) is only the fallback when no group row came before.
+    if(rec && currentStatus && mapper!==rawRowMapper) rec.customerStatus = currentStatus;
     if(rec && rec.customerName && !isSummaryRow(rec)){
       // Stray-row guard: a real account always has at least one of these
       // (model, engine no., dates, balances, statuses). A row that has ONLY a
